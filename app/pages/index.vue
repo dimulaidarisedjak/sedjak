@@ -24,9 +24,7 @@ useSeoMeta({
       label="test"
       @click="isDark = !isDark"
     />
-  </div>
-
-  <!-- <NuxtLink
+    <NuxtLink
       to="/api/login"
       external
     >
@@ -38,5 +36,5 @@ useSeoMeta({
     >
       Sign up
     </NuxtLink>
-  </div> -->
+  </div>
 </template>
