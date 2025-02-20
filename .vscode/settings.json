@@ -113,5 +113,6 @@
   "vs-code-prettier-eslint.prettierLast": false,
   "[vue]": {
     "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
-  } // set as "true" to run 'prettier' last not first
+  }, // set as "true" to run 'prettier' last not first
+  "eslint.useFlatConfig": true
 }

@@ -1,104 +1,106 @@
-<!-- <script lang="ts" setup>
-import type { HeaderLink } from '#ui-pro/types'
-
-const { $csrfFetch } = useNuxtApp()
-
-const { loggedIn, session, user } = useUserSession()
-
-const links = computed<HeaderLink[]>(() => {
-  const links: HeaderLink[] = []
-
-  if (loggedIn.value) {
-    links.push({
-      label: 'Dashboard',
-      to: '/dashboard',
-    })
-  }
-
-  return links
-})
-
-const items = [
-  [
-    {
-      label: 'Profile',
-      to: '/profile',
-      icon: 'i-ph-user-duotone',
-    },
-  ],
-  [
-    {
-      label: 'Logout',
-      icon: 'i-ph-sign-out-duotone',
-      click: async () => {
-        await $csrfFetch('/api/_auth/session', {
-          method: 'DELETE',
-        })
-
-        session.value = {}
-
-        await navigateTo('/')
-      },
-    },
-  ],
-]
-
-const title = useRuntimeConfig().app.name
-const icon = useAppConfig().app.logo
+<script lang="ts" setup>
+const items = ref([
+  // {
+  //   label: 'Beranda',
+  //   route: '/',
+  // },
+  // {
+  //   label: 'Fitur',
+  //   route: '/fitur',
+  // },
+  // {
+  //   label: 'Tentang',
+  //   route: '/tentang',
+  // },
+  // {
+  //   label: 'Harga',
+  //   route: '/harga',
+  // },
+  // {
+  //   label: 'Testimoni',
+  //   route: '/testimoni',
+  // },
+  // {
+  //   label: 'FAQ',
+  //   route: '/faq',
+  // },
+  {
+    label: 'Builder',
+    route: '/builder',
+  },
+])
 </script>
 
 <template>
-  <UHeader
-    :title
-    :links="links"
-    :ui="{ logo: 'items-center' }"
-  >
-    <template #logo>
-      <img
-        class="h-6 w-6"
-        :src="icon"
-        aria-hidden
-      >
-
-      <span> {{ title }} </span>
-    </template>
-
-    <template #right>
-      <template v-if="loggedIn && user">
-        <UDropdown
-          :items="items"
-          :popper="{ placement: 'bottom-end' }"
+  <div>
+    <Menubar
+      class="m-8 flex justify-between"
+      :model="items"
+      :pt="{
+        end: {
+          class: 'flex !ml-0',
+        },
+      }"
+    >
+      <template #start>
+        <p>
+          Sedjak.com
+        </p>
+      </template>
+      <template #item="{ item, props, hasSubmenu }">
+        <RouterLink
+          v-if="item.route"
+          v-slot="{ href, navigate }"
+          custom
+          :to="item.route"
         >
-          <UButton
-            color="gray"
-            aria-label="Profile picture of connected user"
-            variant="ghost"
-            square
+          <a
+            v-ripple
+            :href="href"
+            v-bind="props.action"
+            @click="navigate"
           >
-            <AppAvatar :src="user.avatar" />
-          </UButton>
-        </UDropdown>
-      </template>
-      <template v-else>
-        <UButton
-          to="/login"
-          color="gray"
-          variant="ghost"
+            <span>{{ item.label }}</span>
+          </a>
+        </RouterLink>
+        <a
+          v-else
+          v-ripple
+          :href="item.url"
+          :target="item.target"
+          v-bind="props.action"
         >
-          Login
-        </UButton>
-        <UButton
-          to="/register"
-          color="black"
-          variant="solid"
-        >
-          Register
-        </UButton>
+          <span>{{ item.label }}</span>
+          <span
+            v-if="hasSubmenu"
+            class="pi pi-fw pi-angle-down"
+          />
+        </a>
       </template>
-    </template>
-  </UHeader>
-</template> -->
-
-<template>
-  
+      <template
+        #end
+      >
+        <div class="flex gap-2">
+          <Button>
+            <NuxtLink
+              class="font-semibold"
+              to="/api/login"
+              external
+            >
+              Masuk
+            </NuxtLink>
+          </Button>
+          <Button>
+            <NuxtLink
+              class="font-semibold"
+              to="/api/register"
+              external
+            >
+              Daftar
+            </NuxtLink>
+          </Button>
+        </div>
+      </template>
+    </Menubar>
+  </div>
 </template>
