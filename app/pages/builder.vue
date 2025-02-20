@@ -6,7 +6,7 @@ const { width: rightWidth, startResize: startRightResize } = useResize(100, 400,
 const zoomLevel = ref(1) // Initial zoom level
 const minZoom = 0.5 // Minimum zoom level
 const maxZoom = 2 // Maximum zoom level
-const zoomStep = 0.1 // Zoom increment step
+const zoomStep = 0.04 // Zoom increment step
 
 const nodes = ref([{
   key: '0',
@@ -26,30 +26,43 @@ const nodes = ref([{
   ],
 }])
 
-const canvasSize = ref({ width: 2000, height: 2000 })
-const isCanvasFocused = ref(false) // Track if the canvas is focused
+const canvasRef = ref<any>(null)
+const contentRef = ref(null)
 
-// Function to update zoom level
-const updateZoom = (delta) => {
-  const newZoom = zoomLevel.value + delta
-  zoomLevel.value = Math.min(maxZoom, Math.max(minZoom, newZoom))
+// Zoom function (Cursor-centered)
+const updateZoom = (delta: any, event: any = null) => {
+  const newZoom = Math.min(maxZoom, Math.max(minZoom, zoomLevel.value + delta))
+  if (newZoom === zoomLevel.value) return // Prevent redundant updates
 
-  // Adjust the canvas size dynamically
-  canvasSize.value.width = 2000 * zoomLevel.value
-  canvasSize.value.height = 2000 * zoomLevel.value
-}
+  if (event && canvasRef.value && contentRef.value) {
+    const rect = canvasRef.value.getBoundingClientRect()
+    const offsetX = event.clientX - rect.left + canvasRef.value.scrollLeft
+    const offsetY = event.clientY - rect.top + canvasRef.value.scrollTop
 
-// Handle zoom via mouse wheel
-const handleWheelZoom = (event) => {
-  if (event.ctrlKey) {
-    event.preventDefault()
-    event.stopPropagation() // Prevents browser zoom
-    updateZoom(event.deltaY < 0 ? zoomStep : -zoomStep)
+    const scaleFactor = newZoom / zoomLevel.value
+
+    requestAnimationFrame(() => {
+      canvasRef.value.scrollLeft = offsetX * scaleFactor - event.clientX + rect.left
+      canvasRef.value.scrollTop = offsetY * scaleFactor - event.clientY + rect.top
+    })
+
+    zoomLevel.value = newZoom
+  }
+  else {
+    zoomLevel.value = newZoom
   }
 }
 
-// Handle zoom via keyboard (Fix for Ctrl + +/-)
-const handleKeyZoom = (event) => {
+// Mouse wheel zoom (cursor-centered)
+const handleWheelZoom = (event: any) => {
+  if (event.ctrlKey) {
+    event.preventDefault()
+    updateZoom(event.deltaY < 0 ? zoomStep : -zoomStep, event)
+  }
+}
+
+// Keyboard zoom (centered)
+const handleKeyZoom = (event: any) => {
   if (event.ctrlKey) {
     if (event.code === 'Equal' || event.code === 'NumpadAdd') {
       updateZoom(zoomStep)
@@ -59,23 +72,17 @@ const handleKeyZoom = (event) => {
     }
     else if (event.code === 'Digit0' || event.code === 'Numpad0') {
       zoomLevel.value = 1
-      canvasSize.value = { width: 2000, height: 2000 }
     }
     event.preventDefault()
-    event.stopPropagation() // Prevent browser zoom
+    event.stopPropagation()
   }
 }
 
-// Prevent browser zoom globally
-const preventBrowserZoom = (event) => {
+// Prevent browser zoom
+const preventBrowserZoom = (event: any) => {
   if (event.ctrlKey && ['Equal', 'Minus', 'Digit0', 'NumpadAdd', 'NumpadSubtract', 'Numpad0'].includes(event.code)) {
     event.preventDefault()
   }
-}
-
-// Track canvas focus
-const setCanvasFocus = (state) => {
-  isCanvasFocused.value = state
 }
 
 // Attach event listeners
@@ -108,20 +115,20 @@ onUnmounted(() => {
       />
     </div>
 
-    <!-- Canvas (2D Scroll + Zoom) -->
+    <!-- Canvas (2D Scroll + Cursor-Centered Zoom) -->
     <div
       id="canvas"
+      ref="canvasRef"
       class="bg-white flex-1 overflow-auto"
-      @mouseenter="setCanvasFocus(true)"
-      @mouseleave="setCanvasFocus(false)"
     >
       <div
+        ref="contentRef"
         class="p-4"
         :style="{
-          width: canvasSize.width + 'px',
-          height: canvasSize.height + 'px',
           transform: `scale(${zoomLevel})`,
           transformOrigin: 'top left',
+          width: '2000px',
+          height: '2000px',
         }"
       >
         <p>Canvas Content (Zoom: {{ zoomLevel.toFixed(1) }}x)</p>
