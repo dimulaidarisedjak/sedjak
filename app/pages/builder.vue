@@ -4,9 +4,9 @@ import { useResize } from '~~/shared/utils/functions'
 const { width: leftWidth, startResize: startLeftResize } = useResize()
 const { width: rightWidth, startResize: startRightResize } = useResize(100, 400, true)
 const zoomLevel = ref(1) // Initial zoom level
-const minZoom = 0.5 // Minimum zoom level
+const minZoom = 0.25 // Minimum zoom level
 const maxZoom = 2 // Maximum zoom level
-const zoomStep = 0.04 // Zoom increment step
+const zoomStep = 0.05 // Zoom increment step
 
 const nodes = ref([{
   key: '0',
@@ -110,7 +110,7 @@ onUnmounted(() => {
     >
       <LeftMenu v-model="nodes" />
       <div
-        class="w-[2px] bg-gray-500 cursor-col-resize absolute right-0 top-0 bottom-0"
+        class="w-[2px] bg-[#E6E6E6] cursor-col-resize absolute right-0 top-0 bottom-0"
         @mousedown="startLeftResize"
       />
     </div>
@@ -119,22 +119,17 @@ onUnmounted(() => {
     <div
       id="canvas"
       ref="canvasRef"
-      class="bg-white flex-1 overflow-auto"
+      class="bg-[#F5F5F5] grid flex-1 w-content overflow-auto justify-center"
     >
       <div
         ref="contentRef"
-        class="p-4"
+        class="p-8"
         :style="{
-          transform: `scale(${zoomLevel})`,
-          transformOrigin: 'top left',
-          width: '2000px',
-          height: '2000px',
+          width: `${4000 * zoomLevel}px`,
+          height: `${4000 * zoomLevel}px`,
         }"
       >
-        <p>Canvas Content (Zoom: {{ zoomLevel.toFixed(1) }}x)</p>
-        <div class="h-80 bg-green-500" />
-        <div class="h-80 bg-amber-500" />
-        <div class="h-80 bg-green-500" />
+        <div class="h-full bg-white" />
       </div>
     </div>
 
