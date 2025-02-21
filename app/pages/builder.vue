@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import ContainerControl from '@/components/ContainerControl.vue'
+import type { ContainerAttributes } from '@/components/ComponentContainer.vue'
+
 import { useResize } from '~~/shared/utils/functions'
 
 const { width: leftWidth, startResize: startLeftResize } = useResize()
@@ -85,6 +88,18 @@ const preventBrowserZoom = (event: any) => {
   }
 }
 
+const containers = ref<ContainerAttributes[]>([])
+
+// const componentMap: any = { Button: markRaw(Button) }
+
+const handleAddSection = (section: any) => {
+  containers.value.push({ ...section, components: [] })
+}
+
+// const addComponent = (sectionIndex: any, componentType: any) => {
+//   sections.value[sectionIndex].components.push(componentMap[componentType])
+// }
+
 // Attach event listeners
 onMounted(() => {
   document.addEventListener('wheel', handleWheelZoom, { passive: false })
@@ -108,6 +123,11 @@ onUnmounted(() => {
       class="bg-red-500 relative overflow-y-auto"
       :style="{ width: leftWidth + 'px', height: '100vh' }"
     >
+      <div class="p-4">
+        <ContainerControl @add-container="handleAddSection" />
+        <p>Zoom Level: {{ zoomLevel }}</p>
+      </div>
+      {{ containers }}
       <LeftMenu v-model="nodes" />
       <div
         class="w-[2px] bg-[#E6E6E6] cursor-col-resize absolute right-0 top-0 bottom-0"
@@ -119,18 +139,18 @@ onUnmounted(() => {
     <div
       id="canvas"
       ref="canvasRef"
-      class="bg-[#F5F5F5] grid flex-1 w-content overflow-auto justify-center"
+      class="bg-[#F5F5F5] grid flex-1 w-content overflow-auto"
     >
-      <div
+      <EditorCanvas
         ref="contentRef"
-        class="p-8"
+        v-model="containers"
+        class="m-8 block mx-auto relative"
         :style="{
           width: `${4000 * zoomLevel}px`,
           height: `${4000 * zoomLevel}px`,
         }"
-      >
-        <div class="h-full bg-white" />
-      </div>
+        :zoom-level="zoomLevel"
+      />
     </div>
 
     <!-- Right Content (Vertical Scroll Only) -->
