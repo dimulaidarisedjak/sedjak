@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import ContainerControl from '@/components/ContainerControl.vue'
 import type { ContainerAttributes } from '@/components/ComponentContainer.vue'
+import type { subMenuAccordion } from '@/components/AccordionMenu.vue'
 
 import { useResize } from '~~/shared/utils/functions'
 
@@ -27,6 +28,12 @@ const nodes = ref([{
       data: 'Home Folder',
     },
   ],
+}])
+
+const activeContainerIndex = ref<number | null>(null)
+const rightMenu = ref<subMenuAccordion[]>([{
+  title: 'Container Attributes',
+  value: '0',
 }])
 
 const canvasRef = ref<any>(null)
@@ -150,6 +157,7 @@ onUnmounted(() => {
           height: `${4000 * zoomLevel}px`,
         }"
         :zoom-level="zoomLevel"
+        @click="($event) => { typeof $event === undefined ? activeContainerIndex = null : activeContainerIndex = $event }"
       />
     </div>
 
@@ -159,7 +167,17 @@ onUnmounted(() => {
       class="bg-blue-500 relative overflow-y-auto"
       :style="{ width: rightWidth + 'px', height: '100vh' }"
     >
-      <p>Right Menu</p>
+      <AccordionMenu v-model="rightMenu">
+        <template #0>
+          <ContainerSubMenu
+            v-if="activeContainerIndex !== null && activeContainerIndex !== undefined"
+            v-model="(containers[activeContainerIndex] as any)"
+          />
+          <p v-else>
+            No Container Selected
+          </p>
+        </template>
+      </AccordionMenu>
       <div
         class="w-1 bg-gray-500 cursor-col-resize absolute left-0 top-0 bottom-0"
         @mousedown="startRightResize"

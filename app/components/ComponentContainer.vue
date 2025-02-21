@@ -21,7 +21,7 @@ const props = defineProps({
     required: true,
   },
 })
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits(['update:modelValue', 'click'])
 
 const modelValue = ref(props.modelValue)
 const containers = ref(props.containers)
@@ -80,18 +80,37 @@ const resolveCollision = (x: number, y: number) => {
   return { x, y }
 }
 
+const startX = ref(0)
+const startY = ref(0)
+const dragThreshold = 1 // Minimum movement to count as dragging
+
 const startDrag = (event: MouseEvent) => {
+  console.log(event.type)
   if (isDragging.value) return
-  isDragging.value = true
+
+  // Store initial position
+  startX.value = event.clientX
+  startY.value = event.clientY
+  isDragging.value = false // Assume it's a click initially
+
   offsetX.value = (event.clientX / props.zoomLevel) - modelValue.value.position.x
   offsetY.value = (event.clientY / props.zoomLevel) - modelValue.value.position.y
-  ghostPosition.value = { ...modelValue.value.position }
-  document.addEventListener('mousemove', onDrag)
+
   document.addEventListener('mouseup', stopDrag)
+  document.addEventListener('mousemove', onDrag)
 }
 
 const onDrag = (event: MouseEvent) => {
-  if (!isDragging.value || !ghostPosition.value) return
+  console.log(event.type)
+  const deltaX = Math.abs(event.clientX - startX.value)
+  const deltaY = Math.abs(event.clientY - startY.value)
+
+  if (!isDragging.value && (deltaX >= dragThreshold || deltaY >= dragThreshold)) {
+    isDragging.value = true // Now it's a drag
+    ghostPosition.value = { ...modelValue.value.position } // Initialize ghost only when dragging starts
+  }
+
+  if (!isDragging.value) return // Ignore small movements (still a click)
 
   let newX = (event.clientX / props.zoomLevel) - offsetX.value
   let newY = (event.clientY / props.zoomLevel) - offsetY.value
@@ -105,20 +124,36 @@ const onDrag = (event: MouseEvent) => {
 
   // Find a nearby non-overlapping position
   const adjustedPosition = resolveCollision(newX, newY)
-  ghostPosition.value.x = adjustedPosition.x
-  ghostPosition.value.y = adjustedPosition.y
+
+  if (ghostPosition.value) {
+    ghostPosition.value.x = adjustedPosition.x
+    ghostPosition.value.y = adjustedPosition.y
+  }
 }
 
-const stopDrag = () => {
+const stopDrag = (event: MouseEvent) => {
+  console.log(event.type)
+  document.removeEventListener('mousemove', onDrag)
+  document.removeEventListener('mouseup', stopDrag)
+  if (!isDragging.value) {
+    handleClick() // Handle click if no drag occurred
+    return
+  }
+
   if (ghostPosition.value) {
     modelValue.value.position.x = ghostPosition.value.x
     modelValue.value.position.y = ghostPosition.value.y
   }
-  isDragging.value = false
-  ghostPosition.value = null
 
-  document.removeEventListener('mousemove', onDrag)
-  document.removeEventListener('mouseup', stopDrag)
+  isDragging.value = false
+  ghostPosition.value = null // Reset ghost position
+}
+
+const handleClick = () => {
+  isSelected.value = !isSelected.value
+  console.log('Element clicked')
+  emits('click')
+  // Add logic for selection, menu, etc.
 }
 
 onUnmounted(() => {
@@ -127,6 +162,9 @@ onUnmounted(() => {
 })
 
 watch(modelValue, () => emits('update:modelValue', modelValue.value), { deep: true })
+watch(isSelected, () => console.log('isSelected', isSelected.value))
+// watch(isHovered, () => console.log('isHovered', isHovered.value))
+watch(isDragging, () => console.log('isDragging', isDragging.value))
 </script>
 
 <template>
@@ -147,7 +185,6 @@ watch(modelValue, () => emits('update:modelValue', modelValue.value), { deep: tr
       @mousedown="startDrag"
       @mouseenter="isHovered = true"
       @mouseleave="isHovered = false"
-      @click="() => { isSelected = !isSelected; console.log('Something') }"
     >
       <slot />
     </div>

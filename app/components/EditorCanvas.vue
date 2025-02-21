@@ -11,7 +11,7 @@ const props = defineProps({
     required: true,
   },
 })
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits(['update:modelValue', 'click'])
 
 const containers = ref(props.modelValue)
 
@@ -28,6 +28,7 @@ watch(containers, () => emits('update:modelValue', containers.value), { deep: tr
         class="absolute"
         :zoom-level="props.zoomLevel"
         :containers="containers"
+        @click="$emit('click', index)"
       />
     </div>
   </div>
