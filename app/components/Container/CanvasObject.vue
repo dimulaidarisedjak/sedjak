@@ -5,6 +5,8 @@ export interface ContainerAttributes {
   width: number
   height: number
   position: { x: number, y: number }
+  isSelected: boolean
+  components: any[]
 }
 
 const props = defineProps({
@@ -21,13 +23,12 @@ const props = defineProps({
     required: true,
   },
 })
-const emits = defineEmits(['update:modelValue', 'click'])
+const emits = defineEmits(['update:modelValue', 'update:isSelected', 'click:single', 'click:multiple'])
 
 const modelValue = ref(props.modelValue)
 const containers = ref(props.containers)
 const isDragging = ref(false)
 const isHovered = ref(false)
-const isSelected = ref(false)
 const ghostPosition = ref<{ x: number, y: number } | null>(null)
 const offsetX = ref(0)
 const offsetY = ref(0)
@@ -85,7 +86,6 @@ const startY = ref(0)
 const dragThreshold = 1 // Minimum movement to count as dragging
 
 const startDrag = (event: MouseEvent) => {
-  console.log(event.type)
   if (isDragging.value) return
 
   // Store initial position
@@ -101,7 +101,6 @@ const startDrag = (event: MouseEvent) => {
 }
 
 const onDrag = (event: MouseEvent) => {
-  console.log(event.type)
   const deltaX = Math.abs(event.clientX - startX.value)
   const deltaY = Math.abs(event.clientY - startY.value)
 
@@ -132,11 +131,10 @@ const onDrag = (event: MouseEvent) => {
 }
 
 const stopDrag = (event: MouseEvent) => {
-  console.log(event.type)
   document.removeEventListener('mousemove', onDrag)
   document.removeEventListener('mouseup', stopDrag)
   if (!isDragging.value) {
-    handleClick() // Handle click if no drag occurred
+    handleClick(event.shiftKey) // Handle click if no drag occurred
     return
   }
 
@@ -149,32 +147,31 @@ const stopDrag = (event: MouseEvent) => {
   ghostPosition.value = null // Reset ghost position
 }
 
-const handleClick = () => {
-  isSelected.value = !isSelected.value
-  console.log('Element clicked')
-  emits('click')
-  // Add logic for selection, menu, etc.
+const handleClick = (isShiftClick: boolean) => {
+  console.log('click', isShiftClick)
+  modelValue.value.isSelected = !modelValue.value.isSelected
+  emits(isShiftClick ? 'click:multiple' : 'click:single')
 }
+
+watch(modelValue, () => {
+  emits('update:modelValue', modelValue.value)
+}, { deep: true })
 
 onUnmounted(() => {
   document.removeEventListener('mousemove', onDrag)
   document.removeEventListener('mouseup', stopDrag)
 })
-
-watch(modelValue, () => emits('update:modelValue', modelValue.value), { deep: true })
-watch(isSelected, () => console.log('isSelected', isSelected.value))
-// watch(isHovered, () => console.log('isHovered', isHovered.value))
-watch(isDragging, () => console.log('isDragging', isDragging.value))
 </script>
 
 <template>
   <div>
     <!-- Actual container -->
     <div
-      class="absolute border-2 border-dashed p-2 transition-all"
+      class="absolute border-2 border-dashed p-2 transition-all flex items-center justify-center"
       :class="{
-        'border-blue-500 bg-blue-100': isHovered,
-        'border-green-500 bg-green-200': isSelected,
+        'border-blue-500 bg-blue-100 text-blue-500': isHovered,
+        'border-green-500 bg-green-200 text-green-500': modelValue.isSelected,
+        'border-gray-500 text-gray-500': !isHovered && !modelValue.isSelected,
       }"
       :style="{
         width: modelValue.width * props.zoomLevel + 'px',
@@ -186,6 +183,9 @@ watch(isDragging, () => console.log('isDragging', isDragging.value))
       @mouseenter="isHovered = true"
       @mouseleave="isHovered = false"
     >
+      <span class="absolute inset-0 flex items-center justify-center text-sm font-semibold pointer-events-none">
+        Container
+      </span>
       <slot />
     </div>
 

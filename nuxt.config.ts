@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     "nuxt-security",
     "@nuxtjs/color-mode",
     "@primevue/nuxt-module",
+    "@nuxt/icon",
   ],
   devtools: { enabled: true },
   runtimeConfig: {

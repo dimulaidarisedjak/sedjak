@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import ContainerControl from '@/components/ContainerControl.vue'
-import type { ContainerAttributes } from '@/components/ComponentContainer.vue'
+import type { ContainerAttributes } from '~/components/Container/CanvasObject.vue'
 import type { subMenuAccordion } from '@/components/AccordionMenu.vue'
 
 import { useResize } from '~~/shared/utils/functions'
@@ -29,8 +28,8 @@ const nodes = ref([{
     },
   ],
 }])
-
-const activeContainerIndex = ref<number | null>(null)
+const containers = ref<ContainerAttributes[]>([])
+const activeContainerList = ref<number[]>([])
 const rightMenu = ref<subMenuAccordion[]>([{
   title: 'Container Attributes',
   value: '0',
@@ -95,12 +94,43 @@ const preventBrowserZoom = (event: any) => {
   }
 }
 
-const containers = ref<ContainerAttributes[]>([])
-
 // const componentMap: any = { Button: markRaw(Button) }
 
-const handleAddSection = (section: any) => {
-  containers.value.push({ ...section, components: [] })
+function addSubMenu(subMenuValue: string) {
+  if (subMenuValue === '0') {
+    containers.value.push({ width: 100, height: 100, position: { x: 0, y: 0 }, isSelected: false, components: [] })
+  }
+}
+
+function toggleContainerIndex(event: { type: string, index: number }) {
+  const idx = activeContainerList.value.indexOf(event.index)
+  if (event.type === 'single') {
+    if (idx !== -1) {
+      if (activeContainerList.value.length > 1) {
+        activeContainerList.value = [event.index]
+        for (const [index, container] of containers.value.entries()) {
+          container.isSelected = index === event.index
+        }
+      }
+      else {
+        activeContainerList.value.splice(idx, 1)
+      }
+    }
+    else {
+      activeContainerList.value = [event.index]
+      for (const [index, container] of containers.value.entries()) {
+        container.isSelected = index === event.index
+      }
+    }
+  }
+  else if (event.type === 'multiple') {
+    if (idx !== -1) {
+      activeContainerList.value.splice(idx, 1) // Remove index if it exists
+    }
+    else {
+      activeContainerList.value.push(event.index) // Add index if it doesn't exist
+    }
+  }
 }
 
 // const addComponent = (sectionIndex: any, componentType: any) => {
@@ -131,10 +161,10 @@ onUnmounted(() => {
       :style="{ width: leftWidth + 'px', height: '100vh' }"
     >
       <div class="p-4">
-        <ContainerControl @add-container="handleAddSection" />
         <p>Zoom Level: {{ zoomLevel }}</p>
       </div>
       {{ containers }}
+      {{ activeContainerList }}
       <LeftMenu v-model="nodes" />
       <div
         class="w-[2px] bg-[#E6E6E6] cursor-col-resize absolute right-0 top-0 bottom-0"
@@ -157,7 +187,7 @@ onUnmounted(() => {
           height: `${4000 * zoomLevel}px`,
         }"
         :zoom-level="zoomLevel"
-        @click="($event) => { typeof $event === undefined ? activeContainerIndex = null : activeContainerIndex = $event }"
+        @click="toggleContainerIndex"
       />
     </div>
 
@@ -167,12 +197,42 @@ onUnmounted(() => {
       class="bg-blue-500 relative overflow-y-auto"
       :style="{ width: rightWidth + 'px', height: '100vh' }"
     >
-      <AccordionMenu v-model="rightMenu">
+      <AccordionMenu
+        v-model="rightMenu"
+        @add="addSubMenu"
+      >
         <template #0>
-          <ContainerSubMenu
-            v-if="activeContainerIndex !== null && activeContainerIndex !== undefined"
-            v-model="(containers[activeContainerIndex] as any)"
-          />
+          <div
+            v-if="activeContainerList.length > 0"
+            class="flex flex-col gap-4"
+          >
+            <Panel
+              v-for="value in activeContainerList"
+              :key="'container-' + value"
+              :header="'Container ' + value"
+              toggleable
+              :pt="{
+                pcToggleButton: { root: '!min-w-0 !w-8 !h-8' },
+                header: { class: 'flex items-center !text-sm !font-bold' },
+              }"
+            >
+              <template #toggleicon="{ collapsed }">
+                <Icon
+                  v-if="collapsed"
+                  class="w-6 h-6"
+                  name="uil:angle-up"
+                />
+                <Icon
+                  v-else
+                  class="w-6 h-6"
+                  name="uil:angle-down"
+                />
+              </template>
+              <ContainerSubMenu
+                v-model="containers[value]"
+              />
+            </Panel>
+          </div>
           <p v-else>
             No Container Selected
           </p>

@@ -3,7 +3,7 @@ export function useResize(
   maxWidth: number = 400,
   isRightPanel: boolean = false
 ) {
-  const width = ref<number>(300); // Initial width
+  const width = ref<number>(350); // Initial width
   const isResizing = ref<boolean>(false);
   const startX = ref<number>(0);
   const startWidth = ref<number>(0);

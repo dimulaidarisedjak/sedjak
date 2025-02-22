@@ -14,6 +14,7 @@
     "automd": "automd"
   },
   "dependencies": {
+    "@nuxt/icon": "1.10.3",
     "@nuxthub/core": "^0.8.3",
     "@nuxtjs/kinde": "^0.1.11",
     "@primevue/themes": "^4.2.5",

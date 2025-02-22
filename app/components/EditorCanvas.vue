@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ContainerAttributes } from './ComponentContainer.vue'
+import type { ContainerAttributes } from './Container/CanvasObject.vue'
 
 const props = defineProps({
   modelValue: {
@@ -15,20 +15,24 @@ const emits = defineEmits(['update:modelValue', 'click'])
 
 const containers = ref(props.modelValue)
 
-watch(containers, () => emits('update:modelValue', containers.value), { deep: true })
+watch(containers, () => {
+  emits('update:modelValue', containers.value)
+}, { deep: true },
+)
 </script>
 
 <template>
   <div>
     <div class="h-full bg-white">
-      <ComponentContainer
+      <ContainerCanvasObject
         v-for="(_, index) in modelValue"
         :key="index"
-        v-model="(containers[index] as any)"
+        v-model="(containers[index] as ContainerAttributes)"
         class="absolute"
         :zoom-level="props.zoomLevel"
         :containers="containers"
-        @click="$emit('click', index)"
+        @click:single="$emit('click', { type: 'single', index })"
+        @click:multiple="$emit('click', { type: 'multiple', index })"
       />
     </div>
   </div>
