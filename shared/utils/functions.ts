@@ -1,7 +1,7 @@
 export function useResize(
   minWidth: number = 100,
   maxWidth: number = 400,
-  isRightPanel: boolean = false
+  isRightPanel: boolean = false,
 ) {
   const width = ref<number>(350); // Initial width
   const isResizing = ref<boolean>(false);
@@ -14,8 +14,8 @@ export function useResize(
     startX.value = e.clientX;
     startWidth.value = width.value;
 
-    window.addEventListener("mousemove", doResize);
-    window.addEventListener("mouseup", stopResize);
+    window.addEventListener('mousemove', doResize);
+    window.addEventListener('mouseup', stopResize);
   };
 
   const doResize = (e: MouseEvent): void => {
@@ -33,13 +33,13 @@ export function useResize(
 
   const stopResize = (): void => {
     isResizing.value = false;
-    window.removeEventListener("mousemove", doResize);
-    window.removeEventListener("mouseup", stopResize);
+    window.removeEventListener('mousemove', doResize);
+    window.removeEventListener('mouseup', stopResize);
   };
 
   onUnmounted(() => {
-    window.removeEventListener("mousemove", doResize);
-    window.removeEventListener("mouseup", stopResize);
+    window.removeEventListener('mousemove', doResize);
+    window.removeEventListener('mouseup', stopResize);
   });
 
   return {

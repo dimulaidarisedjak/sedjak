@@ -22,5 +22,4 @@ useSeoMeta({
   </UContainer>
 </template> -->
 
-<template>
-</template>
+<template></template>

@@ -1,32 +1,33 @@
 <script lang="ts" setup>
-import type { FetchError } from 'ofetch'
-import type { z } from 'zod'
-import type { FormSubmitEvent } from '#ui/types'
+import type { FetchError } from 'ofetch';
+import type { z } from 'zod';
+import type { FormSubmitEvent } from '#ui/types';
 
-const { $csrfFetch } = useNuxtApp()
-const { user, fetch: fetchUserSession } = useUserSession()
+const { $csrfFetch } = useNuxtApp();
+const { user, fetch: fetchUserSession } = useUserSession();
 
 async function onFileChange(event: Event) {
-  const input = event.target as HTMLInputElement
-  const file = input.files?.[0]
+  const input = event.target as HTMLInputElement;
+  const file = input.files?.[0];
 
-  if (!file)
-    return
+  if (!file) return;
 
-  const formData = new FormData()
-  formData.append('file', file)
+  const formData = new FormData();
+  formData.append('file', file);
 
   try {
     await $csrfFetch('/api/me/profile-pictures', {
       method: 'PUT',
       body: formData,
-    })
+    });
 
-    await fetchUserSession()
-  }
-  catch (error) {
-    console.error(error)
-    useErrorToast('An error occurred while uploading your profile picture', (error as FetchError).data?.message)
+    await fetchUserSession();
+  } catch (error) {
+    console.error(error);
+    useErrorToast(
+      'An error occurred while uploading your profile picture',
+      (error as FetchError).data?.message,
+    );
   }
 }
 
@@ -34,43 +35,46 @@ async function removeAvatar() {
   try {
     await $csrfFetch('/api/me/profile-pictures', {
       method: 'DELETE',
-    })
+    });
 
-    await fetchUserSession()
-  }
-  catch (error) {
-    console.error(error)
-    useErrorToast('An error occurred while removing your profile picture', (error as FetchError).data.message)
+    await fetchUserSession();
+  } catch (error) {
+    console.error(error);
+    useErrorToast(
+      'An error occurred while removing your profile picture',
+      (error as FetchError).data.message,
+    );
   }
 }
 
-const fileInput = ref<HTMLInputElement | null>(null)
+const fileInput = ref<HTMLInputElement | null>(null);
 function triggerFileInput() {
-  if (fileInput.value)
-    fileInput.value.click()
+  if (fileInput.value) fileInput.value.click();
 }
 
 const state = reactive({
   email: user.value?.email,
   name: user.value?.name,
-})
+});
 
-type Schema = z.output<typeof patchUserValidator>
+type Schema = z.output<typeof patchUserValidator>;
 
 async function onSubmitProfileInformation(event: FormSubmitEvent<Schema>) {
   try {
     await $csrfFetch('/api/me', {
       method: 'PATCH',
       body: event.data,
-    })
+    });
 
-    await fetchUserSession()
+    await fetchUserSession();
 
-    useSuccessToast('Profile information updated successfully')
-  }
-  catch (error) {
-    console.error(error)
-    useErrorToast('An error occurred while updating your profile information', (error as FetchError).data.message)
+    useSuccessToast('Profile information updated successfully');
+  } catch (error) {
+    console.error(error);
+    useErrorToast(
+      'An error occurred while updating your profile information',
+      (error as FetchError).data.message,
+    );
   }
 }
 </script>
@@ -81,20 +85,15 @@ async function onSubmitProfileInformation(event: FormSubmitEvent<Schema>) {
     description="Update your account's profile information and email address."
   >
     <div class="grow space-y-8">
-      <UCard
-        v-if="user"
-      >
+      <UCard v-if="user">
         <div class="flex justify-start">
-          <div
-            class="flex flex-col items-center gap-4"
-          >
+          <div class="flex flex-col items-center gap-4">
             <div class="group relative h-20 w-20">
-              <AppAvatar
-                size="3xl"
-                :src="user.avatar"
-              />
+              <AppAvatar size="3xl" :src="user.avatar" />
 
-              <label class="absolute inset-0 flex justify-center items-center text-transparent text-sm font-semibold border border-dashed border-transparent group-hover:border-primary group-hover:text-gray-200 rounded-full transition-all ease-in cursor-pointer group-hover:backdrop-blur group-hover:bg-gray-700/50">
+              <label
+                class="absolute inset-0 flex justify-center items-center text-transparent text-sm font-semibold border border-dashed border-transparent group-hover:border-primary group-hover:text-gray-200 rounded-full transition-all ease-in cursor-pointer group-hover:backdrop-blur group-hover:bg-gray-700/50"
+              >
                 Edit
                 <input
                   ref="fileInput"
@@ -102,23 +101,15 @@ async function onSubmitProfileInformation(event: FormSubmitEvent<Schema>) {
                   accept="image/*"
                   hidden
                   @change="onFileChange($event)"
-                >
+                />
               </label>
             </div>
 
             <div class="flex flex-row gap-4">
-              <UButton
-                v-if="user.avatar"
-                color="gray"
-                @click="removeAvatar()"
-              >
+              <UButton v-if="user.avatar" color="gray" @click="removeAvatar()">
                 Remove
               </UButton>
-              <UButton
-                v-else
-                color="gray"
-                @click="triggerFileInput()"
-              >
+              <UButton v-else color="gray" @click="triggerFileInput()">
                 Upload
               </UButton>
             </div>
@@ -134,40 +125,25 @@ async function onSubmitProfileInformation(event: FormSubmitEvent<Schema>) {
           @submit="onSubmitProfileInformation"
         >
           <div class="space-y-4 max-w-sm">
-            <UFormGroup
-              label="Email"
-              name="email"
-            >
-              <UInput
-                v-model="state.email"
-                required
-              />
+            <UFormGroup label="Email" name="email">
+              <UInput v-model="state.email" required />
             </UFormGroup>
             <p
               v-if="!user?.verifiedAt"
               class="text-sm text-red-500 dark:text-red-400"
             >
-              Your email address '{{ user?.emailToVerify }}' is not verified. Please check your inbox for the verification email before continuing to use the application.
+              Your email address '{{ user?.emailToVerify }}' is not verified.
+              Please check your inbox for the verification email before
+              continuing to use the application.
             </p>
 
-            <UFormGroup
-              label="Name"
-              name="name"
-            >
-              <UInput
-                v-model="state.name"
-                required
-              />
+            <UFormGroup label="Name" name="name">
+              <UInput v-model="state.name" required />
             </UFormGroup>
           </div>
 
           <div class="flex flex-row justify-end">
-            <UButton
-              type="submit"
-              color="primary"
-            >
-              Save
-            </UButton>
+            <UButton type="submit" color="primary"> Save </UButton>
           </div>
         </UForm>
       </UCard>

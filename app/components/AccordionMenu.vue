@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 export interface subMenuAccordion {
-  title: string
-  value: string
-  content?: any
+  title: string;
+  value: string;
+  content?: any;
 }
 
 const props = defineProps({
@@ -35,7 +35,10 @@ watch(accordionHeaderRef, () => {
         <AccordionHeader
           ref="accordionHeaderRef"
           :pt="{
-            root: { class: 'flex flex-row items-center justify-between !text-sm !font-bold' },
+            root: {
+              class:
+                'flex flex-row items-center justify-between !text-sm !font-bold',
+            },
             toggleicon: {
               class: 'mr-2 order-first !hidden', // Add order-first to move icon left
             },
@@ -58,9 +61,7 @@ watch(accordionHeaderRef, () => {
             <Button
               text
               icon=""
-              :pt="{
-
-              }"
+              :pt="{}"
               @click="addSubMenu(subMenu.value)"
             >
               <template #icon>

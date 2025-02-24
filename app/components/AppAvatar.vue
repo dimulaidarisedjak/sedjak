@@ -20,6 +20,4 @@ const src = computed(() => {
 <template>
   <UAvatar :src />
 </template> -->
-<template>
-  
-</template>
+<template></template>

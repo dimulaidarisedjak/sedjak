@@ -29,6 +29,4 @@ useSeoMeta({
   </UCard>
 </template> -->
 
-<template>
-  
-</template>
+<template></template>

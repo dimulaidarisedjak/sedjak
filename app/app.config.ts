@@ -43,4 +43,4 @@ export default defineAppConfig({
       target: '_blank',
     },
   ],
-})
+});

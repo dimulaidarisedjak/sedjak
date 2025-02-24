@@ -28,6 +28,4 @@ const socials = appConfig.socials
     </template>
   </UFooter>
 </template> -->
-<template>
-  
-</template>
+<template></template>

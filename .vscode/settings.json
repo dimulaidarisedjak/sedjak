@@ -89,21 +89,10 @@
     "strings": true
   },
   "tailwindCSS.experimental.classRegex": [
-    [
-      "ui:\\s*{([^)]*)\\s*}",
-      "[\"'`]([^\"'`]*).*?[\"'`]"
-    ],
-    [
-      "/\\*\\s?ui\\s?\\*/\\s*{([^;]*)}",
-      ":\\s*[\"'`]([^\"'`]*).*?[\"'`]"
-    ]
+    ["ui:\\s*{([^)]*)\\s*}", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["/\\*\\s?ui\\s?\\*/\\s*{([^;]*)}", ":\\s*[\"'`]([^\"'`]*).*?[\"'`]"]
   ],
-  "tailwindCSS.classAttributes": [
-    "class",
-    "className",
-    "ngClass",
-    "ui"
-  ],
+  "tailwindCSS.classAttributes": ["class", "className", "ngClass", "ui"],
   "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
   "editor.formatOnType": false, // required
   "editor.formatOnPaste": true, // optional

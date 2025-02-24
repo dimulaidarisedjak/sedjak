@@ -4,11 +4,11 @@ const props = defineProps({
     type: Number,
     required: true,
   },
-})
-const emits = defineEmits(['update:modelValue'])
-const modelValue = ref(props.modelValue)
+});
+const emits = defineEmits(['update:modelValue']);
+const modelValue = ref(props.modelValue);
 
-watch(modelValue, () => emits('update:modelValue', modelValue.value))
+watch(modelValue, () => emits('update:modelValue', modelValue.value));
 </script>
 
 <template>

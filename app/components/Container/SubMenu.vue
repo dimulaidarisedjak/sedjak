@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ContainerAttributes } from '~/components/Container/CanvasObject.vue'
+import type { ContainerAttributes } from '~/components/CanvasObject.vue'
 
 const props = defineProps({
   modelValue: {
@@ -10,7 +10,9 @@ const props = defineProps({
 const emits = defineEmits(['update:modelValue'])
 const modelValue = ref(props.modelValue)
 
-watch(modelValue, () => emits('update:modelValue', modelValue.value), { deep: true })
+watch(modelValue, () => emits('update:modelValue', modelValue.value), {
+  deep: true,
+})
 </script>
 
 <template>

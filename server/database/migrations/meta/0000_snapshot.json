@@ -95,23 +95,17 @@
       "indexes": {
         "users_email_unique": {
           "name": "users_email_unique",
-          "columns": [
-            "email"
-          ],
+          "columns": ["email"],
           "isUnique": true
         },
         "users_github_id_unique": {
           "name": "users_github_id_unique",
-          "columns": [
-            "github_id"
-          ],
+          "columns": ["github_id"],
           "isUnique": true
         },
         "users_twitch_id_unique": {
           "name": "users_twitch_id_unique",
-          "columns": [
-            "twitch_id"
-          ],
+          "columns": ["twitch_id"],
           "isUnique": true
         }
       },

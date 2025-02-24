@@ -1,31 +1,31 @@
-import Aura from "@primevue/themes/aura";
+import Aura from '@primevue/themes/aura';
 
-const isProd = process.env.NODE_ENV === "production";
+const isProd = process.env.NODE_ENV === 'production';
 
 export default defineNuxtConfig({
   modules: [
-    "@nuxt/eslint",
-    "@nuxthub/core",
-    "@nuxtjs/kinde",
-    "@nuxtjs/tailwindcss",
-    "nuxt-security",
-    "@nuxtjs/color-mode",
-    "@primevue/nuxt-module",
-    "@nuxt/icon",
+    '@nuxt/eslint',
+    '@nuxthub/core',
+    '@nuxtjs/kinde',
+    '@nuxtjs/tailwindcss',
+    'nuxt-security',
+    '@nuxtjs/color-mode',
+    '@primevue/nuxt-module',
+    '@nuxt/icon',
   ],
   devtools: { enabled: true },
   runtimeConfig: {
     app: {
-      name: "",
-      url: "",
+      name: '',
+      url: '',
     },
     mail: {
-      key: "",
-      from: "",
+      key: '',
+      from: '',
     },
   },
   routeRules: {
-    "/api/me": {
+    '/api/me': {
       security: {
         rateLimiter: {
           headers: false,
@@ -34,10 +34,10 @@ export default defineNuxtConfig({
         },
       },
     },
-    "/api/_hub/**": {
+    '/api/_hub/**': {
       csurf: false,
     },
-    "/**": {
+    '/**': {
       security: {
         rateLimiter: false,
       },
@@ -46,14 +46,14 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
-  compatibilityDate: "2024-04-03",
+  compatibilityDate: '2024-04-03',
   hub: {
     database: true,
     blob: true,
     kv: true,
   },
   csurf: {
-    methodsToProtect: ["POST", "PUT", "PATCH", "DELETE"],
+    methodsToProtect: ['POST', 'PUT', 'PATCH', 'DELETE'],
   },
   eslint: {
     config: {
@@ -74,12 +74,12 @@ export default defineNuxtConfig({
   primevue: {
     options: {
       ripple: true,
-      inputVariant: "filled",
+      inputVariant: 'filled',
       theme: {
         preset: Aura,
         options: {
-          prefix: "p",
-          darkModeSelector: ".dark-mode",
+          prefix: 'p',
+          darkModeSelector: '.dark-mode',
           cssLayer: false,
         },
       },
@@ -89,19 +89,19 @@ export default defineNuxtConfig({
     csrf: true,
     rateLimiter: {
       driver: {
-        name: "cloudflare-kv-binding",
+        name: 'cloudflare-kv-binding',
         options: {
-          binding: "KV",
+          binding: 'KV',
         },
       },
     },
     headers: {
       contentSecurityPolicy: {
-        "img-src": [
+        'img-src': [
           "'self'",
-          "data:",
-          "https://avatars.githubusercontent.com",
-          "https://static-cdn.jtvnw.net/",
+          'data:',
+          'https://avatars.githubusercontent.com',
+          'https://static-cdn.jtvnw.net/',
         ],
         // "script-src": [
         //   "'self'",
@@ -110,11 +110,11 @@ export default defineNuxtConfig({
         //   "https://static.cloudflareinsights.com",
         // ],
       },
-      crossOriginEmbedderPolicy: isProd ? "credentialless" : false,
+      crossOriginEmbedderPolicy: isProd ? 'credentialless' : false,
     },
   },
   tailwindcss: {
-    cssPath: "~/assets/css/tailwind.css",
+    cssPath: '~/assets/css/tailwind.css',
     exposeConfig: false,
     viewer: true,
   },

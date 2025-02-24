@@ -1,38 +1,34 @@
 <script setup lang="ts">
-import type { ContainerAttributes } from './Container/CanvasObject.vue'
+import type { ContainerAttributes } from './CanvasObject.vue'
+import CanvasObject from './CanvasObject.vue'
 
+const model = defineModel<ContainerAttributes[]>({ required: true })
+const selectedComponent = defineModel<string>('selectedComponent', {
+  required: true,
+})
 const props = defineProps({
-  modelValue: {
-    type: Array as PropType<ContainerAttributes[]>,
-    required: true,
-  },
   zoomLevel: {
     type: Number,
     required: true,
   },
 })
-const emits = defineEmits(['update:modelValue', 'click'])
-
-const containers = ref(props.modelValue)
-
-watch(containers, () => {
-  emits('update:modelValue', containers.value)
-}, { deep: true },
-)
+const emits = defineEmits(['click'])
 </script>
 
 <template>
   <div>
     <div class="h-full bg-white">
-      <ContainerCanvasObject
-        v-for="(_, index) in modelValue"
+      <CanvasObject
+        v-for="(_, index) in model"
         :key="index"
-        v-model="(containers[index] as ContainerAttributes)"
+        v-model="(model[index] as ContainerAttributes)"
+        v-model:selected-component="selectedComponent"
         class="absolute"
         :zoom-level="props.zoomLevel"
-        :containers="containers"
-        @click:single="$emit('click', { type: 'single', index })"
-        @click:multiple="$emit('click', { type: 'multiple', index })"
+        :containers="model"
+        @click:single="emits('click', { type: 'single', index })"
+        @click:multiple="emits('click', { type: 'multiple', index })"
+        @dragover.prevent
       />
     </div>
   </div>

@@ -1,14 +1,14 @@
-import { drizzle } from 'drizzle-orm/d1'
+import { drizzle } from 'drizzle-orm/d1';
 
-import * as schema from '../database/schema'
+import * as schema from '../database/schema';
 
-export { sql, eq, and, or, isNull } from 'drizzle-orm'
+export { sql, eq, and, or, isNull } from 'drizzle-orm';
 
-export const tables = schema
+export const tables = schema;
 
 export function useDrizzle() {
-  return drizzle(hubDatabase(), { schema })
+  return drizzle(hubDatabase(), { schema });
 }
 
-export type User = typeof schema.users.$inferSelect
-export type UserInsert = typeof schema.users.$inferInsert
+export type User = typeof schema.users.$inferSelect;
+export type UserInsert = typeof schema.users.$inferInsert;

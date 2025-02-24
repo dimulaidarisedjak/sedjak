@@ -7,5 +7,4 @@
     <slot />
   </div>
 </template> -->
-<template>
-</template>
+<template></template>

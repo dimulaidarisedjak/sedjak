@@ -28,7 +28,7 @@ const items = ref([
     label: 'Builder',
     route: '/builder',
   },
-])
+]);
 </script>
 
 <template>
@@ -43,9 +43,7 @@ const items = ref([
       }"
     >
       <template #start>
-        <p>
-          Sedjak.com
-        </p>
+        <p>Sedjak.com</p>
       </template>
       <template #item="{ item, props, hasSubmenu }">
         <RouterLink
@@ -54,12 +52,7 @@ const items = ref([
           custom
           :to="item.route"
         >
-          <a
-            v-ripple
-            :href="href"
-            v-bind="props.action"
-            @click="navigate"
-          >
+          <a v-ripple :href="href" v-bind="props.action" @click="navigate">
             <span>{{ item.label }}</span>
           </a>
         </RouterLink>
@@ -71,31 +64,18 @@ const items = ref([
           v-bind="props.action"
         >
           <span>{{ item.label }}</span>
-          <span
-            v-if="hasSubmenu"
-            class="pi pi-fw pi-angle-down"
-          />
+          <span v-if="hasSubmenu" class="pi pi-fw pi-angle-down" />
         </a>
       </template>
-      <template
-        #end
-      >
+      <template #end>
         <div class="flex gap-2">
           <Button>
-            <NuxtLink
-              class="font-semibold"
-              to="/api/login"
-              external
-            >
+            <NuxtLink class="font-semibold" to="/api/login" external>
               Masuk
             </NuxtLink>
           </Button>
           <Button>
-            <NuxtLink
-              class="font-semibold"
-              to="/api/register"
-              external
-            >
+            <NuxtLink class="font-semibold" to="/api/register" external>
               Daftar
             </NuxtLink>
           </Button>

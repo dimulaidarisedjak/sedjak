@@ -8,19 +8,7 @@ useSeoMeta({
 })
 </script>
 
-<template>
-  <div>
-    <AppHeader />
-
-    <UMain>
-      <UPage>
-        <slot />
-      </UPage>
-    </UMain>
-
-    <AppFooter />
-  </div>
-</template> -->
+ -->
 <template>
   <div>
     <slot />

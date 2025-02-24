@@ -59,6 +59,4 @@ if (import.meta.server) {
   </div>
 </template> -->
 
-<template>
-  
-</template>
+<template></template>
