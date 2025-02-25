@@ -22,11 +22,6 @@ const componentList = ref<Record<string, string>[]>([
     icon: 'uil:link',
   },
   {
-    name: 'Panel',
-    value: 'panel',
-    icon: 'uil:square-shape',
-  },
-  {
     name: 'Divider',
     value: 'divider',
     icon: 'uil:minus',

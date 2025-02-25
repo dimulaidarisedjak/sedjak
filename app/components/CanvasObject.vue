@@ -14,6 +14,8 @@ const model = defineModel<ContainerAttributes>({ required: true })
 const selectedComponent = defineModel<string>('selectedComponent', {
   required: true,
 })
+const canvasRef = defineModel<HTMLElement>('canvasRef', { required: true })
+
 const props = defineProps({
   zoomLevel: {
     type: Number,
@@ -30,8 +32,7 @@ const emits = defineEmits([
   'click:multiple',
 ])
 
-console.log('selectedComponent', selectedComponent.value)
-const { startDrag, ghostPosition } = useContainerDrag(props, emits)
+const { startDrag, ghostPosition } = useContainerDrag(props, emits, canvasRef)
 const isHovered = ref(false)
 
 function onDrop() {
@@ -43,8 +44,74 @@ function onDrop() {
 <template>
   <div>
     <ContainerCanvasObject
+      v-if="model.component === ''"
       v-model="model"
       v-model:is-hovered="isHovered"
+      :zoom-level="props.zoomLevel"
+      @on-mouse-down="startDrag"
+      @dragover.prevent
+      @drop="onDrop"
+    />
+    <ComponentCustomCard
+      v-if="model.component === 'card'"
+      v-model="model"
+      v-model:is-hovered="isHovered"
+      :class="{ 'bg-blue-100': isHovered }"
+      :zoom-level="props.zoomLevel"
+      @on-mouse-down="startDrag"
+      @dragover.prevent
+      @drop="onDrop"
+    >
+      <template #title>
+        Card
+      </template>
+      <template #content>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
+          voluptatum, quae dolores voluptate quibusdam fugit? Consequuntur
+          voluptatum, quae dolores voluptate quibusdam fugit?
+        </p>
+      </template>
+    </ComponentCustomCard>
+    <ComponentCustomText
+      v-if="model.component === 'text'"
+      v-model="model"
+      v-model:is-hovered="isHovered"
+      :class="{ 'bg-blue-100': isHovered }"
+      :zoom-level="props.zoomLevel"
+      @on-mouse-down="startDrag"
+      @dragover.prevent
+      @drop="onDrop"
+    >
+      <p>Maklo Gaming</p>
+    </ComponentCustomText>
+    <ComponentCustomImage
+      v-if="model.component === 'image'"
+      v-model="model"
+      v-model:is-hovered="isHovered"
+      :class="{ 'bg-blue-100': isHovered }"
+      :zoom-level="props.zoomLevel"
+      @on-mouse-down="startDrag"
+      @dragover.prevent
+      @drop="onDrop"
+    >
+      <p>Maklo Gaming</p>
+    </ComponentCustomImage>
+    <ComponentCustomButton
+      v-if="model.component === 'button'"
+      v-model="model"
+      v-model:is-hovered="isHovered"
+      :class="{ 'bg-blue-100': isHovered }"
+      :zoom-level="props.zoomLevel"
+      @on-mouse-down="startDrag"
+      @dragover.prevent
+      @drop="onDrop"
+    />
+    <ComponentCustomDivider
+      v-if="model.component === 'divider'"
+      v-model="model"
+      v-model:is-hovered="isHovered"
+      :class="{ 'bg-blue-100': isHovered }"
       :zoom-level="props.zoomLevel"
       @on-mouse-down="startDrag"
       @dragover.prevent
@@ -61,6 +128,10 @@ function onDrop() {
         top: ghostPosition.y * props.zoomLevel + 'px',
         left: ghostPosition.x * props.zoomLevel + 'px',
       }"
-    />
+    >
+      <span class="absolute inset-0 flex items-center justify-center font-semibold pointer-events-none">
+        {{ model.name }}
+      </span>
+    </div>
   </div>
 </template>

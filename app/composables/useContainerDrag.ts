@@ -1,6 +1,10 @@
 import type { ContainerAttributes } from '~/components/CanvasObject.vue';
 
-export function useContainerDrag(props: any, emits: any) {
+export function useContainerDrag(
+  props: any,
+  emits: any,
+  canvasRef: Ref<HTMLElement | null>,
+) {
   const modelValue = ref<ContainerAttributes>(props.modelValue);
   const containers = ref<ContainerAttributes[]>(props.containers);
   const isDragging = ref(false);
@@ -72,8 +76,21 @@ export function useContainerDrag(props: any, emits: any) {
       return;
     }
 
-    let newX = event.clientX / props.zoomLevel - offsetX.value;
-    let newY = event.clientY / props.zoomLevel - offsetY.value;
+    const canvas = canvasRef.value;
+    if (!canvas) return;
+
+    // Get canvas position relative to viewport
+    const rect = canvas.getBoundingClientRect();
+    const canvasLeft = rect.left;
+    const canvasTop = rect.top;
+
+    // Calculate mouse position relative to canvas
+    const mouseX = event.clientX - canvasLeft;
+    const mouseY = event.clientY - canvasTop;
+
+    // Convert to model coordinates (unscaled)
+    let newX = mouseX / props.zoomLevel - offsetX.value;
+    let newY = mouseY / props.zoomLevel - offsetY.value;
 
     // Snap to grid and constrain to canvas
     newX = Math.round(newX / gridSize) * gridSize;
@@ -110,14 +127,20 @@ export function useContainerDrag(props: any, emits: any) {
   const startDrag = (event: MouseEvent) => {
     if (isDragging.value) return;
 
-    startX.value = event.clientX;
-    startY.value = event.clientY;
-    isDragging.value = false;
+    const canvas = canvasRef.value;
+    if (!canvas) return;
 
-    offsetX.value =
-      event.clientX / props.zoomLevel - modelValue.value.position.x;
-    offsetY.value =
-      event.clientY / props.zoomLevel - modelValue.value.position.y;
+    const rect = canvas.getBoundingClientRect();
+    const canvasLeft = rect.left;
+    const canvasTop = rect.top;
+
+    // Calculate initial mouse position relative to canvas
+    const mouseX = event.clientX - canvasLeft;
+    const mouseY = event.clientY - canvasTop;
+
+    // Convert to model coordinates (unscaled)
+    offsetX.value = mouseX / props.zoomLevel - modelValue.value.position.x;
+    offsetY.value = mouseY / props.zoomLevel - modelValue.value.position.y;
 
     document.addEventListener('mousemove', handleDrag);
     document.addEventListener('mouseup', stopDrag);

@@ -18,12 +18,8 @@ function onMouseDown(event: MouseEvent) {
 
 <template>
   <div
-    class="absolute border-2 border-dashed p-2 transition-all flex items-center justify-center"
-    :class="{
-      'border-blue-500 bg-blue-100 text-blue-500': isHovered,
-      'border-green-500 bg-green-200 text-green-500': model.isSelected,
-      'border-gray-500 text-gray-500': !isHovered && !model.isSelected,
-    }"
+    class="absolute transition-all flex items-center justify-center"
+
     :style="{
       width: model.width + 'px',
       height: model.height + 'px',
@@ -36,11 +32,10 @@ function onMouseDown(event: MouseEvent) {
     @mouseenter="isHovered = true"
     @mouseleave="isHovered = false"
   >
-    <span
-      class="absolute inset-0 flex items-center justify-center font-semibold pointer-events-none"
+    <p
+      class="w-full h-full text-black"
     >
-      {{ model.name }}
-    </span>
-    <slot />
+      <slot />
+    </p>
   </div>
 </template>

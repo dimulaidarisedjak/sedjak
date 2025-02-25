@@ -46,7 +46,7 @@ const rightMenu = ref<subMenuAccordion[]>([
 ])
 
 const canvasRef = ref<any>(null)
-const contentRef = ref(null)
+const contentRef = ref<any>(null)
 const componentListActive = ref<string[]>(['0', '1'])
 // Zoom function (Cursor-centered)
 const updateZoom = (delta: any, event: any = null) => {
@@ -57,7 +57,7 @@ const updateZoom = (delta: any, event: any = null) => {
     const rect = canvasRef.value.getBoundingClientRect()
     const offsetX = event.clientX - rect.left + canvasRef.value.scrollLeft
     const offsetY = event.clientY - rect.top + canvasRef.value.scrollTop
-
+    // console.log('canvasRef rect', rect.top, rect.left)
     const scaleFactor = newZoom / zoomLevel.value
 
     requestAnimationFrame(() => {
@@ -221,6 +221,7 @@ onUnmounted(() => {
         ref="contentRef"
         v-model="containers"
         v-model:selected-component="selectedComponent"
+        v-model:canvas-ref="canvasRef"
         class="m-8 block mx-auto relative"
         :style="{
           width: `${4000 * zoomLevel}px`,
