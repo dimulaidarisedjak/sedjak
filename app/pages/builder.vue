@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import Button from 'primevue/button'
+import { ref } from 'vue'
 import type { ContainerAttributes } from '~/components/CanvasObject.vue'
 import type { subMenuAccordion } from '@/components/AccordionMenu.vue'
 
@@ -17,25 +19,25 @@ const zoomStep = 0.05 // Zoom increment step
 
 const selectedComponent = ref<string>('')
 
-const nodes = ref([
-  {
-    key: '0',
-    label: 'Pages',
-    data: 'Documents Folder',
-    children: [
-      {
-        key: '0-0',
-        label: 'Page 1',
-        data: 'Work Folder',
-      },
-      {
-        key: '0-1',
-        label: 'Page 2',
-        data: 'Home Folder',
-      },
-    ],
-  },
-])
+// const nodes = ref([
+//   {
+//     key: '0',
+//     label: 'Pages',
+//     data: 'Documents Folder',
+//     children: [
+//       {
+//         key: '0-0',
+//         label: 'Page 1',
+//         data: 'Work Folder',
+//       },
+//       {
+//         key: '0-1',
+//         label: 'Page 2',
+//         data: 'Home Folder',
+//       },
+//     ],
+//   },
+// ])
 const containers = ref<ContainerAttributes[]>([])
 const activeContainerList = ref<number[]>([])
 const rightMenu = ref<subMenuAccordion[]>([
@@ -192,13 +194,49 @@ onUnmounted(() => {
         multiple
       >
         <AccordionPanel value="0">
-          <AccordionHeader>Components</AccordionHeader>
+          <AccordionHeader pt:toggleicon="!hidden">
+            <div class="w-full flex items-center justify-between">
+              <div class="flex gap-4">
+                <Icon
+                  class="w-6 h-6 mr-2"
+                  name="uil:angle-down"
+                />
+                <p>Components</p>
+              </div>
+            </div>
+          </AccordionHeader>
           <AccordionContent>
             <ComponentList @dragstart="onDragStart" />
           </AccordionContent>
         </AccordionPanel>
         <AccordionPanel value="1">
-          <AccordionHeader>Containers</AccordionHeader>
+          <AccordionHeader pt:toggleicon="!hidden">
+            <ClientOnly>
+              <div class="w-full flex items-center justify-between">
+                <div class="flex gap-4">
+                  <Icon
+                    class="w-6 h-6 mr-2"
+                    name="uil:angle-down"
+                  />
+                  <p>Containers</p>
+                </div>
+                <Button
+                  text
+                  icon=""
+                  class="!min-w-0 !w-6 !h-6"
+                  @click="addSubMenu('0')"
+                >
+                  <template #icon>
+                    <Icon
+                      class="w-4 h-4"
+                      name="uil:plus"
+                    />
+                  </template>
+                </Button>
+                <!-- <Button /> -->
+              </div>
+            </ClientOnly>
+          </AccordionHeader>
           <AccordionContent>
             <ContainerList v-model="containers" />
           </AccordionContent>
