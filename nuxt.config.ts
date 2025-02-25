@@ -52,6 +52,7 @@ export default defineNuxtConfig({
     blob: true,
     kv: true,
   },
+  debug: true,
   csurf: {
     methodsToProtect: ['POST', 'PUT', 'PATCH', 'DELETE'],
   },
