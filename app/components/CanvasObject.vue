@@ -2,6 +2,7 @@
 import { useContainerDrag } from '~/composables/useContainerDrag'
 
 export interface ContainerAttributes {
+  [key: string]: boolean | number | string | { x: number, y: number }
   name: string
   width: number
   height: number

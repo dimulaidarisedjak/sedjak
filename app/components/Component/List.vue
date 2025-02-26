@@ -2,11 +2,6 @@
 const emits = defineEmits(['dragstart'])
 const componentList = ref<Record<string, string>[]>([
   {
-    name: 'Container',
-    value: 'container',
-    icon: 'uil:vector-square',
-  },
-  {
     name: 'Text',
     value: 'text',
     icon: 'uil:text',
