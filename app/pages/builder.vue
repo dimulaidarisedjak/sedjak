@@ -4,14 +4,14 @@
 // import type { ContainerAttributes } from '~/components/CanvasObject.vue'
 // import type { subMenuAccordion } from '@/components/AccordionMenu.vue'
 
-// import { useResize } from '~~/shared/utils/functions'
+import { useResize } from '~~/shared/utils/functions'
 
-// const { width: leftWidth, startResize: startLeftResize } = useResize()
-// const { width: rightWidth, startResize: startRightResize } = useResize(
-//   100,
-//   400,
-//   true,
-// )
+const { width: leftWidth, startResize: startLeftResize } = useResize()
+const { width: rightWidth, startResize: startRightResize } = useResize(
+  100,
+  400,
+  true,
+)
 // const zoomLevel = ref(1) // Initial zoom level
 // const minZoom = 0.25 // Minimum zoom level
 // const maxZoom = 2 // Maximum zoom level
