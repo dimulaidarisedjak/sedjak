@@ -1,3 +1,5 @@
+import { onUnmounted, ref } from 'vue';
+
 export function useResize(
   minWidth: number = 100,
   maxWidth: number = 400,
