@@ -17,7 +17,7 @@ const minZoom = 0.25 // Minimum zoom level
 const maxZoom = 2 // Maximum zoom level
 const zoomStep = 0.05 // Zoom increment step
 
-// const selectedComponent = ref<string>('')
+const selectedComponent = ref<string>('')
 
 // // const nodes = ref([
 // //   {
@@ -38,14 +38,14 @@ const zoomStep = 0.05 // Zoom increment step
 // //     ],
 // //   },
 // // ])
-// const containers = ref<ContainerAttributes[]>([])
-// const activeContainerList = ref<number[]>([])
-// const rightMenu = ref<subMenuAccordion[]>([
-//   {
-//     title: 'Container Attributes',
-//     value: '0',
-//   },
-// ])
+const containers = ref<ContainerAttributes[]>([])
+const activeContainerList = ref<number[]>([])
+const rightMenu = ref<subMenuAccordion[]>([
+  {
+    title: 'Container Attributes',
+    value: '0',
+  },
+])
 
 // const canvasRef = ref<any>(null)
 // const contentRef = ref<any>(null)
