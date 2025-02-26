@@ -1,184 +1,184 @@
 <script lang="ts" setup>
-import Button from 'primevue/button'
-import { ref } from 'vue'
-import type { ContainerAttributes } from '~/components/CanvasObject.vue'
-import type { subMenuAccordion } from '@/components/AccordionMenu.vue'
+// import Button from 'primevue/button'
+// import { ref } from 'vue'
+// import type { ContainerAttributes } from '~/components/CanvasObject.vue'
+// import type { subMenuAccordion } from '@/components/AccordionMenu.vue'
 
-import { useResize } from '~~/shared/utils/functions'
+// import { useResize } from '~~/shared/utils/functions'
 
-const { width: leftWidth, startResize: startLeftResize } = useResize()
-const { width: rightWidth, startResize: startRightResize } = useResize(
-  100,
-  400,
-  true,
-)
-const zoomLevel = ref(1) // Initial zoom level
-const minZoom = 0.25 // Minimum zoom level
-const maxZoom = 2 // Maximum zoom level
-const zoomStep = 0.05 // Zoom increment step
+// const { width: leftWidth, startResize: startLeftResize } = useResize()
+// const { width: rightWidth, startResize: startRightResize } = useResize(
+//   100,
+//   400,
+//   true,
+// )
+// const zoomLevel = ref(1) // Initial zoom level
+// const minZoom = 0.25 // Minimum zoom level
+// const maxZoom = 2 // Maximum zoom level
+// const zoomStep = 0.05 // Zoom increment step
 
-const selectedComponent = ref<string>('')
+// const selectedComponent = ref<string>('')
 
-// const nodes = ref([
+// // const nodes = ref([
+// //   {
+// //     key: '0',
+// //     label: 'Pages',
+// //     data: 'Documents Folder',
+// //     children: [
+// //       {
+// //         key: '0-0',
+// //         label: 'Page 1',
+// //         data: 'Work Folder',
+// //       },
+// //       {
+// //         key: '0-1',
+// //         label: 'Page 2',
+// //         data: 'Home Folder',
+// //       },
+// //     ],
+// //   },
+// // ])
+// const containers = ref<ContainerAttributes[]>([])
+// const activeContainerList = ref<number[]>([])
+// const rightMenu = ref<subMenuAccordion[]>([
 //   {
-//     key: '0',
-//     label: 'Pages',
-//     data: 'Documents Folder',
-//     children: [
-//       {
-//         key: '0-0',
-//         label: 'Page 1',
-//         data: 'Work Folder',
-//       },
-//       {
-//         key: '0-1',
-//         label: 'Page 2',
-//         data: 'Home Folder',
-//       },
-//     ],
+//     title: 'Container Attributes',
+//     value: '0',
 //   },
 // ])
-const containers = ref<ContainerAttributes[]>([])
-const activeContainerList = ref<number[]>([])
-const rightMenu = ref<subMenuAccordion[]>([
-  {
-    title: 'Container Attributes',
-    value: '0',
-  },
-])
 
-const canvasRef = ref<any>(null)
-const contentRef = ref<any>(null)
-const componentListActive = ref<string[]>(['0', '1'])
-// Zoom function (Cursor-centered)
-const updateZoom = (delta: any, event: any = null) => {
-  const newZoom = Math.min(maxZoom, Math.max(minZoom, zoomLevel.value + delta))
-  if (newZoom === zoomLevel.value) return // Prevent redundant updates
+// const canvasRef = ref<any>(null)
+// const contentRef = ref<any>(null)
+// const componentListActive = ref<string[]>(['0', '1'])
+// // Zoom function (Cursor-centered)
+// const updateZoom = (delta: any, event: any = null) => {
+//   const newZoom = Math.min(maxZoom, Math.max(minZoom, zoomLevel.value + delta))
+//   if (newZoom === zoomLevel.value) return // Prevent redundant updates
 
-  if (event && canvasRef.value && contentRef.value) {
-    const rect = canvasRef.value.getBoundingClientRect()
-    const offsetX = event.clientX - rect.left + canvasRef.value.scrollLeft
-    const offsetY = event.clientY - rect.top + canvasRef.value.scrollTop
-    // console.log('canvasRef rect', rect.top, rect.left)
-    const scaleFactor = newZoom / zoomLevel.value
+//   if (event && canvasRef.value && contentRef.value) {
+//     const rect = canvasRef.value.getBoundingClientRect()
+//     const offsetX = event.clientX - rect.left + canvasRef.value.scrollLeft
+//     const offsetY = event.clientY - rect.top + canvasRef.value.scrollTop
+//     // console.log('canvasRef rect', rect.top, rect.left)
+//     const scaleFactor = newZoom / zoomLevel.value
 
-    requestAnimationFrame(() => {
-      canvasRef.value.scrollLeft =
-        offsetX * scaleFactor - event.clientX + rect.left
-      canvasRef.value.scrollTop =
-        offsetY * scaleFactor - event.clientY + rect.top
-    })
+//     requestAnimationFrame(() => {
+//       canvasRef.value.scrollLeft =
+//         offsetX * scaleFactor - event.clientX + rect.left
+//       canvasRef.value.scrollTop =
+//         offsetY * scaleFactor - event.clientY + rect.top
+//     })
 
-    zoomLevel.value = newZoom
-  } else {
-    zoomLevel.value = newZoom
-  }
-}
-
-// Mouse wheel zoom (cursor-centered)
-const handleWheelZoom = (event: any) => {
-  if (event.ctrlKey) {
-    event.preventDefault()
-    updateZoom(event.deltaY < 0 ? zoomStep : -zoomStep, event)
-  }
-}
-
-// Keyboard zoom (centered)
-const handleKeyZoom = (event: any) => {
-  if (event.ctrlKey) {
-    if (event.code === 'Equal' || event.code === 'NumpadAdd') {
-      updateZoom(zoomStep)
-    } else if (event.code === 'Minus' || event.code === 'NumpadSubtract') {
-      updateZoom(-zoomStep)
-    } else if (event.code === 'Digit0' || event.code === 'Numpad0') {
-      zoomLevel.value = 1
-    }
-    event.preventDefault()
-    event.stopPropagation()
-  }
-}
-
-// Prevent browser zoom
-const preventBrowserZoom = (event: any) => {
-  if (
-    event.ctrlKey &&
-    [
-      'Equal',
-      'Minus',
-      'Digit0',
-      'NumpadAdd',
-      'NumpadSubtract',
-      'Numpad0',
-    ].includes(event.code)
-  ) {
-    event.preventDefault()
-  }
-}
-
-// const componentMap: any = { Button: markRaw(Button) }
-
-function addSubMenu(subMenuValue: string) {
-  if (subMenuValue === '0') {
-    containers.value.push({
-      name: `Container ${containers.value.length + 1}`,
-      width: 500,
-      height: 500,
-      position: { x: 0, y: 0 },
-      isSelected: false,
-      component: '',
-    })
-  }
-}
-
-function toggleContainerIndex(event: { type: string, index: number }) {
-  const idx = activeContainerList.value.indexOf(event.index)
-  if (event.type === 'single') {
-    if (idx !== -1) {
-      if (activeContainerList.value.length > 1) {
-        activeContainerList.value = [event.index]
-        for (const [index, container] of containers.value.entries()) {
-          container.isSelected = index === event.index
-        }
-      } else {
-        activeContainerList.value.splice(idx, 1)
-      }
-    } else {
-      activeContainerList.value = [event.index]
-      for (const [index, container] of containers.value.entries()) {
-        container.isSelected = index === event.index
-      }
-    }
-  } else if (event.type === 'multiple') {
-    if (idx !== -1) {
-      activeContainerList.value.splice(idx, 1) // Remove index if it exists
-    } else {
-      activeContainerList.value.push(event.index) // Add index if it doesn't exist
-    }
-  }
-}
-
-function onDragStart(component: string) {
-  selectedComponent.value = component
-  console.log('onDrag called selectedComponent', selectedComponent.value)
-}
-
-// const addComponent = (sectionIndex: any, componentType: any) => {
-//   sections.value[sectionIndex].components.push(componentMap[componentType])
+//     zoomLevel.value = newZoom
+//   } else {
+//     zoomLevel.value = newZoom
+//   }
 // }
 
-// Attach event listeners
-onMounted(() => {
-  document.addEventListener('wheel', handleWheelZoom, { passive: false })
-  document.addEventListener('keydown', handleKeyZoom)
-  document.addEventListener('keydown', preventBrowserZoom)
-})
+// // Mouse wheel zoom (cursor-centered)
+// const handleWheelZoom = (event: any) => {
+//   if (event.ctrlKey) {
+//     event.preventDefault()
+//     updateZoom(event.deltaY < 0 ? zoomStep : -zoomStep, event)
+//   }
+// }
 
-// Cleanup event listeners
-onUnmounted(() => {
-  document.removeEventListener('wheel', handleWheelZoom)
-  document.removeEventListener('keydown', handleKeyZoom)
-  document.removeEventListener('keydown', preventBrowserZoom)
-})
+// // Keyboard zoom (centered)
+// const handleKeyZoom = (event: any) => {
+//   if (event.ctrlKey) {
+//     if (event.code === 'Equal' || event.code === 'NumpadAdd') {
+//       updateZoom(zoomStep)
+//     } else if (event.code === 'Minus' || event.code === 'NumpadSubtract') {
+//       updateZoom(-zoomStep)
+//     } else if (event.code === 'Digit0' || event.code === 'Numpad0') {
+//       zoomLevel.value = 1
+//     }
+//     event.preventDefault()
+//     event.stopPropagation()
+//   }
+// }
+
+// // Prevent browser zoom
+// const preventBrowserZoom = (event: any) => {
+//   if (
+//     event.ctrlKey &&
+//     [
+//       'Equal',
+//       'Minus',
+//       'Digit0',
+//       'NumpadAdd',
+//       'NumpadSubtract',
+//       'Numpad0',
+//     ].includes(event.code)
+//   ) {
+//     event.preventDefault()
+//   }
+// }
+
+// // const componentMap: any = { Button: markRaw(Button) }
+
+// function addSubMenu(subMenuValue: string) {
+//   if (subMenuValue === '0') {
+//     containers.value.push({
+//       name: `Container ${containers.value.length + 1}`,
+//       width: 500,
+//       height: 500,
+//       position: { x: 0, y: 0 },
+//       isSelected: false,
+//       component: '',
+//     })
+//   }
+// }
+
+// function toggleContainerIndex(event: { type: string, index: number }) {
+//   const idx = activeContainerList.value.indexOf(event.index)
+//   if (event.type === 'single') {
+//     if (idx !== -1) {
+//       if (activeContainerList.value.length > 1) {
+//         activeContainerList.value = [event.index]
+//         for (const [index, container] of containers.value.entries()) {
+//           container.isSelected = index === event.index
+//         }
+//       } else {
+//         activeContainerList.value.splice(idx, 1)
+//       }
+//     } else {
+//       activeContainerList.value = [event.index]
+//       for (const [index, container] of containers.value.entries()) {
+//         container.isSelected = index === event.index
+//       }
+//     }
+//   } else if (event.type === 'multiple') {
+//     if (idx !== -1) {
+//       activeContainerList.value.splice(idx, 1) // Remove index if it exists
+//     } else {
+//       activeContainerList.value.push(event.index) // Add index if it doesn't exist
+//     }
+//   }
+// }
+
+// function onDragStart(component: string) {
+//   selectedComponent.value = component
+//   console.log('onDrag called selectedComponent', selectedComponent.value)
+// }
+
+// // const addComponent = (sectionIndex: any, componentType: any) => {
+// //   sections.value[sectionIndex].components.push(componentMap[componentType])
+// // }
+
+// // Attach event listeners
+// onMounted(() => {
+//   document.addEventListener('wheel', handleWheelZoom, { passive: false })
+//   document.addEventListener('keydown', handleKeyZoom)
+//   document.addEventListener('keydown', preventBrowserZoom)
+// })
+
+// // Cleanup event listeners
+// onUnmounted(() => {
+//   document.removeEventListener('wheel', handleWheelZoom)
+//   document.removeEventListener('keydown', handleKeyZoom)
+//   document.removeEventListener('keydown', preventBrowserZoom)
+// })
 </script>
 
 <template>
