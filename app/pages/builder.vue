@@ -47,73 +47,73 @@ const rightMenu = ref<subMenuAccordion[]>([
   },
 ])
 
-// const canvasRef = ref<any>(null)
-// const contentRef = ref<any>(null)
-// const componentListActive = ref<string[]>(['0', '1'])
-// // Zoom function (Cursor-centered)
-// const updateZoom = (delta: any, event: any = null) => {
-//   const newZoom = Math.min(maxZoom, Math.max(minZoom, zoomLevel.value + delta))
-//   if (newZoom === zoomLevel.value) return // Prevent redundant updates
+const canvasRef = ref<any>(null)
+const contentRef = ref<any>(null)
+const componentListActive = ref<string[]>(['0', '1'])
+// Zoom function (Cursor-centered)
+const updateZoom = (delta: any, event: any = null) => {
+  const newZoom = Math.min(maxZoom, Math.max(minZoom, zoomLevel.value + delta))
+  if (newZoom === zoomLevel.value) return // Prevent redundant updates
 
-//   if (event && canvasRef.value && contentRef.value) {
-//     const rect = canvasRef.value.getBoundingClientRect()
-//     const offsetX = event.clientX - rect.left + canvasRef.value.scrollLeft
-//     const offsetY = event.clientY - rect.top + canvasRef.value.scrollTop
-//     // console.log('canvasRef rect', rect.top, rect.left)
-//     const scaleFactor = newZoom / zoomLevel.value
+  if (event && canvasRef.value && contentRef.value) {
+    const rect = canvasRef.value.getBoundingClientRect()
+    const offsetX = event.clientX - rect.left + canvasRef.value.scrollLeft
+    const offsetY = event.clientY - rect.top + canvasRef.value.scrollTop
+    // console.log('canvasRef rect', rect.top, rect.left)
+    const scaleFactor = newZoom / zoomLevel.value
 
-//     requestAnimationFrame(() => {
-//       canvasRef.value.scrollLeft =
-//         offsetX * scaleFactor - event.clientX + rect.left
-//       canvasRef.value.scrollTop =
-//         offsetY * scaleFactor - event.clientY + rect.top
-//     })
+    requestAnimationFrame(() => {
+      canvasRef.value.scrollLeft =
+        offsetX * scaleFactor - event.clientX + rect.left
+      canvasRef.value.scrollTop =
+        offsetY * scaleFactor - event.clientY + rect.top
+    })
 
-//     zoomLevel.value = newZoom
-//   } else {
-//     zoomLevel.value = newZoom
-//   }
-// }
+    zoomLevel.value = newZoom
+  } else {
+    zoomLevel.value = newZoom
+  }
+}
 
-// // Mouse wheel zoom (cursor-centered)
-// const handleWheelZoom = (event: any) => {
-//   if (event.ctrlKey) {
-//     event.preventDefault()
-//     updateZoom(event.deltaY < 0 ? zoomStep : -zoomStep, event)
-//   }
-// }
+// Mouse wheel zoom (cursor-centered)
+const handleWheelZoom = (event: any) => {
+  if (event.ctrlKey) {
+    event.preventDefault()
+    updateZoom(event.deltaY < 0 ? zoomStep : -zoomStep, event)
+  }
+}
 
-// // Keyboard zoom (centered)
-// const handleKeyZoom = (event: any) => {
-//   if (event.ctrlKey) {
-//     if (event.code === 'Equal' || event.code === 'NumpadAdd') {
-//       updateZoom(zoomStep)
-//     } else if (event.code === 'Minus' || event.code === 'NumpadSubtract') {
-//       updateZoom(-zoomStep)
-//     } else if (event.code === 'Digit0' || event.code === 'Numpad0') {
-//       zoomLevel.value = 1
-//     }
-//     event.preventDefault()
-//     event.stopPropagation()
-//   }
-// }
+// Keyboard zoom (centered)
+const handleKeyZoom = (event: any) => {
+  if (event.ctrlKey) {
+    if (event.code === 'Equal' || event.code === 'NumpadAdd') {
+      updateZoom(zoomStep)
+    } else if (event.code === 'Minus' || event.code === 'NumpadSubtract') {
+      updateZoom(-zoomStep)
+    } else if (event.code === 'Digit0' || event.code === 'Numpad0') {
+      zoomLevel.value = 1
+    }
+    event.preventDefault()
+    event.stopPropagation()
+  }
+}
 
-// // Prevent browser zoom
-// const preventBrowserZoom = (event: any) => {
-//   if (
-//     event.ctrlKey &&
-//     [
-//       'Equal',
-//       'Minus',
-//       'Digit0',
-//       'NumpadAdd',
-//       'NumpadSubtract',
-//       'Numpad0',
-//     ].includes(event.code)
-//   ) {
-//     event.preventDefault()
-//   }
-// }
+// Prevent browser zoom
+const preventBrowserZoom = (event: any) => {
+  if (
+    event.ctrlKey &&
+    [
+      'Equal',
+      'Minus',
+      'Digit0',
+      'NumpadAdd',
+      'NumpadSubtract',
+      'Numpad0',
+    ].includes(event.code)
+  ) {
+    event.preventDefault()
+  }
+}
 
 // // const componentMap: any = { Button: markRaw(Button) }
 
