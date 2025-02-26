@@ -250,7 +250,7 @@ onUnmounted(() => {
     </div>
 
     <!-- Canvas (2D Scroll + Cursor-Centered Zoom) -->
-    <div
+    <!-- <div
       id="canvas"
       ref="canvasRef"
       class="bg-[#F5F5F5] grid flex-1 w-content overflow-auto"
@@ -268,10 +268,10 @@ onUnmounted(() => {
         :zoom-level="zoomLevel"
         @click="toggleContainerIndex"
       />
-    </div>
+    </div> -->
 
     <!-- Right Content (Vertical Scroll Only) -->
-    <div
+    <!-- <div
       id="right-content"
       class="bg-neutral-200 dark:bg-[#18181B] relative overflow-y-auto justify-between"
       :style="{ width: rightWidth + 'px', height: '100vh' }"
@@ -334,6 +334,6 @@ onUnmounted(() => {
         class="w-1 bg-gray-500 cursor-col-resize absolute left-0 top-0 bottom-0"
         @mousedown="startRightResize"
       />
-    </div>
+    </div> -->
   </div>
 </template>
