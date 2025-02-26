@@ -184,7 +184,7 @@ onUnmounted(() => {
 <template>
   <div class="flex h-screen w-screen">
     <!-- Left Content (Vertical Scroll Only) -->
-    <div
+    <!-- <div
       id="left-content"
       class="bg-neutral-200 dark:bg-[#18181B] relative overflow-y-auto"
       :style="{ width: leftWidth + 'px', height: '100vh' }"
@@ -233,7 +233,6 @@ onUnmounted(() => {
                     />
                   </template>
                 </Button>
-                <!-- <Button /> -->
               </div>
             </ClientOnly>
           </AccordionHeader>
@@ -242,12 +241,11 @@ onUnmounted(() => {
           </AccordionContent>
         </AccordionPanel>
       </Accordion>
-      <!-- <LeftMenu v-model="nodes" /> -->
       <div
         class="w-[2px] bg-[#E6E6E6] cursor-col-resize absolute right-0 top-0 bottom-0"
         @mousedown="startLeftResize"
       />
-    </div>
+    </div> -->
 
     <!-- Canvas (2D Scroll + Cursor-Centered Zoom) -->
     <!-- <div
