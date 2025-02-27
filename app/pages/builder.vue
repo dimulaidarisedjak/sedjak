@@ -61,7 +61,6 @@ const updateZoom = (delta: any, event: any = null) => {
     const rect = canvasRef.value.getBoundingClientRect()
     const offsetX = event.clientX - rect.left + canvasRef.value.scrollLeft
     const offsetY = event.clientY - rect.top + canvasRef.value.scrollTop
-    // console.log('canvasRef rect', rect.top, rect.left)
     const scaleFactor = newZoom / zoomLevel.value
 
     requestAnimationFrame(() => {
@@ -117,8 +116,6 @@ const preventBrowserZoom = (event: any) => {
   }
 }
 
-// // const componentMap: any = { Button: markRaw(Button) }
-
 function addSubMenu(subMenuValue: string) {
   if (subMenuValue === '0') {
     containers.value.push({
@@ -133,61 +130,27 @@ function addSubMenu(subMenuValue: string) {
 }
 
 function toggleContainerIndex(event: { type: string, index: number }) {
-  // const idx = activeContainerList.value.indexOf(event.index)
-  console.log('index', event.index, activeContainerList.value, containers.value)
-  if (event.type === 'single') {
-    if (activeContainerList.value.length > 1) {
-      console.log('condition 1')
-      for (const [index, container] of containers.value.entries()) {
-        container.isSelected = index === event.index
+  const container = containers.value[event.index]
+
+  if (container) {
+    if (event.type === 'single') {
+      if (activeContainerList.value.length > 1) {
+        for (const [index, cntnr] of containers.value.entries()) {
+          cntnr.isSelected = index === event.index
+        }
+      } else {
+        if (activeContainerList.value[0] === event.index) {
+          container.isSelected = !container.isSelected
+        } else {
+          for (const [index, cntnr] of containers.value.entries()) {
+            cntnr.isSelected = index === event.index
+          }
+        }
       }
-    } else {
-      console.log('condition 2')
-      // if (containers.value[event.index].isSelected) {
-      //   console.log('condition 2.1')
-      //   containers.value[event.index].isSelected = false
-      // } else {
-      //   console.log('condition 2.2')
-      //   containers.value[event.index].isSelected = true
-      // }
-      // (containers.value[event.index] as any).isSelected = !containers.value[event.index]?.isSelected
+    } else if (event.type === 'multiple') {
+      container.isSelected = !containers.value[event.index]?.isSelected
     }
-  } else if (event.type === 'multiple') {
-    console.log('condition 3')
-    // (containers.value[event.index] as any).isSelected = !containers.value[event.index]?.isSelected
   }
-  // if (event.type === 'single') {
-  //   if (idx === -1) { // Index not found
-  //     if (activeContainerList.value.length > 0) {
-  //       console.log('condition 1')
-  //       // activeContainerList.value = [event.index]
-  //       for (const [index, container] of containers.value.entries()) {
-  //         container.isSelected = index === event.index
-  //       }
-  //     } else {
-  //       console.log('condition 2');
-  //       (containers.value[event.index] as any).isSelected = true
-  //     }
-  //   } else { // Index found
-  //     // activeContainerList.value = [event.index]
-  //     console.log('condition 3')
-  //     for (const [index, container] of containers.value.entries()) {
-  //       if (index === event.index) {
-  //         container.isSelected = !container.isSelected
-  //       } else {
-  //         container.isSelected = false
-  //       }
-  //     }
-  //   }
-  // } else if (event.type === 'multiple') {
-  //   if (idx !== -1) {
-  //     console.log('condition 4');
-  //     (containers.value[idx] as any).isSelected = true // Remove index if it exists
-  //   } else {
-  //     console.log('condition 5');
-  //     (containers.value[idx] as any).isSelected = false // Add index if it doesn't exist
-  //   }
-  // }
 }
 
 function onDragStart(component: string) {

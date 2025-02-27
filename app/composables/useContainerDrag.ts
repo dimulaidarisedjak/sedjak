@@ -120,7 +120,7 @@ export function useContainerDrag(
   };
 
   const handleClick = (isShiftClick: boolean) => {
-    modelValue.value.isSelected = !modelValue.value.isSelected;
+    // modelValue.value.isSelected = !modelValue.value.isSelected;
     emits(isShiftClick ? 'click:multiple' : 'click:single');
   };
 
