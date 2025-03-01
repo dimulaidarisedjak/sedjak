@@ -1,9 +1,9 @@
-<!-- <script lang="ts" setup>
-definePageMeta({
-  middleware: 'verified',
-})
+<script lang="ts" setup>
+// definePageMeta({
+//   middleware: 'verified',
+// })
 
-const title = 'Dashboard'
+const title = 'Dasbor' + ' | ' + useRuntimeConfig().app.name
 
 useSeoMeta({
   title,
@@ -11,15 +11,5 @@ useSeoMeta({
 </script>
 
 <template>
-  <UContainer>
-    <UPage>
-      <UPageHeader
-        :title
-      />
-
-      Use a UPageBody to build the user dashboard
-    </UPage>
-  </UContainer>
-</template> -->
-
-<template></template>
+  <div />
+</template>

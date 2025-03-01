@@ -1,4 +1,5 @@
 import Aura from '@primevue/themes/aura';
+import { definePreset } from '@primevue/themes';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -16,8 +17,8 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   runtimeConfig: {
     app: {
-      name: '',
-      url: '',
+      name: 'Sedjak',
+      url: 'https://sedjak.nuxt.dev',
     },
     mail: {
       key: '',
@@ -77,7 +78,22 @@ export default defineNuxtConfig({
       ripple: true,
       inputVariant: 'filled',
       theme: {
-        preset: Aura,
+        preset: definePreset(Aura, {
+          semantic: {
+            primary: {
+              50: '#FDF5F2',
+              100: '#FAE5DE',
+              200: '#F5C9B9',
+              300: '#E5927A',
+              400: '#733015',
+              500: '#682A13',
+              600: '#5D2411',
+              700: '#4A1D0E',
+              800: '#36150A',
+              900: '#220D06',
+            },
+          },
+        }),
         options: {
           prefix: 'p',
           darkModeSelector: '.dark-mode',
