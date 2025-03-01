@@ -38,6 +38,23 @@ const items = ref([
     route: '/builder',
   },
 ])
+const userMenu = ref()
+const userMenuItems = ref([
+  {
+    label: 'Keluar',
+    route: '/api/logout',
+    external: true,
+  },
+  {
+    label: 'Dasbor',
+    route: '/dashboard',
+    external: false,
+  },
+])
+
+function toggleUserMenu($event: any) {
+  userMenu.value.toggle($event)
+}
 </script>
 
 <template>
@@ -97,27 +114,80 @@ const items = ref([
             class="w-6 h-6 cursor-pointer hover:scale-110"
             @click="isDark = !isDark"
           />
-          <Button
-            pt:root:class="!px-2 !py-1 !min-w-0"
-            outlined
+          <div
+            v-if="!$auth.loggedIn"
+            class="flex gap-2"
           >
-            <NuxtLink
-              class="font-semibold text-sm"
-              to="/api/login"
-              external
+            <Button
+              pt:root:class="!px-2 !py-1 !min-w-0"
+              outlined
             >
-              Masuk
-            </NuxtLink>
-          </Button>
-          <Button pt:root:class="!px-2 !py-1 !min-w-0">
-            <NuxtLink
-              class="font-semibold text-sm"
-              to="/api/register"
-              external
+              <NuxtLink
+                class="font-semibold text-sm"
+                to="/api/login"
+                external
+              >
+                Masuk
+              </NuxtLink>
+            </Button>
+            <Button pt:root:class="!px-2 !py-1 !min-w-0">
+              <NuxtLink
+                class="font-semibold text-sm"
+                to="/api/register"
+                external
+              >
+                Daftar
+              </NuxtLink>
+            </Button>
+          </div>
+          <div
+            v-else
+            class="flex text-sm gap-2 items-center"
+          >
+            <p class="font-medium">
+              Halo,
+            </p>
+            <p class="font-bold">
+              {{ $auth.user.given_name }}
+            </p>
+            <Button
+              pt:root:class="!p-1 !min-w-0"
+              text
+              aria-haspopup="true"
+              aria-controls="overlay_user_menu"
+              @click="toggleUserMenu"
             >
-              Daftar
-            </NuxtLink>
-          </Button>
+              <Icon
+                class="text-black w-5 h-5"
+                name="uil:ellipsis-v"
+              />
+            </Button>
+            <Menu
+              id="overlay_user_menu"
+              ref="userMenu"
+              :model="userMenuItems"
+              :popup="true"
+            >
+              <template #item="{ item, props }">
+                <NuxtLink
+                  v-if="item.route"
+                  v-slot="{ href, navigate }"
+                  :to="item.route"
+                  :external="item.external"
+                  custom
+                >
+                  <a
+                    v-ripple
+                    :href="href"
+                    v-bind="props.action"
+                    @click="navigate"
+                  >
+                    {{ item.label }}
+                  </a>
+                </NuxtLink>
+              </template>
+            </Menu>
+          </div>
         </div>
       </template>
     </Menubar>
