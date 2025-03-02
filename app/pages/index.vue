@@ -125,51 +125,133 @@ const pricings = ref([
 const testimonials = ref([
   {
     name: 'Dina R.',
-    role: 'Pemilik Toko Kue Homemad',
-    image: '/images/gavarnie.jpg',
+    role: 'Pemilik Toko Kue Homemade',
     content: 'Sedjak membuat website saya terlihat profesional dalam waktu singkat. Fitur e-commerce-nya sangat membantu, dan sekarang saya bisa menerima pesanan online dengan mudah!',
   },
   {
     name: 'Inayah S.',
     role: 'Pemilik Bisnis Fashion Lokal',
-    image: '/images/gavarnie.jpg',
     content: 'Dengan bantuan Sedjak, saya bisa punya website keren tanpa ribet! Timnya juga sangat responsif dalam membantu setiap kebutuhan saya. Penjualan online saya meningkat setelah website siap.',
   },
   {
     name: 'Sahroni E.',
     role: 'Pengusaha Bengkel Mobil',
-    image: '/images/gavarnie.jpg',
     content: 'Saya tidak punya pengalaman teknis, tapi Sedjak membuat semuanya mudah! Website saya jadi lebih mudah ditemukan di Google, dan pelanggan baru berdatangan setiap minggu.',
   },
   {
     name: 'Siska P.',
     role: 'Freelancer Karikatur',
-    image: '/images/gavarnie.jpg',
     content: 'Sedjak memudahkan saya dalam berkomunikasi dengan klien dan calon klien, pesanan jasa saya meningkat signifikan sejak menggunakan Sedjak.',
   },
   {
     name: 'Budi K.',
     role: 'Penyedia Jasa Kebersihan',
-    image: '/images/gavarnie.jpg',
     content: 'Sedjak membuat proses pembuatan website cepat dan mudah. Sekarang, pelanggan bisa dengan mudah menghubungi saya dan melihat layanan yang saya tawarkan.',
   },
   {
     name: 'Alan C.',
     role: 'Pelatih Yoga',
-    image: '/images/gavarnie.jpg',
     content: 'Dukungan pelanggan di Sedjak benar-benar luar biasa! Mereka membantu saya memahami cara mengelola website sendiri, dan hasilnya melebihi harapan saya.',
   },
   {
     name: 'Muhammad Z.',
     role: 'Pengelola Restoran',
-    image: '/images/gavarnie.jpg',
     content: 'Website dari Sedjak bukan hanya bagus, tapi juga berfungsi maksimal. Pelanggan sekarang bisa melihat menu dan reservasi online, dan itu benar-benar membantu meningkatkan omzet saya!',
   },
   {
     name: 'Taufiq L.',
     role: 'Pemilik Toko E-Commerce',
-    image: '/images/gavarnie.jpg',
     content: 'Website dari Sedjak sangat profesional dan sesuai dengan brand saya. Tidak hanya membantu saya terlihat lebih kredibel, tetapi juga memperluas jangkauan klien yang saya dapatkan!',
+  },
+  {
+    name: 'Rina A.',
+    role: 'Pemilik Salon Kecantikan',
+    content: 'Sedjak membantu saya membuat website yang elegan dan fungsional. Sekarang, pelanggan bisa booking layanan secara online, dan bisnis saya semakin berkembang!',
+  },
+  {
+    name: 'Fajar H.',
+    role: 'Pemilik Studio Fotografi',
+    content: 'Website dari Sedjak sangat membantu memamerkan portofolio saya. Klien baru mudah menemukan saya, dan proyek fotografi saya meningkat pesat!',
+  },
+  {
+    name: 'Lina M.',
+    role: 'Pemilik Toko Buku Online',
+    content: 'Sedjak membuat website toko buku saya terlihat menarik dan mudah dinavigasi. Penjualan meningkat drastis sejak pelanggan bisa berbelanja dengan nyaman!',
+  },
+  {
+    name: 'Rizky P.',
+    role: 'Pemilik Jasa Tour Guide',
+    content: 'Website dari Sedjak membantu saya mempromosikan paket tur saya dengan lebih baik. Sekarang, pemesanan online meningkat, dan saya bisa fokus pada layanan!',
+  },
+  {
+    name: 'Nadia W.',
+    role: 'Pemilik Bisnis Katering',
+    content: 'Sedjak membuat website katering saya terlihat profesional dan mudah digunakan. Pelanggan bisa melihat menu dan memesan langsung melalui website!',
+  },
+  {
+    name: 'Hendra T.',
+    role: 'Pemilik Toko Elektronik',
+    content: 'Website dari Sedjak sangat membantu meningkatkan penjualan toko elektronik saya. Fitur e-commerce-nya mudah digunakan dan pelanggan sangat puas!',
+  },
+  {
+    name: 'Yuni S.',
+    role: 'Pemilik Studio Tato',
+    content: 'Sedjak membantu saya membuat website yang mencerminkan gaya studio tato saya. Sekarang, klien bisa melihat portofolio dan booking janji dengan mudah!',
+  },
+  {
+    name: 'Rudi F.',
+    role: 'Pemilik Jasa Desain Grafis',
+    content: 'Website dari Sedjak sangat membantu memamerkan karya saya. Klien baru mudah menemukan saya, dan proyek desain saya semakin banyak!',
+  },
+  {
+    name: 'Dewi L.',
+    role: 'Pemilik Toko Aksesoris',
+    content: 'Sedjak membuat website toko aksesoris saya terlihat cantik dan fungsional. Penjualan online meningkat pesat sejak website diluncurkan!',
+  },
+  {
+    name: 'Ahmad R.',
+    role: 'Pemilik Jasa Pengiriman',
+    content: 'Website dari Sedjak membantu saya mengelola pesanan pengiriman dengan lebih efisien. Pelanggan sangat puas dengan kemudahan yang diberikan!',
+  },
+  {
+    name: 'Sari N.',
+    role: 'Pemilik Bisnis Kerajinan Tangan',
+    content: 'Sedjak membantu saya membuat website yang menampilkan produk kerajinan tangan saya dengan indah. Penjualan meningkat dan saya bisa menjangkau lebih banyak pelanggan!',
+  },
+  {
+    name: 'Irfan K.',
+    role: 'Pemilik Jasa Servis AC',
+    content: 'Website dari Sedjak membuat bisnis servis AC saya terlihat lebih profesional. Pelanggan bisa booking layanan dengan mudah, dan bisnis saya semakin berkembang!',
+  },
+  {
+    name: 'Maya D.',
+    role: 'Pemilik Toko Bunga',
+    content: 'Sedjak membantu saya membuat website toko bunga yang cantik dan fungsional. Pelanggan bisa memesan bunga online dengan mudah, dan penjualan meningkat pesat!',
+  },
+  {
+    name: 'Rizki A.',
+    role: 'Pemilik Jasa Desain Interior',
+    content: 'Website dari Sedjak sangat membantu memamerkan portofolio desain interior saya. Klien baru mudah menemukan saya, dan proyek saya semakin banyak!',
+  },
+  {
+    name: 'Lia W.',
+    role: 'Pemilik Bisnis Makanan Sehat',
+    content: 'Sedjak membuat website bisnis makanan sehat saya terlihat profesional dan mudah digunakan. Pelanggan bisa memesan menu sehat dengan cepat dan praktis!',
+  },
+  {
+    name: 'Andi S.',
+    role: 'Pemilik Jasa Tour Travel',
+    content: 'Website dari Sedjak membantu saya mempromosikan paket tour travel dengan lebih baik. Pemesanan online meningkat, dan bisnis saya semakin berkembang!',
+  },
+  {
+    name: 'Rina K.',
+    role: 'Pemilik Toko Perlengkapan Bayi',
+    content: 'Sedjak membuat website toko perlengkapan bayi saya terlihat menarik dan mudah digunakan. Penjualan online meningkat pesat sejak website diluncurkan!',
+  },
+  {
+    name: 'Firman A.',
+    role: 'Pemilik Jasa Desain Website',
+    content: 'Website dari Sedjak sangat membantu memamerkan portofolio desain website saya. Klien baru mudah menemukan saya, dan proyek saya semakin banyak!',
   },
 ])
 const faq = ref([
@@ -202,12 +284,22 @@ const faq = ref([
     answer: 'Anda bisa menghubungi tim dukungan kami melalui email, telepon, atau chat. Kami senang membantu Anda dengan segala pertanyaan dan masalah yang Anda hadapi.',
   },
 ])
+
+function scrollToSection(sectionId: string) {
+  const section = document.getElementById(sectionId)
+  if (section) {
+    section.scrollIntoView({ behavior: 'smooth' })
+  }
+}
 </script>
 
 <template>
   <div class="">
     <div class="bg-[#E8D1A7]">
-      <AppHeader class="pt-12 px-12" />
+      <AppHeader
+        class="pt-12 px-12"
+        @scroll-to="scrollToSection"
+      />
     </div>
     <div
       id="content"
@@ -409,7 +501,6 @@ const faq = ref([
                   <Button pt:root:class="w-full !px-2 !py-1 !min-w-0 !bg-white !text-black !border-white">
                     <NuxtLink
                       class="w-full font-semibold text-sm"
-                      to="/pricing"
                     >
                       Mulai Sekarang
                     </NuxtLink>
@@ -423,7 +514,6 @@ const faq = ref([
           <Button pt:root:class="!px-2 !py-1 !min-w-0 !bg-white !text-black !border-white">
             <NuxtLink
               class="font-semibold text-sm"
-              to="/pricing"
             >
               Lihat Semua Paket
             </NuxtLink>
@@ -444,7 +534,7 @@ const faq = ref([
             Berikut pengalaman mereka.
           </p>
         </div>
-        <div class="flex relative h-[480px] overflow-hidden">
+        <div class="flex relative h-[240px] overflow-hidden">
           <!-- First Line (8 cards - double set) -->
           <div class="absolute top-8 flex animate-scroll gap-4">
             <Card
@@ -477,7 +567,7 @@ const faq = ref([
           </div>
 
           <!-- Second Line (8 cards - double set) -->
-          <div class="absolute top-[220px] flex animate-scroll gap-4 -ml-36">
+          <!-- <div class="absolute top-[220px] flex animate-scroll gap-4 -ml-36">
             <Card
               v-for="testimonial in testimonials"
               :key="testimonial.name"
@@ -505,7 +595,7 @@ const faq = ref([
                 </p>
               </template>
             </Card>
-          </div>
+          </div> -->
         </div>
       </div>
       <div
@@ -521,12 +611,14 @@ const faq = ref([
             yang dirancang khusus untuk membantu UMKM membangun website mereka.
           </p>
         </div>
-        <div class="pb-12 grid grid-cols-2 justify-between px-12 gap-12">
-          <img
-            class="aspect-[3/5] object-cover rounded-2xl"
-            src="/images/gavarnie.jpg"
-          >
-          <div class="flex flex-col gap-4">
+        <div class="pb-12 flex justify-between px-12 gap-12">
+          <div class="basis-1/2 lg:basis-1/3">
+            <img
+              class="aspect-[3/7] lg:aspect-[3/4] object-cover rounded-2xl"
+              src="/images/gavarnie.jpg"
+            >
+          </div>
+          <div class="basis-1/2 lg:basis-2/3 flex flex-col gap-4">
             <Panel
               v-for="panel in faq"
               :key="panel.question"
@@ -549,7 +641,10 @@ const faq = ref([
       </div>
     </div>
     <div class="p-12 bg-[#E8D1A7]">
-      <AppFooter class="rounded rounded-2xl h-[400px]" />
+      <AppFooter
+        class="rounded rounded-2xl h-[400px]"
+        @scroll-to="scrollToSection"
+      />
     </div>
   </div>
 </template>
@@ -560,11 +655,11 @@ const faq = ref([
     transform: translateX(0%);
   }
   to {
-    transform: translateX(calc(-50%));
+    transform: translateX(calc(-20%));
   }
 }
 
 .animate-scroll {
-  animation: scroll 10s linear infinite;
+  animation: scroll 15s linear infinite;
 }
 </style>

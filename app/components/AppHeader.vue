@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+const emits = defineEmits(['scrollTo'])
 const colorMode = useColorMode()
 const isDark = computed({
   get() {
@@ -10,32 +11,24 @@ const isDark = computed({
 })
 const items = ref([
   {
-    label: 'Beranda',
-    route: '/',
-  },
-  {
     label: 'Fitur',
-    route: '/features',
+    id: 'home-features',
   },
   {
     label: 'Tentang',
-    route: '/about',
+    id: 'home-introduction',
   },
   {
     label: 'Harga',
-    route: '/pricing',
+    id: 'home-pricing',
   },
   {
     label: 'Testimoni',
-    route: '/testimonials',
+    id: 'home-testimonials',
   },
   {
     label: 'FAQ',
-    route: '/faq',
-  },
-  {
-    label: 'Builder',
-    route: '/builder',
+    id: 'home-faq',
   },
 ])
 const userMenu = ref()
@@ -77,35 +70,15 @@ function toggleUserMenu($event: any) {
           <p>Sedjak</p>
         </div>
       </template>
-      <template #item="{ item, props, hasSubmenu }">
-        <RouterLink
-          v-if="item.route"
-          v-slot="{ href, navigate }"
-          custom
-          :to="item.route"
-        >
-          <a
-            v-ripple
-            :href="href"
-            v-bind="props.action"
-            @click="navigate"
-          >
-            <span>{{ item.label }}</span>
-          </a>
-        </RouterLink>
-        <a
-          v-else
+      <template #item="{ item, props }">
+        <p
           v-ripple
-          :href="item.url"
-          :target="item.target"
-          v-bind="props.action"
+          class="cursor-pointer px-2 py-1"
+          v-bind="props"
+          @click="emits('scrollTo', item.id)"
         >
-          <span>{{ item.label }}</span>
-          <span
-            v-if="hasSubmenu"
-            class="pi pi-fw pi-angle-down"
-          />
-        </a>
+          {{ item.label }}
+        </p>
       </template>
       <template #end>
         <div class="flex gap-2 items-center">

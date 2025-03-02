@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+const emits = defineEmits(['scrollTo'])
 // const title = 'Dasbor' + ' | ' + useRuntimeConfig().app.name
 
 // const appConfig = useAppConfig()
@@ -30,24 +31,24 @@
           <p class="mb-2 font-semibold">
             Lebih Jauh
           </p>
-          <NuxtLink
-            class="hover:bg-[#A36C39] px-2 py-1 rounded"
-            to="/features"
+          <p
+            class="hover:bg-[#A36C39] px-2 py-1 rounded cursor-pointer v-ripple"
+            @click="emits('scrollTo', 'home-features')"
           >
             Fitur
-          </NuxtLink>
-          <NuxtLink
-            class="hover:bg-[#A36C39] px-2 py-1 rounded"
-            to="/pricing"
+          </p>
+          <p
+            class="hover:bg-[#A36C39] px-2 py-1 rounded cursor-pointer v-ripple"
+            @click="emits('scrollTo', 'home-pricing')"
           >
             Harga
-          </NuxtLink>
-          <NuxtLink
-            class="hover:bg-[#A36C39] px-2 py-1 rounded"
-            to="/about"
+          </p>
+          <p
+            class="hover:bg-[#A36C39] px-2 py-1 rounded cursor-pointer v-ripple"
+            @click="emits('scrollTo', 'home-introduction')"
           >
             Tentang Kami
-          </NuxtLink>
+          </p>
         </div>
         <NuxtLink
           class="hover:bg-[#A36C39] px-2 py-1 rounded"
@@ -59,7 +60,7 @@
       <div class="flex flex-col justify-between">
         <div class="flex flex-col gap-2">
           <p class="mb-2 font-semibold">
-            Lebih Jauh
+            Kontak
           </p>
           <p class="px-2 py-1">
             cs@sedjak.com
