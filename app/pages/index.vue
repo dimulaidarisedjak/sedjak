@@ -399,30 +399,34 @@ function scrollToSection(sectionId: string) {
           </p>
         </div>
         <div class="px-12 h-[480px] flex justify-between gap-12">
-          <div class="py-8 flex flex-col justify-between">
-            <div
+          <div class="flex flex-col justify-between">
+            <Card
               v-for="benefit in benefits"
               :key="benefit.title"
-              class="flex items-center gap-8"
+              class="flex items-center my-4 !bg-[#FDEAD5]"
             >
-              <div class="pt-2 px-2 pb-[0.5px] bg-white rounded-2xl">
-                <Icon
-                  :name="benefit.icon"
-                  class="bg-[#733015] w-12 h-12"
-                />
-              </div>
-              <div class="flex flex-col">
-                <p class="font-semibold text-lg">
-                  {{ benefit.title }}
-                </p>
-                <p>
-                  {{ benefit.description }}
-                </p>
-              </div>
-            </div>
+              <template #content>
+                <div class="flex gap-4 items-center">
+                  <div class="pt-2 px-2 pb-[0.5px] bg-white rounded-2xl">
+                    <Icon
+                      :name="benefit.icon"
+                      class="bg-[#733015] w-12 h-12"
+                    />
+                  </div>
+                  <div class="flex flex-col">
+                    <p class="font-semibold text-lg">
+                      {{ benefit.title }}
+                    </p>
+                    <p>
+                      {{ benefit.description }}
+                    </p>
+                  </div>
+                </div>
+              </template>
+            </Card>
           </div>
           <img
-            class="aspect-[4/5] object-cover rounded-2xl"
+            class="aspect-[2/1] object-cover rounded-2xl"
             src="/images/gavarnie.jpg"
           >
         </div>

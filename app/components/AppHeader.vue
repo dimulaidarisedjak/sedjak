@@ -62,12 +62,17 @@ function toggleUserMenu($event: any) {
       }"
     >
       <template #start>
-        <div class="flex gap-2 items-center">
+        <div
+          class="flex gap-2 items-center cursor-pointer"
+          @click="$router.push('/')"
+        >
           <Icon
             name="uil:github"
             class="w-8 h-8"
           />
-          <p>Sedjak</p>
+          <p class="font-semibold hover:scale-105 transition-all">
+            Sedjak
+          </p>
         </div>
       </template>
       <template #item="{ item, props }">
