@@ -65,6 +65,10 @@ const newInformations = ref([
   },
 ])
 
+function goToRickRoll() {
+  window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank')
+}
+
 useSeoMeta({
   title,
 })
@@ -114,11 +118,12 @@ useSeoMeta({
             <p class="mb-6 text-xl font-semibold">
               Gunakan Template Siap Pakai
             </p>
-            <div class="grid grid-cols-4 gap-4">
+            <div class="grid grid-cols-4 gap-8">
               <div
                 v-for="template in templates"
                 :key="template.name"
-                class="flex flex-col gap-4"
+                class="flex flex-col gap-4 cursor-pointer hover:scale-105 transition-all ease-in"
+                @click="goToRickRoll"
               >
                 <img
                   class="aspect-[2/1] object-cover rounded-2xl"
@@ -139,11 +144,12 @@ useSeoMeta({
             <p class="mb-6 text-xl font-semibold">
               Lihat Panduan Pembuatan Website
             </p>
-            <div class="grid grid-cols-4 gap-4">
+            <div class="grid grid-cols-4 gap-8">
               <div
                 v-for="guide in guides"
                 :key="guide.name"
-                class="flex flex-col gap-4"
+                class="flex flex-col gap-4 cursor-pointer hover:scale-105 transition-all ease-in"
+                @click="goToRickRoll"
               >
                 <img
                   class="aspect-[2/1] object-cover rounded-2xl"
@@ -210,7 +216,10 @@ useSeoMeta({
                     <p class="text-white text-sm">
                       Temukan inspirasi, diskusikan ide, dan dapatkan tips membangun website bersama para pelaku UMKM lainnya. Yuk, bergabung sekarang dan tumbuh bersama!
                     </p>
-                    <Button class="!bg-[#5865F2] !border-0">
+                    <Button
+                      class="!bg-[#5865F2] !border-0"
+                      @click="goToRickRoll"
+                    >
                       <div class="flex gap-2 items-center">
                         <Icon
                           name="uil:discord"
