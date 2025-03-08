@@ -1,0 +1,1 @@
+ALTER TABLE `bills` ADD `service_type` text NOT NULL;

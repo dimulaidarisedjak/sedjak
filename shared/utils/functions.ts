@@ -49,3 +49,40 @@ export function useResize(
     startResize,
   };
 }
+
+export function formatDateIndonesian(
+  date: Date,
+  fullMonth: boolean = false,
+): string {
+  const months = [
+    'Januari',
+    'Februari',
+    'Maret',
+    'April',
+    'Mei',
+    'Juni',
+    'Juli',
+    'Agustus',
+    'September',
+    'Oktober',
+    'November',
+    'Desember',
+  ];
+
+  const day = date.getDate().toString().padStart(2, '0');
+  const monthIndex = date.getMonth();
+  const month = fullMonth
+    ? months[monthIndex]
+    : (monthIndex + 1).toString().padStart(2, '0');
+  const year = date.getFullYear();
+
+  return fullMonth ? `${day} ${month} ${year}` : `${day}/${month}/${year}`;
+}
+
+export function formatCurrencyRupiah(value: number): string {
+  const formatter = new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+  });
+  return formatter.format(value);
+}

@@ -8,6 +8,34 @@
       "when": 1724098052504,
       "tag": "0000_grey_nova",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1741091647772,
+      "tag": "0001_real_slayback",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1741460056922,
+      "tag": "0002_graceful_luckman",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1741467246882,
+      "tag": "0003_fancy_sue_storm",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1741471491429,
+      "tag": "0004_friendly_spencer_smythe",
+      "breakpoints": true
     }
   ]
 }

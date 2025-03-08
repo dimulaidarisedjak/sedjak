@@ -54,9 +54,9 @@ export default defineNuxtConfig({
     kv: true,
   },
   debug: true,
-  csurf: {
-    methodsToProtect: ['POST', 'PUT', 'PATCH', 'DELETE'],
-  },
+  // csurf: {
+  //   methodsToProtect: ['POST', 'PUT', 'PATCH', 'DELETE'],
+  // },
   eslint: {
     config: {
       stylistic: true,
@@ -103,7 +103,7 @@ export default defineNuxtConfig({
     },
   },
   security: {
-    csrf: true,
+    // csrf: true,
     rateLimiter: {
       driver: {
         name: 'cloudflare-kv-binding',
