@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { formatDateIndonesian, formatCurrencyRupiah } from '~~/shared/utils/functions'
+import { formatDateIndonesian, formatCurrencyRupiah, alphabetAvatar } from '~~/shared/utils/functions'
 
 definePageMeta({
   middleware: 'auth-logged-in',
@@ -69,6 +69,13 @@ const newInformations = ref([
   },
 ])
 
+const dataWebsite = ref({
+  name: '',
+  description: '',
+  domain: '',
+})
+const tableWebsite = ref<any[]>([])
+
 const dataDomain = ref({
   name: '',
   tld: '',
@@ -91,8 +98,10 @@ const statusBill = ref<string | undefined>(undefined)
 
 const visibleDialogDomain = ref(false)
 const visibleDialogEmailDomain = ref(false)
+const visibleDialogWebsite = ref(false)
 
 const optionsTLD = ref(['.com', '.co.id', '.net', '.io', '.id', '.org', '.me'])
+const optionsWebsiteDomain = ref<any[]>([])
 const optionDomainStatus = ref([
   {
     name: 'Aktif',
@@ -119,6 +128,65 @@ function goToRickRoll() {
   window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank')
 }
 
+async function createWebsite() {
+  if (!auth.user) return
+  const jsonData = JSON.stringify([])
+  const result: any = await $fetch('/api/web-build', {
+    method: 'POST',
+    body: {
+      name: dataWebsite.value.name,
+      description: dataWebsite.value.description,
+      domain: dataWebsite.value.domain,
+      jsonData: jsonData,
+      ownedBy: auth.user.id,
+    },
+  })
+  if (result[0]?.insertedId) {
+    toast.add({
+      severity: 'success',
+      summary: 'Website berhasil dibuat',
+      // detail: 'Pergi ke halaman tagihan dan lakukan pembayaran untuk mengaktifkan website',
+      life: 10000,
+    })
+    dataWebsite.value = {
+      name: '',
+      description: '',
+      domain: '',
+    }
+    tableWebsite.value = await readWebsite()
+    visibleDialogWebsite.value = false
+  } else {
+    toast.add({
+      severity: 'error',
+      summary: 'Website gagal dibuat',
+      detail: 'Silahkan coba lagi atau hubungi tim dukungan',
+      life: 10000,
+    })
+  }
+}
+async function readWebsite(options?: string) {
+  if (!auth.user) return
+  const params: any = {
+    owned_by: auth.user.id,
+  }
+  const result = ref<any>()
+  if (options) {
+    params.options = true
+    result.value = await $fetch('/api/domain', {
+      method: 'GET',
+      params: params,
+    })
+  } else {
+    result.value = await $fetch('/api/web-build', {
+      method: 'GET',
+      params: params,
+    })
+  }
+  return result.value
+}
+// async function updateWebsite() {
+
+// }
 async function createDomain() {
   if (!auth.user) return
   const result: any = await $fetch('/api/domain', {
@@ -227,7 +295,6 @@ async function readEmailDomain(option?: string) {
       method: 'GET',
       params: params,
     })
-    console.log(result.value)
   }
   return result.value
 }
@@ -276,7 +343,10 @@ watch(statusBill, async () => {
 })
 
 watch(activeMenuItem, async () => {
-  if (activeMenuItem.value === 'domain') {
+  if (activeMenuItem.value === 'website') {
+    tableWebsite.value = await readWebsite()
+    optionsWebsiteDomain.value = await readWebsite('options')
+  } else if (activeMenuItem.value === 'domain') {
     tableDomain.value = await readDomain()
   } else if (activeMenuItem.value === 'email') {
     tableEmailDomain.value = await readEmailDomain()
@@ -290,6 +360,7 @@ useSeoMeta({
   title,
 })
 onBeforeMount(async () => {
+  tableWebsite.value = await readWebsite()
   tableDomain.value = await readDomain()
   tableEmailDomain.value = await readEmailDomain()
   tableBill.value = await readBill()
@@ -460,7 +531,61 @@ onBeforeMount(async () => {
         </div>
       </div>
       <div v-else-if="activeMenuItem === 'website'">
-        <div />
+        <div
+          id="website-header"
+          class="p-6"
+        >
+          <p class="text-3xl font-semibold">
+            Website
+          </p>
+        </div>
+        <div
+          id="website-subheader"
+          class="p-6 border-y border-[#85582E] flex gap-4 justify-end"
+        >
+          <div>
+            <Button
+              class="!px-2 !py-1"
+              @click="visibleDialogWebsite = true"
+            >
+              <div class="flex gap-2 items-center text-nowrap">
+                <Icon
+                  name="uil:plus"
+                  class="w-6 h-6"
+                />
+                <p class="text-sm">
+                  Buat Website Baru
+                </p>
+              </div>
+            </Button>
+          </div>
+        </div>
+        <div
+          id="website-content"
+          class="flex-1"
+        >
+          <div class="p-6 grid grid-cols-4">
+            <div
+              v-for="website in tableWebsite"
+              :key="website.name"
+              class="flex flex-col hover:cursor-pointer hover:scale-105 transition-all ease-in"
+            >
+              <div class="bg-[#FDEAD5] p-6 rounded-t-2xl">
+                <p class="text-9xl text-[#85582E] text-center font-semibold">
+                  {{ alphabetAvatar(website.name) }}
+                </p>
+              </div>
+              <div class="bg-[#F9F2E7] p-6 rounded-b-2xl flex flex-col gap-2">
+                <p class="text-xl">
+                  {{ website.name }}
+                </p>
+                <p class="text-sm">
+                  {{ website.description }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div v-else-if="activeMenuItem === 'domain'">
         <div
@@ -786,6 +911,48 @@ onBeforeMount(async () => {
       </div>
     </div>
 
+    <Dialog
+      v-model:visible="visibleDialogWebsite"
+      modal
+      header="Buat Website Baru"
+    >
+      <div class="flex flex-col gap-4">
+        <div>
+          <label for="website-name">Nama Website</label>
+          <InputText
+            id="website-name"
+            v-model="dataWebsite.name"
+            class="w-full mt-2"
+          />
+        </div>
+        <div>
+          <label for="website-domain">Domain</label>
+          <Select
+            id="website-domain"
+            v-model="dataWebsite.domain"
+            :options="optionsWebsiteDomain"
+            option-label="name"
+            option-value="id"
+            class="w-full mt-2"
+          />
+        </div>
+        <div>
+          <label for="website-description">Deskripsi Website</label>
+          <Textarea
+            id="website-description"
+            v-model="dataWebsite.description"
+            class="w-full mt-2"
+          />
+        </div>
+      </div>
+      <template #footer>
+        <Button
+          label="Buat Website"
+          class="w-full"
+          @click="createWebsite"
+        />
+      </template>
+    </Dialog>
     <Dialog
       v-model:visible="visibleDialogDomain"
       modal

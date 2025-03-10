@@ -2,7 +2,6 @@ import { emailDomains, bills } from '../database/schema';
 
 export default defineEventHandler(async (event) => {
   const data = await readBody(event);
-  console.log(data);
   const years =
     new Date(data.expiredAt).getFullYear() - new Date().getFullYear();
 

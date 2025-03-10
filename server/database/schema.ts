@@ -1,3 +1,4 @@
+import { relations } from 'drizzle-orm';
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
 
 // export const users = sqliteTable('users', {
@@ -32,6 +33,11 @@ export const domains = sqliteTable('domains', {
   ownedBy: text('owned_by').notNull(),
 });
 
+export const domainsRelations = relations(domains, ({ one }) => ({
+  webBuilds: one(webBuilds),
+  bill: one(bills, { fields: [domains.bill], references: [bills.id] }),
+}));
+
 export const emailDomains = sqliteTable('email_domains', {
   id: integer('id').primaryKey({ autoIncrement: true }),
   name: text('name').notNull().unique(),
@@ -58,10 +64,15 @@ export const bills = sqliteTable('bills', {
   ownedBy: text('owned_by').notNull(),
 });
 
+export const billsRelations = relations(bills, ({ one }) => ({
+  domains: one(domains),
+}));
+
 export const webBuilds = sqliteTable('web_builds', {
   id: integer('id').primaryKey({ autoIncrement: true }),
   name: text('name').notNull().unique(),
   description: text('description'),
+  domain: integer('domain').references(() => domains.id),
   status: text('status').notNull(),
   createdAt: integer('created_at', { mode: 'timestamp' })
     .notNull()
@@ -69,3 +80,10 @@ export const webBuilds = sqliteTable('web_builds', {
   blobPath: text('blob_path').notNull(),
   ownedBy: text('owned_by').notNull(),
 });
+
+export const webBuildsRelations = relations(webBuilds, ({ one }) => ({
+  domain: one(domains, {
+    fields: [webBuilds.domain],
+    references: [domains.id],
+  }),
+}));

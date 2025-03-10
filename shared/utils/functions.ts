@@ -86,3 +86,10 @@ export function formatCurrencyRupiah(value: number): string {
   });
   return formatter.format(value);
 }
+
+export function alphabetAvatar(name: string): string {
+  return name
+    .split(' ')
+    .map((letter: string) => letter[0]?.toUpperCase() || '')
+    .join('');
+}

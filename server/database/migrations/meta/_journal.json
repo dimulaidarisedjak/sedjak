@@ -36,6 +36,20 @@
       "when": 1741471491429,
       "tag": "0004_friendly_spencer_smythe",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1741556569791,
+      "tag": "0005_motionless_chronomancer",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1741557152189,
+      "tag": "0006_unique_absorbing_man",
+      "breakpoints": true
     }
   ]
 }
