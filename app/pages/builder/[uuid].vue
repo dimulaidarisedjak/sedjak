@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-// import Button from 'primevue/button'
-// import { ref } from 'vue'
 import type { ContainerAttributes } from '~/components/CanvasObject.vue'
 import type { subMenuAccordion } from '@/components/AccordionMenu.vue'
 
@@ -20,10 +18,11 @@ const maxZoom = 2 // Maximum zoom level
 const zoomStep = 0.05 // Zoom increment step
 
 const selectedComponent = ref<string>('')
+const differentData = ref(false)
 
 const containers = ref<ContainerAttributes[]>([])
+const containersOnDB = ref<ContainerAttributes[]>([])
 const activeContainerList = computed(() => {
-  // if (!Array.isArray(containers.value)) return []
   return containers.value.map((container, idx) => container.isSelected ? idx : '').filter(String)
 })
 const rightMenu = ref<subMenuAccordion[]>([
@@ -161,16 +160,29 @@ async function updateBuild() {
     },
   })
   if (result) {
-    console.log('updateBuild', result)
+    containersOnDB.value = [...containers.value]
   }
 }
 
-watch(containers, async () => {
-  await updateBuild()
+watch(containers, () => {
+  if (!isEqual(containers.value, containersOnDB.value)) {
+    differentData.value = true
+  } else {
+    differentData.value = false
+  }
+}, { deep: true })
+
+watch(containersOnDB, () => {
+  if (!isEqual(containers.value, containersOnDB.value)) {
+    differentData.value = true
+  } else {
+    differentData.value = false
+  }
 })
 
 onBeforeMount(async () => {
   containers.value = await readBuild()
+  containersOnDB.value = [...containers.value]
 })
 
 // Attach event listeners
@@ -282,6 +294,14 @@ onUnmounted(() => {
       :style="{ width: rightWidth + 'px', height: '100vh' }"
     >
       <div class="h-full flex flex-col">
+        <div class="flex justify-end py-2 px-4">
+          <Button
+            class="w-full"
+            label="Simpan"
+            :disabled="!differentData"
+            @click="updateBuild"
+          />
+        </div>
         <AccordionMenu
           v-model="rightMenu"
           class="flex-1"

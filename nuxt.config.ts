@@ -13,6 +13,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@primevue/nuxt-module',
     '@nuxt/icon',
+    'nuxt-lodash',
   ],
   devtools: { enabled: true },
   runtimeConfig: {

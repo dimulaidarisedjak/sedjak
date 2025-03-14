@@ -617,7 +617,6 @@ onMounted(() => {
                 </p>
                 <p class="text-sm">
                   {{ website.description }}
-                  {{ website }}
                 </p>
               </div>
             </div>
