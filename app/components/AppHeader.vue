@@ -66,10 +66,10 @@ function toggleUserMenu($event: any) {
           class="flex gap-2 items-center cursor-pointer"
           @click="$router.push('/')"
         >
-          <Icon
-            name="uil:github"
+          <img
+            src="/images/sedjak-logo.png"
             class="w-8 h-8"
-          />
+          >
           <p class="font-semibold hover:scale-105 transition-all">
             Sedjak
           </p>

@@ -3,7 +3,6 @@ import { bills, domains, emailDomains } from '../database/schema';
 
 export default defineEventHandler(async (event) => {
   const data = await readBody(event);
-  console.log(data);
   if (data.id && data.status && data.serviceType) {
     const billResult = await useDrizzle()
       .update(bills)

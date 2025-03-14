@@ -1,11 +1,5 @@
 <script lang="ts" setup>
 const emits = defineEmits(['scrollTo'])
-// const title = 'Dasbor' + ' | ' + useRuntimeConfig().app.name
-
-// const appConfig = useAppConfig()
-// const notice = appConfig.footer.notice
-// const smallLinks = appConfig.footer.smallLinks
-// const socials = appConfig.socials
 </script>
 
 <template>
@@ -13,10 +7,10 @@ const emits = defineEmits(['scrollTo'])
     <div class="flex flex-col justify-between text-white dark:text-gray-300">
       <div class="w-[300px]">
         <div class="flex items-center gap-4 mb-4">
-          <Icon
-            name="uil:github"
+          <img
+            src="/images/sedjak-logo.png"
             class="w-12 h-12"
-          />
+          >
           <p class="font-semibold">
             Sedjak
           </p>

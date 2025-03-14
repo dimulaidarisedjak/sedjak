@@ -14,44 +14,54 @@ const templates = ref([
   {
     name: 'Inspira',
     description: 'Modern, Minimalis',
-    image: '/images/gavarnie.jpg',
+    image: '/images/template-4.png',
   },
   {
     name: 'Craftsy',
     description: 'Portfolio, Minimalis',
-    image: '/images/gavarnie.jpg',
+    image: '/images/template-3.png',
   },
   {
     name: 'TechSavvy',
     description: 'Tekno, Minimalis, Modern',
-    image: '/images/gavarnie.jpg',
+    image: '/images/template-2.png',
   },
   {
     name: 'KulinerKu',
     description: 'Bisnis, Kuliner',
-    image: '/images/gavarnie.jpg',
+    image: '/images/template-1.png',
+  },
+  {
+    name: 'Agency Kreatif',
+    description: 'Bisnis, Kreatif',
+    image: '/images/original-815a684a9fb76cd28eae50ecbd2c8e9e.webp',
   },
 ])
 const guides = ref([
   {
     name: 'Membuat Sticky Navbar',
     description: '5 - 10 menit',
-    image: '/images/gavarnie.jpg',
+    image: '/images/sticky-comparison.png',
   },
   {
     name: 'Membuat Website Responsif',
     description: '15 - 20 menit',
-    image: '/images/gavarnie.jpg',
+    image: '/images/future-of-responsive-web-design-12grids.jpg',
   },
   {
     name: 'Membuat Post',
     description: '5 - 10 menit',
-    image: '/images/gavarnie.jpg',
+    image: '/images/1131w-3mJzeoweAr8.webp',
   },
   {
     name: 'Mengubah Domain',
     description: '5 - 10 menit',
-    image: '/images/gavarnie.jpg',
+    image: '/images/Domain-02-1024x575.png',
+  },
+  {
+    name: 'Berinteraksi dengan Pengunjung',
+    description: '20 - 30 menit',
+    image: '/images/shutterstock_1028245024-min.jpg',
   },
 ])
 const newInformations = ref([
@@ -68,6 +78,8 @@ const newInformations = ref([
     description: 'Fitur untuk melacak performa website, seperti jumlah pengunjung, asal trafik, halaman terpopuler, dan durasi kunjungan.',
   },
 ])
+const scrollContainer = ref(null)
+const scrollContainer2 = ref(null)
 
 const dataWebsite = ref({
   name: '',
@@ -123,6 +135,13 @@ const optionBillStatus = ref([
     value: 'paid',
   },
 ])
+
+const handleScroll = () => {
+  if (!scrollContainer.value) return
+}
+const handleScroll2 = () => {
+  if (!scrollContainer2.value) return
+}
 
 function goToRickRoll() {
   window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank')
@@ -365,6 +384,10 @@ onBeforeMount(async () => {
   tableEmailDomain.value = await readEmailDomain()
   tableBill.value = await readBill()
 })
+onMounted(() => {
+  handleScroll()
+  handleScroll2()
+})
 </script>
 
 <template>
@@ -411,24 +434,30 @@ onBeforeMount(async () => {
             <p class="mb-6 text-xl font-semibold">
               Gunakan Template Siap Pakai
             </p>
-            <div class="grid grid-cols-4 gap-8">
+            <div class="relative overflow-auto pb-4">
+              <!-- Ensured scrollbar visibility -->
               <div
-                v-for="template in templates"
-                :key="template.name"
-                class="flex flex-col gap-4 cursor-pointer hover:scale-105 transition-all ease-in"
-                @click="goToRickRoll"
+                class="flex gap-8 overflow-x-auto snap-x snap-mandatory px-8 pb-4"
+                @scroll="handleScroll"
               >
-                <img
-                  class="aspect-[2/1] object-cover rounded-2xl"
-                  :src="template.image"
+                <div
+                  v-for="template in templates"
+                  :key="template.name"
+                  class="flex-none w-[calc(25%-8px)] snap-start hover:scale-105 transition-all ease-in cursor-pointer"
+                  @click="goToRickRoll"
                 >
-                <div class="flex flex-col gap-1">
-                  <p class="font-semibold">
-                    {{ template.name }}
-                  </p>
-                  <p class="text-sm">
-                    {{ template.description }}
-                  </p>
+                  <img
+                    class="aspect-[2/1] object-cover rounded-2xl"
+                    :src="template.image"
+                  >
+                  <div class="flex flex-col gap-1">
+                    <p class="font-semibold">
+                      {{ template.name }}
+                    </p>
+                    <p class="text-sm">
+                      {{ template.description }}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -437,24 +466,30 @@ onBeforeMount(async () => {
             <p class="mb-6 text-xl font-semibold">
               Lihat Panduan Pembuatan Website
             </p>
-            <div class="grid grid-cols-4 gap-8">
+            <div class="relative overflow-auto pb-4">
               <div
-                v-for="guide in guides"
-                :key="guide.name"
-                class="flex flex-col gap-4 cursor-pointer hover:scale-105 transition-all ease-in"
-                @click="goToRickRoll"
+                class="flex gap-8 overflow-x-auto snap-x snap-mandatory px-8 pb-4"
+                @scroll="handleScroll2"
               >
-                <img
-                  class="aspect-[2/1] object-cover rounded-2xl"
-                  :src="guide.image"
+                <div
+                  v-for="guide in guides"
+                  :key="guide.name"
+                  class="flex-none w-[calc(25%-8px)] snap-start hover:scale-105 transition-all ease-in cursor-pointer"
+
+                  @click="goToRickRoll"
                 >
-                <div class="flex flex-col gap-1">
-                  <p class="font-semibold">
-                    {{ guide.name }}
-                  </p>
-                  <p class="text-sm">
-                    {{ guide.description }}
-                  </p>
+                  <img
+                    class="aspect-[2/1] object-cover rounded-2xl"
+                    :src="guide.image"
+                  >
+                  <div class="flex flex-col gap-1">
+                    <p class="font-semibold">
+                      {{ guide.name }}
+                    </p>
+                    <p class="text-sm">
+                      {{ guide.description }}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -569,6 +604,7 @@ onBeforeMount(async () => {
               v-for="website in tableWebsite"
               :key="website.name"
               class="flex flex-col hover:cursor-pointer hover:scale-105 transition-all ease-in"
+              @click="$router.push(`/builder/${website.blobPath.split('/').pop().split('.')[0]}`)"
             >
               <div class="bg-[#FDEAD5] p-6 rounded-t-2xl">
                 <p class="text-9xl text-[#85582E] text-center font-semibold">
@@ -581,6 +617,7 @@ onBeforeMount(async () => {
                 </p>
                 <p class="text-sm">
                   {{ website.description }}
+                  {{ website }}
                 </p>
               </div>
             </div>
@@ -1045,3 +1082,11 @@ onBeforeMount(async () => {
     </Dialog>
   </div>
 </template>
+
+<style>
+.scrollbar {
+  overflow-x: auto;
+  -ms-overflow-style: auto;
+  scrollbar-width: auto;
+}
+</style>

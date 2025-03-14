@@ -6,6 +6,8 @@ import type { subMenuAccordion } from '@/components/AccordionMenu.vue'
 
 import { useResize } from '~~/shared/utils/functions'
 
+const route = useRoute()
+
 const { width: leftWidth, startResize: startLeftResize } = useResize()
 const { width: rightWidth, startResize: startRightResize } = useResize(
   100,
@@ -19,27 +21,9 @@ const zoomStep = 0.05 // Zoom increment step
 
 const selectedComponent = ref<string>('')
 
-// // const nodes = ref([
-// //   {
-// //     key: '0',
-// //     label: 'Pages',
-// //     data: 'Documents Folder',
-// //     children: [
-// //       {
-// //         key: '0-0',
-// //         label: 'Page 1',
-// //         data: 'Work Folder',
-// //       },
-// //       {
-// //         key: '0-1',
-// //         label: 'Page 2',
-// //         data: 'Home Folder',
-// //       },
-// //     ],
-// //   },
-// // ])
 const containers = ref<ContainerAttributes[]>([])
 const activeContainerList = computed(() => {
+  // if (!Array.isArray(containers.value)) return []
   return containers.value.map((container, idx) => container.isSelected ? idx : '').filter(String)
 })
 const rightMenu = ref<subMenuAccordion[]>([
@@ -158,9 +142,36 @@ function onDragStart(component: string) {
   console.log('onDrag called selectedComponent', selectedComponent.value)
 }
 
-// // const addComponent = (sectionIndex: any, componentType: any) => {
-// //   sections.value[sectionIndex].components.push(componentMap[componentType])
-// // }
+async function readBuild() {
+  const result: any = await $fetch<any[]>('/api/web-build', {
+    method: 'GET',
+    params: {
+      builder: true,
+      uuid: route.params.uuid,
+    },
+  })
+  return JSON.parse(result)
+}
+async function updateBuild() {
+  const result: any = await $fetch('/api/web-build', {
+    method: 'PUT',
+    body: {
+      uuid: route.params.uuid,
+      jsonData: JSON.stringify(containers.value),
+    },
+  })
+  if (result) {
+    console.log('updateBuild', result)
+  }
+}
+
+watch(containers, async () => {
+  await updateBuild()
+})
+
+onBeforeMount(async () => {
+  containers.value = await readBuild()
+})
 
 // Attach event listeners
 onMounted(() => {

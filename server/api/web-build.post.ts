@@ -13,8 +13,6 @@ export default defineEventHandler(async (event) => {
     prefix: 'webbuild',
   });
 
-  console.log('blob', blob);
-
   if (blob.pathname) {
     const webBuildResult = await useDrizzle()
       .insert(webBuilds)

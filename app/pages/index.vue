@@ -9,31 +9,37 @@ const features = ref([
     icon: 'uil:window-grid',
     title: 'Template Bisnis Profesional',
     description: 'Pilih dari berbagai template desain modern yang mudah disesuaikan, siap untuk mempresentasikan bisnis Anda dengan cara yang menarik.',
+    image: '/images/template-4.png',
   },
   {
     icon: 'uil:pen',
     title: 'Desain yang Mudah Disesuaikan',
     description: 'Bangun website dengan mudah, tanpa memerlukan keahlian teknis atau desain. Sesuaikan setiap elemen sesuai dengan merek Anda.',
+    image: '/images/f90552fb4037c2f21cbeef375c0a97fa.png',
   },
   {
     icon: 'uil:laptop',
     title: 'Website Responsif',
     description: 'Website Anda akan tampil sempurna di perangkat apapun, baik desktop, tablet, atau smartphone, tanpa perlu khawatir tentang kompatibilitas.',
+    image: '/images/3832664de49a2b6db7615480fb770fc8.png',
   },
   {
     icon: 'uil:globe',
     title: 'SEO dan Integrasi Media Sosial',
     description: 'Optimalkan situs Anda agar mudah ditemukan di mesin pencari dengan alat SEO kami yang mudah digunakan. Integrasikan juga media sosial untuk mempermudah promosi bisnis Anda.',
+    image: '/images/49cd1df44622f5c2383d25ce80e59bfd.png',
   },
   {
     icon: 'uil:analytics',
     title: 'Laporan Analisis Pengunjung',
     description: 'Dapatkan wawasan mendalam tentang kinerja website Anda dengan alat analisis yang membantu Anda membuat keputusan bisnis yang lebih baik.',
+    image: '/images/da6b758f82a62655d960839401b49d04.png',
   },
   {
     icon: 'uil:headphones',
     title: 'Akses Konsultasi untuk UMKM',
     description: 'Butuh bantuan? Tim kami siap memberi saran dan solusi untuk membuat website yang efektif bagi bisnis Anda. Dapatkan konsultasi langsung dengan ahli kami kapan saja.',
+    image: '/images/4502d133ec6acc5cc68dd0a88fbcae8c.png',
   },
 ])
 const benefits = ref([
@@ -323,8 +329,17 @@ function scrollToSection(sectionId: string) {
           <div>
             <Button pt:root:class="!px-2 !py-1 !min-w-0">
               <NuxtLink
+                v-if="$auth.loggedIn"
                 class="font-semibold text-sm"
-                to="/builder"
+                to="/dashboard"
+              >
+                Buat Website-mu Sekarang
+              </NuxtLink>
+              <NuxtLink
+                v-else
+                class="font-semibold text-sm"
+                to="/api/login"
+                external
               >
                 Buat Website-mu Sekarang
               </NuxtLink>
@@ -334,7 +349,7 @@ function scrollToSection(sectionId: string) {
         <div class="mx-12">
           <img
             class="w-full rounded-t-2xl aspect-[3/1] object-cover"
-            src="/images/gavarnie.jpg"
+            src="/images/1a1836d6b2cc78abcfe3c7405489867c.png"
           >
         </div>
       </div>
@@ -363,8 +378,8 @@ function scrollToSection(sectionId: string) {
             <template #title>
               <div>
                 <img
-                  class="rounded-2xl"
-                  src="/images/gavarnie.jpg"
+                  class="rounded-2xl aspect-[3/2] object-cover"
+                  :src="feature.image"
                 >
               </div>
               <div class="mt-4 flex gap-4 items-center">
@@ -427,7 +442,7 @@ function scrollToSection(sectionId: string) {
           </div>
           <img
             class="aspect-[2/1] object-cover rounded-2xl"
-            src="/images/gavarnie.jpg"
+            src="/images/4e0faf0a6fef33b676f28a6f4b48779c.png"
           >
         </div>
       </div>
@@ -619,7 +634,7 @@ function scrollToSection(sectionId: string) {
           <div class="basis-1/2 lg:basis-1/3">
             <img
               class="aspect-[3/7] lg:aspect-[3/4] object-cover rounded-2xl"
-              src="/images/gavarnie.jpg"
+              src="/images/4502d133ec6acc5cc68dd0a88fbcae8c.png"
             >
           </div>
           <div class="basis-1/2 lg:basis-2/3 flex flex-col gap-4">
