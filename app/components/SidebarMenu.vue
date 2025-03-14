@@ -49,15 +49,18 @@ function emitActiveMenuItem(value: string) {
     <div
       :class="{
         'flex items-center gap-2 justify-between px-3': sidebarMode === 'expanded',
-        'flex p-4 flex-col items-center gap-4': sidebarMode === 'collapsed',
+        'flex p-2 flex-col items-center gap-4': sidebarMode === 'collapsed',
       }"
     >
-      <Icon
+      <img
         v-if="sidebarMode === 'expanded'"
-        name="uil:github"
-        class="w-6 h-6"
-      />
-      <p v-if="sidebarMode === 'expanded'">
+        src="/images/sedjak-logo.png"
+        class="w-8 h-8"
+      >
+      <p
+        v-if="sidebarMode === 'expanded'"
+        class="font-semibold"
+      >
         Sedjak
       </p>
       <Button
@@ -76,11 +79,11 @@ function emitActiveMenuItem(value: string) {
           class="w-6 h-6"
         />
       </Button>
-      <Icon
+      <img
         v-if="sidebarMode === 'collapsed'"
-        name="uil:github"
-        class="w-6 h-6"
-      />
+        src="/images/sedjak-logo.png"
+        class="w-8 h-8"
+      >
     </div>
     <div
       id="sidebar-menu-items"
