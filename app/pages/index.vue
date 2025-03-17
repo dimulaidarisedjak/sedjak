@@ -665,6 +665,7 @@ function scrollToSection(sectionId: string) {
         @scroll-to="scrollToSection"
       />
     </div>
+    <ChatBot />
   </div>
 </template>
 
