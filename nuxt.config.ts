@@ -49,6 +49,11 @@ export default defineNuxtConfig({
     compatibilityVersion: 4,
   },
   compatibilityDate: '2024-04-03',
+  nitro: {
+    experimental: {
+      openAPI: true,
+    },
+  },
   hub: {
     database: true,
     blob: true,
