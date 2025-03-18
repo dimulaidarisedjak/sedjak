@@ -2,7 +2,6 @@ import OpenAI from 'openai';
 
 export default defineEventHandler(async (event) => {
   console.log('ini env', process.env.CHATBOT_API_KEY);
-  console.log('blablabla');
   const client = new OpenAI({
     apiKey: process.env.CHATBOT_API_KEY,
   });
