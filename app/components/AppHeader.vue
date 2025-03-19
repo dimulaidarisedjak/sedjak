@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 const emits = defineEmits(['scrollTo'])
-const colorMode = useColorMode()
-const isDark = computed({
-  get() {
-    return colorMode.value === 'dark'
-  },
-  set() {
-    colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
-  },
-})
+// const colorMode = useColorMode()
+// const isDark = computed({
+//   get() {
+//     return colorMode.value === 'dark'
+//   },
+//   set() {
+//     colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
+//   },
+// })
 const items = ref([
   {
     label: 'Fitur',
@@ -78,7 +78,7 @@ function toggleUserMenu($event: any) {
       <template #item="{ item, props }">
         <p
           v-ripple
-          class="cursor-pointer px-2 py-1"
+          class="cursor-pointer px-2 py-1 hover:scale-105 transition-all"
           v-bind="props"
           @click="emits('scrollTo', item.id)"
         >
@@ -87,11 +87,11 @@ function toggleUserMenu($event: any) {
       </template>
       <template #end>
         <div class="flex gap-2 items-center">
-          <Icon
+          <!-- <Icon
             :name="isDark ? 'uil:moon' : 'uil:sun'"
             class="w-6 h-6 cursor-pointer hover:scale-110"
             @click="isDark = !isDark"
-          />
+          /> -->
           <div
             v-if="!$auth.loggedIn"
             class="flex gap-2"

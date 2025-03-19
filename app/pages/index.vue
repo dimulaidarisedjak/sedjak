@@ -327,7 +327,7 @@ function scrollToSection(sectionId: string) {
             ideal untuk UMKM yang ingin tampil profesional di dunia digital.
           </p>
           <div>
-            <Button pt:root:class="!px-2 !py-1 !min-w-0">
+            <Button pt:root:class="!px-2 !py-1 !min-w-0 hover:scale-105 !transition-all">
               <NuxtLink
                 v-if="$auth.loggedIn"
                 class="font-semibold text-sm"
@@ -466,6 +466,7 @@ function scrollToSection(sectionId: string) {
           <Card
             v-for="pricing in pricings"
             :key="pricing.title"
+            class="hover:scale-105 transition-all"
             :class="{
               '!bg-[#FDEAD5] !text-black': !pricing.highlight,
               '!bg-[#733015] border border-white !text-white': pricing.highlight,
@@ -517,7 +518,7 @@ function scrollToSection(sectionId: string) {
 
                 <!-- Button container -->
                 <div class="mt-auto pt-4">
-                  <Button pt:root:class="w-full !px-2 !py-1 !min-w-0 !bg-white !text-black !border-white">
+                  <Button pt:root:class="w-full !px-2 !py-1 !min-w-0 !bg-white !text-black !border-white hover:scale-105 !transition-all">
                     <NuxtLink
                       class="w-full font-semibold text-sm"
                     >
@@ -530,7 +531,7 @@ function scrollToSection(sectionId: string) {
           </Card>
         </div>
         <div class="flex justify-center mt-12">
-          <Button pt:root:class="!px-2 !py-1 !min-w-0 !bg-white !text-black !border-white">
+          <Button pt:root:class="!px-2 !py-1 !min-w-0 !bg-white !text-black !border-white hover:scale-105 !transition-all">
             <NuxtLink
               class="font-semibold text-sm"
             >
