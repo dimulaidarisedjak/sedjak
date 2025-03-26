@@ -40,6 +40,7 @@ function onMouseDown(event: MouseEvent) {
       class="absolute inset-0 flex items-center justify-center font-semibold pointer-events-none"
     >
       {{ model.name }}
+      {{ model.width }} {{ model.height }}
     </span>
     <slot />
   </div>

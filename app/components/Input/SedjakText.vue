@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 const props = defineProps({
   modelValue: {
-    type: Number,
+    type: String,
     required: true,
   },
 })
@@ -13,7 +13,7 @@ watch(modelValue, () => emits('update:modelValue', modelValue.value))
 
 <template>
   <div>
-    <InputGroup>
+    <InputGroup class="flex items-center">
       <InputGroupAddon
         v-if="$slots.addon"
         :pt="{
@@ -24,12 +24,10 @@ watch(modelValue, () => emits('update:modelValue', modelValue.value))
       >
         <slot name="addon" />
       </InputGroupAddon>
-      <InputNumber
+      <InputText
         v-model="modelValue"
         :pt="{
-          pcInputText: {
-            root: '!px-2 !py-1 !text-xs !w-full',
-          },
+          root: '!px-2 !py-1 !text-xs !w-full',
         }"
       />
       <InputGroupAddon

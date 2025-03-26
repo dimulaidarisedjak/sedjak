@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { ContainerAttributes } from '~/components/CanvasObject.vue'
-import type { subMenuAccordion } from '@/components/AccordionMenu.vue'
 
 import { useResize } from '~~/shared/utils/functions'
 
@@ -25,16 +24,11 @@ const containersOnDB = ref<ContainerAttributes[]>([])
 const activeContainerList = computed(() => {
   return containers.value.map((container, idx) => container.isSelected ? idx : '').filter(String)
 })
-const rightMenu = ref<subMenuAccordion[]>([
-  {
-    title: 'Container Attributes',
-    value: '0',
-  },
-])
 
 const canvasRef = ref<any>(null)
 const contentRef = ref<any>(null)
 const componentListActive = ref<string[]>(['0', '1'])
+const rightMenuListActive = ref<string[]>(['0', '1'])
 // Zoom function (Cursor-centered)
 const updateZoom = (delta: any, event: any = null) => {
   const newZoom = Math.min(maxZoom, Math.max(minZoom, zoomLevel.value + delta))
@@ -108,6 +102,7 @@ function addSubMenu(subMenuValue: string) {
       position: { x: 0, y: 0 },
       isSelected: false,
       component: '',
+      properties: {},
     })
   }
 }
@@ -205,11 +200,31 @@ onUnmounted(() => {
     <!-- Left Content (Vertical Scroll Only) -->
     <div
       id="left-content"
-      class="bg-neutral-200 dark:bg-[#18181B] relative overflow-y-auto"
+      class="bg-neutral-200 relative overflow-y-auto"
       :style="{ width: leftWidth + 'px', height: '100vh' }"
     >
+      <div class="py-2 px-2">
+        <Button
+          class="w-full"
+          @click="() => {
+            updateBuild()
+            navigateTo('/dashboard')
+          }"
+        >
+          <div class="flex">
+            <Icon
+              class="w-6 h-6"
+              name="uil:angle-left"
+            />
+            <p>
+              Kembali ke Dasbor
+            </p>
+          </div>
+        </Button>
+      </div>
       <Accordion
         v-model:value="componentListActive"
+        class="px-2"
         multiple
       >
         <AccordionPanel value="0">
@@ -270,39 +285,136 @@ onUnmounted(() => {
     <div
       id="canvas"
       ref="canvasRef"
-      class="bg-[#F5F5F5] grid flex-1 w-content overflow-auto"
+      class="bg-[#F5F5F5] grid flex-1 w-content overflow-auto p-8"
     >
-      <EditorCanvas
-        ref="contentRef"
-        v-model="containers"
-        v-model:selected-component="selectedComponent"
-        v-model:canvas-ref="canvasRef"
-        class="m-8 block mx-auto relative"
-        :style="{
-          width: `${4000 * zoomLevel}px`,
-          height: `${4000 * zoomLevel}px`,
-        }"
-        :zoom-level="zoomLevel"
-        @click="toggleContainerIndex"
-      />
+      <div
+        class="flex justify-center"
+      >
+        <EditorCanvas
+          ref="contentRef"
+          v-model="containers"
+          v-model:selected-component="selectedComponent"
+          v-model:canvas-ref="canvasRef"
+          v-model:content-ref="contentRef"
+
+          class="relative"
+          :style="{
+            width: `${4000 * zoomLevel}px`,
+            height: `${4000 * zoomLevel}px`,
+          }"
+          :zoom-level="zoomLevel"
+          @click="toggleContainerIndex"
+        />
+      </div>
     </div>
 
     <!-- Right Content (Vertical Scroll Only) -->
     <div
       id="right-content"
-      class="bg-neutral-200 dark:bg-[#18181B] relative overflow-y-auto justify-between"
+      class="bg-neutral-200 relative overflow-y-auto justify-between"
       :style="{ width: rightWidth + 'px', height: '100vh' }"
     >
       <div class="h-full flex flex-col">
-        <div class="flex justify-end py-2 px-4">
+        <div class="flex justify-end py-2 px-2">
           <Button
             class="w-full"
             label="Simpan"
-            :disabled="!differentData"
             @click="updateBuild"
           />
         </div>
-        <AccordionMenu
+        <Accordion
+          v-model:value="rightMenuListActive"
+          class="px-2"
+          multiple
+        >
+          <AccordionPanel value="0">
+            <AccordionHeader pt:toggleicon="!hidden">
+              <div class="w-full flex items-center justify-between">
+                <div class="flex gap-4">
+                  <Icon
+                    class="w-6 h-6 mr-2"
+                    name="uil:angle-down"
+                  />
+                  <p>Attributes</p>
+                </div>
+              </div>
+            </AccordionHeader>
+            <AccordionContent>
+              <div
+                v-if="activeContainerList.length > 0"
+                class="flex flex-col gap-4"
+              >
+                <Panel
+                  v-for="value in activeContainerList"
+                  :key="'container-' + value"
+                  :header="(containers[value as any] as ContainerAttributes).name"
+                  toggleable
+                  :pt="{
+                    pcToggleButton: { root: '!min-w-0 !w-8 !h-8' },
+                    header: { class: 'flex items-center !text-sm !font-bold' },
+                  }"
+                >
+                  <template #toggleicon="{ collapsed }">
+                    <Icon
+                      v-if="collapsed"
+                      class="w-6 h-6"
+                      name="uil:angle-up"
+                    />
+                    <Icon
+                      v-else
+                      class="w-6 h-6"
+                      name="uil:angle-down"
+                    />
+                  </template>
+                  <ContainerSubMenu
+                    v-model="(containers[value as any] as ContainerAttributes)"
+                  />
+                </Panel>
+              </div>
+              <p v-else>
+                Tidak ada kontainer yang dipilih.
+              </p>
+            </AccordionContent>
+          </AccordionPanel>
+          <AccordionPanel value="1">
+            <AccordionHeader pt:toggleicon="!hidden">
+              <div class="w-full flex items-center justify-between">
+                <div class="flex gap-4">
+                  <Icon
+                    class="w-6 h-6 mr-2"
+                    name="uil:angle-down"
+                  />
+                  <p>Properties</p>
+                </div>
+              </div>
+            </AccordionHeader>
+            <AccordionContent>
+              <div class="flex flex-col gap-4">
+                <Panel
+                  v-for="value in activeContainerList"
+                  :key="'container-' + value"
+                  toggleable
+                  :header="(containers[value as any] as ContainerAttributes).name"
+                >
+                  <template #toggleicon="{ collapsed }">
+                    <Icon
+                      v-if="collapsed"
+                      class="w-6 h-6"
+                      name="uil:angle-up"
+                    />
+                    <Icon
+                      v-else
+                      class="w-6 h-6"
+                      name="uil:angle-down"
+                    />
+                  </template>
+                  <ComponentPropertiesSubMenu v-model="(containers[value as any] as ContainerAttributes)" />
+                </Panel>
+              </div>
+            </AccordionContent>
+          </AccordionPanel>
+        </Accordion>
+        <!-- <AccordionMenu
           v-model="rightMenu"
           class="flex-1"
           @add="addSubMenu"
@@ -343,7 +455,7 @@ onUnmounted(() => {
               No Container Selected
             </p>
           </template>
-        </AccordionMenu>
+        </AccordionMenu> -->
         <div class="flex items-center p-2">
           <Icon
             class="ml-2 w-4 h-4"

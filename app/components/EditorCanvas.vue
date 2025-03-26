@@ -7,6 +7,7 @@ const selectedComponent = defineModel<string>('selectedComponent', {
   required: true,
 })
 const canvasRef = defineModel<HTMLElement>('canvasRef', { required: true })
+const contentRef = defineModel<HTMLElement>('contentRef', { required: true })
 const props = defineProps({
   zoomLevel: {
     type: Number,
@@ -25,7 +26,7 @@ const emits = defineEmits(['click'])
         v-model="(model[index] as ContainerAttributes)"
         v-model:selected-component="selectedComponent"
         v-model:canvas-ref="canvasRef"
-        class="absolute"
+        v-model:content-ref="contentRef"
         :zoom-level="props.zoomLevel"
         :containers="model"
         @click:single="emits('click', { type: 'single', index })"

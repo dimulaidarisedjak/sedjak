@@ -55,11 +55,13 @@ function emitActiveMenuItem(value: string) {
       <img
         v-if="sidebarMode === 'expanded'"
         src="/images/sedjak-logo.png"
-        class="w-8 h-8"
+        class="w-8 h-8 hover:cursor-pointer hover:scale-105 transition-all"
+        @click="$router.push('/')"
       >
       <p
         v-if="sidebarMode === 'expanded'"
-        class="font-semibold"
+        class="font-semibold hover:cursor-pointer hover:scale-105 transition-all"
+        @click="$router.push('/')"
       >
         Sedjak
       </p>

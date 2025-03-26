@@ -7,5 +7,6 @@ export default withNuxt({
     '@stylistic/operator-linebreak': 'off',
     '@stylistic/brace-style': 'off',
     '@stylistic/member-delimiter-style': 'off',
+    '@stylistic/indent-binary-ops': 'off',
   },
 });

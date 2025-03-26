@@ -10,7 +10,7 @@ export default defineNuxtConfig({
     '@nuxtjs/kinde',
     '@nuxtjs/tailwindcss',
     'nuxt-security',
-    '@nuxtjs/color-mode',
+    // '@nuxtjs/color-mode',
     '@primevue/nuxt-module',
     '@nuxt/icon',
     'nuxt-lodash',
