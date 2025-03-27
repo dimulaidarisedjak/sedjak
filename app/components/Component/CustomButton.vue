@@ -34,7 +34,12 @@ function onMouseDown(event: MouseEvent) {
   >
     <Button
       class="w-full h-full"
-      label="Label"
+      :label="model.properties.label"
+      :style="{
+        fontSize: model.properties.font_size ? `${model.properties.font_size}px` : '',
+        color: model.properties.color ? `#${model.properties.color}` : '',
+      }"
+      v-bind="model.properties.link ? { href: model.properties.link, target: '_blank', rel: 'noopener' } : {}"
     />
   </div>
 </template>

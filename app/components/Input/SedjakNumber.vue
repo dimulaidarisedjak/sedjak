@@ -1,14 +1,5 @@
 <script lang="ts" setup>
-const props = defineProps({
-  modelValue: {
-    type: Number,
-    required: true,
-  },
-})
-const emits = defineEmits(['update:modelValue'])
-const modelValue = ref(props.modelValue)
-
-watch(modelValue, () => emits('update:modelValue', modelValue.value))
+const model = defineModel<number>('modelValue', { required: true })
 </script>
 
 <template>
@@ -25,7 +16,7 @@ watch(modelValue, () => emits('update:modelValue', modelValue.value))
         <slot name="addon" />
       </InputGroupAddon>
       <InputNumber
-        v-model="modelValue"
+        v-model="model"
         :pt="{
           pcInputText: {
             root: '!px-2 !py-1 !text-xs !w-full',

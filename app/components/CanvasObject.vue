@@ -29,6 +29,10 @@ const props = defineProps({
     type: Array as PropType<ContainerAttributes[]>,
     required: true,
   },
+  images: {
+    type: Array,
+    required: true,
+  },
 })
 const emits = defineEmits([
   'update:isSelected',
@@ -52,8 +56,37 @@ function onDrop() {
     model.value.properties = {
       src: '',
     }
+  } else if (model.value.component === 'button') {
+    model.value.properties = {
+      label: '',
+      color: '000000',
+      font_size: 12,
+      link: '',
+    }
+  } else if (model.value.component === 'divider') {
+    model.value.properties = {
+      color: '000000',
+      thickness: 1,
+    }
+  } else if (model.value.component === 'card') {
+    model.value.properties = {
+      title: '',
+      content: '',
+      color: '000000',
+      image_src: '',
+      image_position: 'left',
+    }
   }
   selectedComponent.value = ''
+}
+
+function getBlobURL(filename: string) {
+  const image: any = props.images.find((image: any) => image.pathname.split('/')[1] === filename)
+  if (image) {
+    return image.url
+  } else {
+    return ''
+  }
 }
 </script>
 
@@ -73,21 +106,37 @@ function onDrop() {
         v-if="model.component === 'card'"
         v-model="model"
         v-model:is-hovered="isHovered"
-        :class="{ 'bg-blue-100': isHovered }"
+        :pt:root:style="{ backgroundColor: '#' + model.properties.color }"
         :zoom-level="props.zoomLevel"
         @on-mouse-down="startDrag"
         @dragover.prevent
         @drop="onDrop"
       >
         <template #title>
-          Card
+          {{ model.properties.title }}
         </template>
         <template #content>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-            voluptatum, quae dolores voluptate quibusdam fugit? Consequuntur
-            voluptatum, quae dolores voluptate quibusdam fugit?
-          </p>
+          <div
+            :class="{
+              'flex gap-8': true,
+              'flex-row': model.properties.image_position === 'left' || model.properties.image_position === 'right',
+              'flex-col': model.properties.image_position === 'top' || model.properties.image_position === 'bottom',
+            }"
+          >
+            <img
+              v-if="model.properties.image_src && (model.properties.image_position === 'left' || model.properties.image_position === 'top')"
+              :src="getBlobURL(model.properties.image_src)"
+              class="w-1/2 h-1/2"
+            >
+            <p>
+              {{ model.properties.content }}
+            </p>
+            <img
+              v-if="model.properties.image_src && (model.properties.image_position === 'right' || model.properties.image_position === 'bottom')"
+              :src="getBlobURL(model.properties.image_src)"
+              class="w-1/2 h-1/2"
+            >
+          </div>
         </template>
       </ComponentCustomCard>
       <ComponentCustomText
@@ -110,12 +159,11 @@ function onDrop() {
         v-model:is-hovered="isHovered"
         :class="{ 'bg-blue-100': isHovered }"
         :zoom-level="props.zoomLevel"
+        :images="props.images"
         @on-mouse-down="startDrag"
         @dragover.prevent
         @drop="onDrop"
-      >
-        <p>Maklo Gaming</p>
-      </ComponentCustomImage>
+      />
       <ComponentCustomButton
         v-if="model.component === 'button'"
         v-model="model"

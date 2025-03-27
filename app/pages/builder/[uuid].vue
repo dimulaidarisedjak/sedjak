@@ -4,6 +4,7 @@ import type { ContainerAttributes } from '~/components/CanvasObject.vue'
 import { useResize } from '~~/shared/utils/functions'
 
 const route = useRoute()
+const toast = useToast()
 
 const { width: leftWidth, startResize: startLeftResize } = useResize()
 const { width: rightWidth, startResize: startRightResize } = useResize(
@@ -24,11 +25,16 @@ const containersOnDB = ref<ContainerAttributes[]>([])
 const activeContainerList = computed(() => {
   return containers.value.map((container, idx) => container.isSelected ? idx : '').filter(String)
 })
+const images = ref<any[]>([])
+const selectedContainerProperties = ref<any>(null)
 
 const canvasRef = ref<any>(null)
 const contentRef = ref<any>(null)
 const componentListActive = ref<string[]>(['0', '1'])
 const rightMenuListActive = ref<string[]>(['0', '1'])
+
+const visibleDialogSelectImage = ref(false)
+
 // Zoom function (Cursor-centered)
 const updateZoom = (delta: any, event: any = null) => {
   const newZoom = Math.min(maxZoom, Math.max(minZoom, zoomLevel.value + delta))
@@ -136,6 +142,14 @@ function onDragStart(component: string) {
   console.log('onDrag called selectedComponent', selectedComponent.value)
 }
 
+function determineProperties(component: string, pathname: string) {
+  if (component === 'image') {
+    (containers.value[selectedContainerProperties.value] as any).properties.src = pathname.split('/')[1]
+  } else {
+    (containers.value[selectedContainerProperties.value] as any).properties.image_src = pathname.split('/')[1]
+  }
+}
+
 async function readBuild() {
   const result: any = await $fetch<any[]>('/api/web-build', {
     method: 'GET',
@@ -158,6 +172,21 @@ async function updateBuild() {
     containersOnDB.value = [...containers.value]
   }
 }
+async function readImage() {
+  const result: any = await $fetch('/api/image', {
+    method: 'GET',
+  })
+  return result.blobs
+}
+async function createImage() {
+  images.value = await readImage()
+
+  toast.add({
+    severity: 'success',
+    summary: 'Gambar berhasil di-upload',
+    life: 10000,
+  })
+}
 
 watch(containers, () => {
   if (!isEqual(containers.value, containersOnDB.value)) {
@@ -175,8 +204,21 @@ watch(containersOnDB, () => {
   }
 })
 
+watch(images, async () => {
+  if (images.value.length > 0) {
+    for (const image of images.value) {
+      const blob: any = await $fetch(`/api/image/${image.pathname.split('/')[1]}`, {
+        method: 'GET',
+      })
+
+      image.url = URL.createObjectURL(blob)
+    }
+  }
+})
+
 onBeforeMount(async () => {
   containers.value = await readBuild()
+  images.value = await readImage()
   containersOnDB.value = [...containers.value]
 })
 
@@ -192,6 +234,12 @@ onUnmounted(() => {
   document.removeEventListener('wheel', handleWheelZoom)
   document.removeEventListener('keydown', handleKeyZoom)
   document.removeEventListener('keydown', preventBrowserZoom)
+
+  images.value.forEach((image) => {
+    if (image.url) {
+      URL.revokeObjectURL(image.url)
+    }
+  })
 })
 </script>
 
@@ -303,6 +351,7 @@ onUnmounted(() => {
             height: `${4000 * zoomLevel}px`,
           }"
           :zoom-level="zoomLevel"
+          :images="images"
           @click="toggleContainerIndex"
         />
       </div>
@@ -408,54 +457,18 @@ onUnmounted(() => {
                       name="uil:angle-down"
                     />
                   </template>
-                  <ComponentPropertiesSubMenu v-model="(containers[value as any] as ContainerAttributes)" />
+                  <ComponentPropertiesSubMenu
+                    v-model="(containers[value as any] as ContainerAttributes)"
+                    @select-image="() => {
+                      selectedContainerProperties = value
+                      visibleDialogSelectImage = true
+                    }"
+                  />
                 </Panel>
               </div>
             </AccordionContent>
           </AccordionPanel>
         </Accordion>
-        <!-- <AccordionMenu
-          v-model="rightMenu"
-          class="flex-1"
-          @add="addSubMenu"
-        >
-          <template #0>
-            <div
-              v-if="activeContainerList.length > 0"
-              class="flex flex-col gap-4"
-            >
-              <Panel
-                v-for="value in activeContainerList"
-                :key="'container-' + value"
-                :header="(containers[value as any] as ContainerAttributes).name"
-                toggleable
-                :pt="{
-                  pcToggleButton: { root: '!min-w-0 !w-8 !h-8' },
-                  header: { class: 'flex items-center !text-sm !font-bold' },
-                }"
-              >
-                <template #toggleicon="{ collapsed }">
-                  <Icon
-                    v-if="collapsed"
-                    class="w-6 h-6"
-                    name="uil:angle-up"
-                  />
-                  <Icon
-                    v-else
-                    class="w-6 h-6"
-                    name="uil:angle-down"
-                  />
-                </template>
-                <ContainerSubMenu
-                  v-model="(containers[value as any] as ContainerAttributes)"
-                />
-              </Panel>
-            </div>
-            <p v-else>
-              No Container Selected
-            </p>
-          </template>
-        </AccordionMenu> -->
         <div class="flex items-center p-2">
           <Icon
             class="ml-2 w-4 h-4"
@@ -472,5 +485,53 @@ onUnmounted(() => {
         @mousedown="startRightResize"
       />
     </div>
+
+    <Dialog
+      v-model:visible="visibleDialogSelectImage"
+      class="w-1/2"
+    >
+      <template #header>
+        Pilih Gambar
+      </template>
+      <DataView
+        :value="images"
+        data-key="id"
+      >
+        <template #list="slotProps">
+          <div class="w-full h-full grid grid-cols-3 gap-4">
+            <div
+              v-for="image in slotProps.items"
+              :key="image.pathname"
+            >
+              <img
+                :src="image.url"
+                class="w-full h-full object-cover hover:scale-105 transition-all cursor-pointer"
+                @click="determineProperties((containers[selectedContainerProperties] as any).component, image.pathname)"
+              >
+            </div>
+          </div>
+        </template>
+      </DataView>
+      <template #footer>
+        <div class="flex gap-4 justify-between items-center">
+          <FileUpload
+            mode="basic"
+            name="image"
+            accept="image/*"
+            :max-file-size="5000000"
+            :auto="true"
+            url="/api/image"
+            choose-label="Upload Gambar"
+            @upload="createImage"
+          />
+          <Button
+            label="Pilih"
+            @click="visibleDialogSelectImage = false"
+          />
+        </div>
+      </template>
+    </Dialog>
+
+    <Toast />
   </div>
 </template>

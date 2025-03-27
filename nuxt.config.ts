@@ -123,6 +123,7 @@ export default defineNuxtConfig({
         'img-src': [
           "'self'",
           'data:',
+          'blob:',
           'https://avatars.githubusercontent.com',
           'https://static-cdn.jtvnw.net/',
         ],

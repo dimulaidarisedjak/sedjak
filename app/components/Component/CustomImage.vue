@@ -8,11 +8,23 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  images: {
+    type: Array,
+    required: true,
+  },
 })
 const emits = defineEmits(['onMouseDown'])
 
 function onMouseDown(event: MouseEvent) {
   emits('onMouseDown', event)
+}
+function getBlobURL(filename: string) {
+  const image: any = props.images.find((image: any) => image.pathname.split('/')[1] === filename)
+  if (image) {
+    return image.url
+  } else {
+    return ''
+  }
 }
 </script>
 
@@ -34,7 +46,7 @@ function onMouseDown(event: MouseEvent) {
   >
     <img
       class="w-full h-full"
-      src="/images/gavarnie.jpg"
+      :src="getBlobURL(model.properties.src)"
     >
   </div>
 </template>

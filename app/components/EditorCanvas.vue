@@ -13,6 +13,10 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  images: {
+    type: Array,
+    required: true,
+  },
 })
 const emits = defineEmits(['click'])
 </script>
@@ -29,6 +33,7 @@ const emits = defineEmits(['click'])
         v-model:content-ref="contentRef"
         :zoom-level="props.zoomLevel"
         :containers="model"
+        :images="props.images"
         @click:single="emits('click', { type: 'single', index })"
         @click:multiple="emits('click', { type: 'multiple', index })"
         @dragover.prevent

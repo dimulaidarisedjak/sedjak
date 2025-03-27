@@ -33,7 +33,12 @@ function onMouseDown(event: MouseEvent) {
     @mouseleave="isHovered = false"
   >
     <Divider
-      class="w-full h-full"
+      class="w-full h-full before:!border-0 before:!content-none"
+      pt:root:class="!m-0 !p-0"
+      :style="{
+        backgroundColor: model.properties.color ? `#${model.properties.color}` : '',
+        height: model.properties.thickness ? `${model.properties.thickness}px` : '',
+      }"
     />
   </div>
 </template>

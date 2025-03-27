@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useAttrs, mergeProps, computed } from 'vue'
 import type { ContainerAttributes } from '~/components/CanvasObject.vue'
 
 const model = defineModel<ContainerAttributes>({ required: true })
@@ -14,12 +15,16 @@ const emits = defineEmits(['onMouseDown'])
 function onMouseDown(event: MouseEvent) {
   emits('onMouseDown', event)
 }
+
+const attrs = useAttrs()
+
+// Make ptRootStyle reactive by using computed()
+const ptRootStyle = computed(() => attrs['pt:root:style'] || {})
 </script>
 
 <template>
   <div
-    class="absolute transition-all flex items-center justify-center"
-
+    v-bind="mergeProps(attrs, { class: 'absolute transition-all flex items-center justify-center' })"
     :style="{
       width: model.width + 'px',
       height: model.height + 'px',
@@ -34,6 +39,7 @@ function onMouseDown(event: MouseEvent) {
   >
     <Card
       class="w-full h-full"
+      :style="ptRootStyle"
     >
       <template #title>
         <slot name="title" />
