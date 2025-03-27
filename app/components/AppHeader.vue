@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+const { $viewport } = useNuxtApp()
+
 const emits = defineEmits(['scrollTo'])
 // const colorMode = useColorMode()
 // const isDark = computed({
@@ -122,10 +124,16 @@ function toggleUserMenu($event: any) {
             v-else
             class="flex text-sm gap-2 items-center"
           >
-            <p class="font-medium">
+            <p
+              v-if="$viewport.isGreaterThan('sm')"
+              class="font-medium"
+            >
               Halo,
             </p>
-            <p class="font-bold">
+            <p
+              v-if="$viewport.isGreaterThan('sm')"
+              class="font-bold"
+            >
               {{ $auth.user.given_name }}
             </p>
             <Button

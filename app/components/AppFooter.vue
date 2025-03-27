@@ -1,11 +1,12 @@
 <script lang="ts" setup>
+const { $viewport } = useNuxtApp()
 const emits = defineEmits(['scrollTo'])
 </script>
 
 <template>
   <div class="p-12 bg-[#85582E] flex justify-between">
     <div class="flex flex-col justify-between text-white dark:text-gray-300">
-      <div class="w-[300px]">
+      <div class="md:w-[300px]">
         <div class="flex items-center gap-4 mb-4">
           <img
             src="/images/sedjak-logo.png"
@@ -19,7 +20,10 @@ const emits = defineEmits(['scrollTo'])
       </div>
       <p>Copyright 2024 Sedjak, All rights reserved.</p>
     </div>
-    <div class="flex gap-20 text-white dark:text-gray-300">
+    <div
+      v-if="$viewport.isGreaterThan('sm')"
+      class="flex gap-20 text-white dark:text-gray-300"
+    >
       <div class="flex flex-col justify-between">
         <div class="flex flex-col gap-2">
           <p class="mb-2 font-semibold">

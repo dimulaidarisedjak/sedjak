@@ -14,12 +14,19 @@ export default defineNuxtConfig({
     '@primevue/nuxt-module',
     '@nuxt/icon',
     'nuxt-lodash',
+    'nuxt-viewport',
   ],
   devtools: { enabled: true },
   runtimeConfig: {
     app: {
       name: 'Sedjak',
       url: 'https://sedjak.nuxt.dev',
+      head: {
+        title: 'Sedjak',
+        meta: [
+          { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        ],
+      },
     },
     mail: {
       key: '',
@@ -141,5 +148,13 @@ export default defineNuxtConfig({
     cssPath: '~/assets/css/tailwind.css',
     exposeConfig: false,
     viewer: true,
+  },
+  viewport: {
+    breakpoints: {
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+    },
   },
 });

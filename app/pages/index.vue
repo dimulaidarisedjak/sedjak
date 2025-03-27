@@ -300,7 +300,7 @@ function scrollToSection(sectionId: string) {
 </script>
 
 <template>
-  <div class="">
+  <div>
     <div class="bg-[#E8D1A7]">
       <AppHeader
         class="pt-12 px-12"
@@ -315,8 +315,8 @@ function scrollToSection(sectionId: string) {
         class="flex flex-col gap-8 items-center"
         style="background-image: linear-gradient(to bottom, #E8D1A7, #A77756);"
       >
-        <div class="my-12 flex flex-col gap-8 items-center">
-          <p class="font-bold text-4xl/[56px] text-center ">
+        <div class="py-12 px-8 md:px-12 flex flex-col gap-8 items-center">
+          <p class="font-bold md:text-4xl/[56px] text-xl/[36px] text-center ">
             Bangun Website Profesional Anda
             <br>
             dengan Mudah bersama Sedjak
@@ -357,8 +357,8 @@ function scrollToSection(sectionId: string) {
         id="home-features"
         style="background-image: radial-gradient(#A77756 5%, #E8D1A7 60%);"
       >
-        <div class="py-12 flex flex-col gap-8 items-center">
-          <p class="font-bold text-4xl/[56px] text-center ">
+        <div class="py-12 px-8 md:px-12 flex flex-col gap-8 items-center">
+          <p class="font-bold md:text-4xl/[56px] text-xl/[36px] text-center ">
             Fitur yang Tersedia untuk Memudahkan UMKM
             <br>
             dalam Membangun Website
@@ -369,7 +369,14 @@ function scrollToSection(sectionId: string) {
             untuk membuat website yang sesuai dengan kebutuhan bisnis Anda.
           </p>
         </div>
-        <div class="grid grid-cols-3 sm:px-[6rem] md:px-[10rem] lg:gap-12 px-[12rem]">
+        <div
+          :class="[
+            'grid grid-cols-1 px-[3rem] gap-4',
+            'sm:grid-cols-2 sm:px-[4rem] sm:gap-6',
+            'md:grid-cols-3 md:px-[6rem] md:gap-8',
+            'lg:grid-cols-3 lg:px-[12rem] lg:gap-12',
+          ]"
+        >
           <Card
             v-for="feature in features"
             :key="feature.title"
@@ -401,8 +408,8 @@ function scrollToSection(sectionId: string) {
         id="home-benefits"
         class="bg-[#E8D1A7]"
       >
-        <div class="py-12 flex flex-col gap-8 items-center">
-          <p class="font-bold text-4xl/[56px] text-center ">
+        <div class="py-12 px-8 flex flex-col gap-8 items-center">
+          <p class="font-bold md:text-4xl/[56px] text-xl/[36px] text-center ">
             Raih Penjualan Lebih Tinggi
             <br>
             dengan menggunakan Sedjak untuk Bisnis Anda
@@ -413,15 +420,25 @@ function scrollToSection(sectionId: string) {
             Sedjak memberi Anda semua yang Anda butuhkan untuk membangun website yang profesional.
           </p>
         </div>
-        <div class="px-12 h-[480px] flex justify-between gap-12">
-          <div class="flex flex-col justify-between">
+        <div
+          :class="[
+            'px-12 md:h-[980px] flex flex-col justify-between gap-4 md:gap-12',
+            'lg:h-[520px] lg:flex-row',
+          ]"
+        >
+          <div
+            :class="[
+              'flex flex-col justify-between gap-4 md:gap-12',
+              'lg:flex-col',
+            ]"
+          >
             <Card
               v-for="benefit in benefits"
               :key="benefit.title"
               class="flex items-center my-4 !bg-[#FDEAD5]"
             >
               <template #content>
-                <div class="flex gap-4 items-center">
+                <div class="flex gap-4 lg:items-center items-start">
                   <div class="pt-2 px-2 pb-[0.5px] bg-white rounded-2xl">
                     <Icon
                       :name="benefit.icon"
@@ -450,8 +467,8 @@ function scrollToSection(sectionId: string) {
         id="home-pricing"
         style="background-image: linear-gradient(to bottom, #E8D1A7, #85582E);"
       >
-        <div class="py-12 flex flex-col gap-8 items-center">
-          <p class="font-bold text-4xl/[56px] text-center ">
+        <div class="py-12 px-8 flex flex-col gap-8 items-center">
+          <p class="font-bold md:text-4xl/[56px] text-xl/[36px] text-center ">
             Paket Harga Sedjak
             <br>
             Sesuai dengan Kebutuhan Bisnis Anda
@@ -462,7 +479,7 @@ function scrollToSection(sectionId: string) {
             dari solusi gratis hingga layanan penuh dari tim ahli kami.
           </p>
         </div>
-        <div class="grid grid-cols-4 px-12 gap-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 px-12 gap-8">
           <Card
             v-for="pricing in pricings"
             :key="pricing.title"
@@ -544,8 +561,8 @@ function scrollToSection(sectionId: string) {
         id="home-testimonials"
         class="bg-[#85582E]"
       >
-        <div class="py-12 flex flex-col gap-8 items-center">
-          <p class="font-bold text-4xl/[56px] text-center text-white">
+        <div class="py-12 px-8 flex flex-col gap-8 items-center">
+          <p class="font-bold md:text-4xl/[56px] text-xl/[36px] text-center text-white">
             Apa Kata Mereka tentang Sedjak?
           </p>
           <p class="text-center text-white">
@@ -622,8 +639,8 @@ function scrollToSection(sectionId: string) {
         id="home-faq"
         style="background-image: linear-gradient(to bottom, #85582E, #E8D1A7);"
       >
-        <div class="py-12 flex flex-col gap-8 items-center">
-          <p class="font-bold text-4xl/[56px] text-center text-white">
+        <div class="py-12 px-8 flex flex-col gap-8 items-center">
+          <p class="font-bold md:text-4xl/[56px] text-xl/[36px] text-center text-white">
             Pertanyaan Umum tentang Sedjak
           </p>
           <p class="text-center text-white">
@@ -631,7 +648,7 @@ function scrollToSection(sectionId: string) {
             yang dirancang khusus untuk membantu UMKM membangun website mereka.
           </p>
         </div>
-        <div class="pb-12 flex justify-between px-12 gap-12">
+        <div class="pb-12 flex flex-col md:flex-row justify-between px-12 gap-12">
           <div class="basis-1/2 lg:basis-1/3">
             <img
               class="aspect-[3/7] lg:aspect-[3/4] object-cover rounded-2xl"

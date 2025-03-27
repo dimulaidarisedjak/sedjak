@@ -24,6 +24,7 @@
     "drizzle-orm": "^0.35.3",
     "nuxt": "^3.14.159",
     "nuxt-security": "2.0.0-rc.9",
+    "nuxt-viewport": "^2.2.0",
     "openai": "^4.87.3",
     "primevue": "^4.2.5",
     "resend": "^4.0.0",
