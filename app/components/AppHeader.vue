@@ -17,10 +17,6 @@ const items = ref([
     id: 'home-features',
   },
   {
-    label: 'Tentang',
-    id: 'home-introduction',
-  },
-  {
     label: 'Harga',
     id: 'home-pricing',
   },
