@@ -17,7 +17,7 @@ const items = ref([
     id: 'home-features',
   },
   {
-    label: 'Harga',
+    label: 'Paket',
     id: 'home-pricing',
   },
   {
