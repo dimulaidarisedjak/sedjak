@@ -37,7 +37,7 @@ const features = ref([
   },
   {
     icon: 'uil:headphones',
-    title: 'Akses Konsultasi untuk UMKM',
+    title: 'Akses Konsultasi untuk UMK',
     description: 'Butuh bantuan? Tim kami siap memberi saran dan solusi untuk membuat website yang efektif bagi bisnis Anda. Dapatkan konsultasi langsung dengan ahli kami kapan saja.',
     image: '/images/4502d133ec6acc5cc68dd0a88fbcae8c.png',
   },
@@ -62,7 +62,7 @@ const benefits = ref([
 const pricings = ref([
   {
     title: 'Paket Gratis',
-    description: 'Usaha kecil yang baru memulai bisnis',
+    description: 'Website dengan fitur minimal untuk bisnis / kickstarter yang ingin memulai ekspansi bisnisnya',
     pricing: 'Gratis',
     unit: null,
     highlight: false,
@@ -72,13 +72,13 @@ const pricings = ref([
       'Fitur blog dan halaman statis',
       '1 halaman produk/layanan',
       'Pengaturan SEO dasar',
-      'Hosting dengan subdomain (namabisnis.Sedjak)',
+      'Hosting dengan subdomain (namabisnis.sedjak.com)',
     ],
   },
   {
     title: 'Paket Dasar',
-    description: 'Website profesional UMKM',
-    pricing: 'Rp40.000',
+    description: 'Website standar untuk Usaha Kecil dan Menengah',
+    pricing: 'Rp66.000',
     unit: 'bulan',
     highlight: false,
     features: [
@@ -95,8 +95,8 @@ const pricings = ref([
   },
   {
     title: 'Paket Bisnis',
-    description: 'Website dengan fokus pemasaran dan penjualan',
-    pricing: 'Rp100.000',
+    description: 'Website profesional dengan fokus pada pemasaran dan penjualan global',
+    pricing: 'Rp199.000',
     unit: 'bulan',
     highlight: true,
     features: [
@@ -263,11 +263,11 @@ const testimonials = ref([
 const faq = ref([
   {
     question: 'Apa itu Sedjak?',
-    answer: 'Sedjak adalah solusi website yang dirancang khusus untuk membantu UMKM membangun website mereka sendiri.',
+    answer: 'Sedjak adalah solusi website yang dirancang khusus untuk membantu UMK membangun website mereka sendiri.',
   },
   {
-    question: 'Apa saja paket harga yang tersedia di Sedjak?',
-    answer: 'Kami menyediakan berbagai paket harga sesuai dengan kebutuhan bisnis Anda, mulai dari paket gratis hingga paket enterprise.',
+    question: 'Apa saja paket yang tersedia di Sedjak?',
+    answer: 'Kami menyediakan berbagai paket sesuai dengan kebutuhan bisnis Anda, mulai dari paket gratis hingga paket enterprise.',
   },
   {
     question: 'Apakah saya bisa mencoba Sedjak secara gratis?',
@@ -282,7 +282,7 @@ const faq = ref([
     answer: 'Tidak, Sedjak dibuat agar bisa digunakan oleh siapa saja, termasuk yang tidak memiliki pengalaman teknis. Dengan alat seret-dan-lepas yang sederhana, Anda bisa membuat website yang menarik dalam waktu singkat.',
   },
   {
-    question: 'Apakah Sedjak menawarkan konsultasi atau bantuan untuk UMKM?',
+    question: 'Apakah Sedjak menawarkan konsultasi atau bantuan untuk UMK?',
     answer: 'Ya, kami menyediakan konsultasi langsung dengan ahli kami untuk membantu Anda memilih dan membangun website yang sesuai dengan bisnis Anda.',
   },
   {
@@ -302,19 +302,11 @@ function scrollToSection(sectionId: string) {
 <template>
   <div>
     <div class="bg-[#E8D1A7]">
-      <AppHeader
-        class="pt-12 px-12"
-        @scroll-to="scrollToSection"
-      />
+      <AppHeader class="pt-12 px-12" @scroll-to="scrollToSection" />
     </div>
-    <div
-      id="content"
-    >
-      <div
-        id="home-introduction"
-        class="flex flex-col gap-8 items-center"
-        style="background-image: linear-gradient(to bottom, #E8D1A7, #A77756);"
-      >
+    <div id="content">
+      <div id="home-introduction" class="flex flex-col gap-8 items-center"
+        style="background-image: linear-gradient(to bottom, #E8D1A7, #A77756);">
         <div class="py-12 px-8 md:px-12 flex flex-col gap-8 items-center">
           <p class="font-bold md:text-4xl/[56px] text-xl/[36px] text-center ">
             Bangun Website Profesional Anda
@@ -324,42 +316,28 @@ function scrollToSection(sectionId: string) {
           <p class="text-center">
             Sedjak menawarkan alat pembuat website yang sederhana,cepat, dan dapat disesuaikan,
             <br>
-            ideal untuk UMKM yang ingin tampil profesional di dunia digital.
+            ideal untuk UMK yang ingin tampil profesional di dunia digital.
           </p>
           <div>
             <Button pt:root:class="!px-2 !py-1 !min-w-0 hover:scale-105 !transition-all">
-              <NuxtLink
-                v-if="$auth.loggedIn"
-                class="font-semibold text-sm"
-                to="/dashboard"
-              >
+              <NuxtLink v-if="$auth.loggedIn" class="font-semibold text-sm" to="/dashboard">
                 Buat Website-mu Sekarang
               </NuxtLink>
-              <NuxtLink
-                v-else
-                class="font-semibold text-sm"
-                to="/api/login"
-                external
-              >
+              <NuxtLink v-else class="font-semibold text-sm" to="/api/login" external>
                 Buat Website-mu Sekarang
               </NuxtLink>
             </Button>
           </div>
         </div>
         <div class="mx-12">
-          <img
-            class="w-full rounded-t-2xl aspect-[3/1] object-cover"
-            src="/images/1a1836d6b2cc78abcfe3c7405489867c.png"
-          >
+          <img class="w-full rounded-t-2xl aspect-[3/1] object-cover"
+            src="/images/1a1836d6b2cc78abcfe3c7405489867c.png">
         </div>
       </div>
-      <div
-        id="home-features"
-        style="background-image: radial-gradient(#A77756 5%, #E8D1A7 60%);"
-      >
+      <div id="home-features" style="background-image: radial-gradient(#A77756 5%, #E8D1A7 60%);">
         <div class="py-12 px-8 md:px-12 flex flex-col gap-8 items-center">
           <p class="font-bold md:text-4xl/[56px] text-xl/[36px] text-center ">
-            Fitur yang Tersedia untuk Memudahkan UMKM
+            Fitur yang Tersedia untuk Memudahkan UMK
             <br>
             dalam Membangun Website
           </p>
@@ -369,25 +347,16 @@ function scrollToSection(sectionId: string) {
             untuk membuat website yang sesuai dengan kebutuhan bisnis Anda.
           </p>
         </div>
-        <div
-          :class="[
-            'grid grid-cols-1 px-[3rem] gap-4',
-            'sm:grid-cols-2 sm:px-[4rem] sm:gap-6',
-            'md:grid-cols-3 md:px-[6rem] md:gap-8',
-            'lg:grid-cols-3 lg:px-[12rem] lg:gap-12',
-          ]"
-        >
-          <Card
-            v-for="feature in features"
-            :key="feature.title"
-            class="!bg-[#FDEAD5]"
-          >
+        <div :class="[
+          'grid grid-cols-1 px-[3rem] gap-4',
+          'sm:grid-cols-2 sm:px-[4rem] sm:gap-6',
+          'md:grid-cols-3 md:px-[6rem] md:gap-8',
+          'lg:grid-cols-3 lg:px-[12rem] lg:gap-12',
+        ]">
+          <Card v-for="feature in features" :key="feature.title" class="!bg-[#FDEAD5]">
             <template #title>
               <div>
-                <img
-                  class="rounded-2xl aspect-[3/2] object-cover"
-                  :src="feature.image"
-                >
+                <img class="rounded-2xl aspect-[3/2] object-cover" :src="feature.image">
               </div>
               <div class="mt-4 flex gap-4 items-center">
                 <Icon :name="feature.icon" />
@@ -404,10 +373,7 @@ function scrollToSection(sectionId: string) {
           </Card>
         </div>
       </div>
-      <div
-        id="home-benefits"
-        class="bg-[#E8D1A7]"
-      >
+      <div id="home-benefits" class="bg-[#E8D1A7]">
         <div class="py-12 px-8 flex flex-col gap-8 items-center">
           <p class="font-bold md:text-4xl/[56px] text-xl/[36px] text-center ">
             Raih Penjualan Lebih Tinggi
@@ -420,30 +386,19 @@ function scrollToSection(sectionId: string) {
             Sedjak memberi Anda semua yang Anda butuhkan untuk membangun website yang profesional.
           </p>
         </div>
-        <div
-          :class="[
-            'px-12 md:h-[980px] flex flex-col justify-between gap-4 md:gap-12',
-            'lg:h-[520px] lg:flex-row',
-          ]"
-        >
-          <div
-            :class="[
-              'flex flex-col justify-between gap-4 md:gap-12',
-              'lg:flex-col',
-            ]"
-          >
-            <Card
-              v-for="benefit in benefits"
-              :key="benefit.title"
-              class="flex items-center my-4 !bg-[#FDEAD5]"
-            >
+        <div :class="[
+          'px-12 flex flex-col justify-between gap-4 md:gap-12',
+          'md:flex-col lg:flex-col',
+        ]">
+          <div :class="[
+            'flex flex-col justify-between gap-4 md:gap-12',
+            'md:flex-col lg:flex-row',
+          ]">
+            <Card v-for="benefit in benefits" :key="benefit.title" class="flex items-center my-4 !bg-[#FDEAD5]">
               <template #content>
                 <div class="flex gap-4 lg:items-center items-start">
                   <div class="pt-2 px-2 pb-[0.5px] bg-white rounded-2xl">
-                    <Icon
-                      :name="benefit.icon"
-                      class="bg-[#733015] w-12 h-12"
-                    />
+                    <Icon :name="benefit.icon" class="bg-[#733015] w-12 h-12" />
                   </div>
                   <div class="flex flex-col">
                     <p class="font-semibold text-lg">
@@ -457,40 +412,27 @@ function scrollToSection(sectionId: string) {
               </template>
             </Card>
           </div>
-          <img
-            class="aspect-[2/1] object-cover rounded-2xl"
-            src="/images/4e0faf0a6fef33b676f28a6f4b48779c.png"
-          >
+          <img class="aspect-[2/1] object-cover rounded-2xl" src="/images/4e0faf0a6fef33b676f28a6f4b48779c.png">
         </div>
       </div>
-      <div
-        id="home-pricing"
-        style="background-image: linear-gradient(to bottom, #E8D1A7, #85582E);"
-      >
+      <div id="home-pricing" style="background-image: linear-gradient(to bottom, #E8D1A7, #85582E);">
         <div class="py-12 px-8 flex flex-col gap-8 items-center">
           <p class="font-bold md:text-4xl/[56px] text-xl/[36px] text-center ">
-            Paket Harga Sedjak
+            Paket Sedjak
             <br>
             Sesuai dengan Kebutuhan Bisnis Anda
           </p>
           <p class="text-center">
-            Pilih paket yang dirancang khusus untuk membantu UMKM membangun website profesional,
+            Pilih paket yang dirancang khusus untuk membantu UMK membangun website profesional,
             <br>
             dari solusi gratis hingga layanan penuh dari tim ahli kami.
           </p>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 px-12 gap-8">
-          <Card
-            v-for="pricing in pricings"
-            :key="pricing.title"
-            class="hover:scale-105 transition-all"
-            :class="{
-              '!bg-[#FDEAD5] !text-black': !pricing.highlight,
-              '!bg-[#733015] border border-white !text-white': pricing.highlight,
-            }"
-            pt:body="h-full"
-            pt:content="flex-1"
-          >
+          <Card v-for="pricing in pricings" :key="pricing.title" class="hover:scale-105 transition-all" :class="{
+            '!bg-[#FDEAD5] !text-black': !pricing.highlight,
+            '!bg-[#733015] border border-white !text-white': pricing.highlight,
+          }" pt:body="h-full" pt:content="flex-1">
             <template #title>
               <div class="flex flex-col gap-2">
                 <p class="font-semibold">
@@ -505,29 +447,16 @@ function scrollToSection(sectionId: string) {
               <div class="flex flex-col h-full justify-between">
                 <div class="flex flex-1 flex-col">
                   <div class="flex flex-col lg:flex-row lg:items-center gap-2">
-                    <p
-                      v-if="pricing.pricing"
-                      class="font-bold text-3xl"
-                    >
+                    <p v-if="pricing.pricing" class="font-bold text-3xl">
                       {{ pricing.pricing }}
                     </p>
-                    <p
-                      v-if="pricing.unit"
-                      class="!font-normal text-sm"
-                    >
+                    <p v-if="pricing.unit" class="!font-normal text-sm">
                       /{{ pricing.unit }}
                     </p>
                   </div>
                   <div class="flex flex-col gap-4 !font-normal mt-4 text-sm flex-1">
-                    <div
-                      v-for="feature in pricing.features"
-                      :key="feature"
-                      class="flex gap-2 items-center"
-                    >
-                      <Icon
-                        name="uil:check"
-                        class="sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6"
-                      />
+                    <div v-for="feature in pricing.features" :key="feature" class="flex gap-2 items-center">
+                      <Icon name="uil:check" class="sm:w-4 sm:h-4 md:w-5 md:h-5 lg:w-6 lg:h-6" />
                       {{ feature }}
                     </div>
                   </div>
@@ -535,10 +464,9 @@ function scrollToSection(sectionId: string) {
 
                 <!-- Button container -->
                 <div class="mt-auto pt-4">
-                  <Button pt:root:class="w-full !px-2 !py-1 !min-w-0 !bg-white !text-black !border-white hover:scale-105 !transition-all">
-                    <NuxtLink
-                      class="w-full font-semibold text-sm"
-                    >
+                  <Button
+                    pt:root:class="w-full !px-2 !py-1 !min-w-0 !bg-[#FFE0A6] !text-black !border-0 hover:scale-105 !transition-all">
+                    <NuxtLink class="w-full font-semibold text-sm">
                       Mulai Sekarang
                     </NuxtLink>
                   </Button>
@@ -548,25 +476,21 @@ function scrollToSection(sectionId: string) {
           </Card>
         </div>
         <div class="flex justify-center mt-12">
-          <Button pt:root:class="!px-2 !py-1 !min-w-0 !bg-white !text-black !border-white hover:scale-105 !transition-all">
-            <NuxtLink
-              class="font-semibold text-sm"
-            >
+          <Button
+            pt:root:class="!px-2 !py-1 !min-w-0 !bg-[#FFE0A6] !text-black !border-0 hover:scale-105 !transition-all">
+            <NuxtLink class="font-semibold text-sm">
               Lihat Semua Paket
             </NuxtLink>
           </Button>
         </div>
       </div>
-      <div
-        id="home-testimonials"
-        class="bg-[#85582E]"
-      >
+      <div id="home-testimonials" class="bg-[#85582E]">
         <div class="py-12 px-8 flex flex-col gap-8 items-center">
           <p class="font-bold md:text-4xl/[56px] text-xl/[36px] text-center text-white">
             Apa Kata Mereka tentang Sedjak?
           </p>
           <p class="text-center text-white">
-            UMKM dari berbagai bidang telah merasakan kemudahan dan dampak positif dari website yang kami bangun.
+            UMK dari berbagai bidang telah merasakan kemudahan dan dampak positif dari website yang kami bangun.
             <br>
             Berikut pengalaman mereka.
           </p>
@@ -574,17 +498,11 @@ function scrollToSection(sectionId: string) {
         <div class="flex relative h-[240px] overflow-hidden">
           <!-- First Line (8 cards - double set) -->
           <div class="absolute top-8 flex animate-scroll gap-4">
-            <Card
-              v-for="testimonial in testimonials.slice().reverse()"
-              :key="testimonial.name"
-              class="w-72 !bg-[#FDEAD5] !text-black flex-shrink-0"
-            >
+            <Card v-for="testimonial in testimonials.slice().reverse()" :key="testimonial.name"
+              class="w-72 !bg-[#FDEAD5] !text-black flex-shrink-0">
               <template #title>
                 <div class="flex items-center gap-4">
-                  <Icon
-                    name="uil:user"
-                    class="w-8 h-8"
-                  />
+                  <Icon name="uil:user" class="w-8 h-8" />
                   <div class="flex flex-col">
                     <p class="text-sm font-semibold">
                       {{ testimonial.name }}
@@ -635,35 +553,24 @@ function scrollToSection(sectionId: string) {
           </div> -->
         </div>
       </div>
-      <div
-        id="home-faq"
-        style="background-image: linear-gradient(to bottom, #85582E, #E8D1A7);"
-      >
+      <div id="home-faq" style="background-image: linear-gradient(to bottom, #85582E, #E8D1A7);">
         <div class="py-12 px-8 flex flex-col gap-8 items-center">
           <p class="font-bold md:text-4xl/[56px] text-xl/[36px] text-center text-white">
             Pertanyaan Umum tentang Sedjak
           </p>
           <p class="text-center text-white">
-            Temukan jawaban dari pertanyaan umum tentang layanan dan fitur Sedjak             <br>
-            yang dirancang khusus untuk membantu UMKM membangun website mereka.
+            Temukan jawaban dari pertanyaan umum tentang layanan dan fitur Sedjak <br>
+            yang dirancang khusus untuk membantu UMK membangun website mereka.
           </p>
         </div>
         <div class="pb-12 flex flex-col md:flex-row justify-between px-12 gap-12">
           <div class="basis-1/2 lg:basis-1/3">
-            <img
-              class="aspect-[3/7] lg:aspect-[3/4] object-cover rounded-2xl"
-              src="/images/4502d133ec6acc5cc68dd0a88fbcae8c.png"
-            >
+            <img class="aspect-[3/7] lg:aspect-[3/4] object-cover rounded-2xl"
+              src="/images/4502d133ec6acc5cc68dd0a88fbcae8c.png">
           </div>
           <div class="basis-1/2 lg:basis-2/3 flex flex-col gap-4">
-            <Panel
-              v-for="panel in faq"
-              :key="panel.question"
-              toggleable
-              :collapsed="true"
-              class="!bg-[#FDEAD5] !border-0"
-              pt:pctogglebutton:root:class="!text-black"
-            >
+            <Panel v-for="panel in faq" :key="panel.question" toggleable :collapsed="true"
+              class="!bg-[#FDEAD5] !border-0" pt:pctogglebutton:root:class="!text-black">
               <template #header>
                 <p class="font-semibold text-sm text-black">
                   {{ panel.question }}
@@ -678,10 +585,7 @@ function scrollToSection(sectionId: string) {
       </div>
     </div>
     <div class="p-12 bg-[#E8D1A7]">
-      <AppFooter
-        class="rounded rounded-2xl h-[400px]"
-        @scroll-to="scrollToSection"
-      />
+      <AppFooter class="rounded rounded-2xl h-[400px]" @scroll-to="scrollToSection" />
     </div>
     <ChatBot />
   </div>
@@ -692,6 +596,7 @@ function scrollToSection(sectionId: string) {
   from {
     transform: translateX(0%);
   }
+
   to {
     transform: translateX(calc(-20%));
   }

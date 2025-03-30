@@ -14,7 +14,7 @@ useSeoMeta({
       />
 
       <UPageBody>
-        <div class="prose prose-gray dark:prose-invert max-w-none">
+        <div class="prose prose-gray max-w-none">
           <p><em>Updated on 2024-09-29</em></p>
 
           <p>This Privacy Policy describes the policies and procedures of Estéban Soubiran and its affiliates ("we", "our" or "us") on the collection, use and disclosure of your information, including any Personal Information (as below), on gavarnie.barbapapazes.dev (the "Site") and the services, features, content or applications we offer to users of our Site (collectively with the Site, the "Services"). This Privacy Policy, which is incorporated into and subject to our Terms of Service, does not apply to information our Subscribers or customers may collect about individuals when using our Site, our Services, or any other functionality, product, or service offered by us.</p>

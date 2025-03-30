@@ -203,6 +203,17 @@ async function readWebsite(options?: string) {
   }
   return result.value
 }
+async function deleteWebsite(id: number) {
+  if (!auth.user) return
+  const result: any = await $fetch(`/api/web-build`, {
+    method: 'DELETE',
+    body: {
+      id: id,
+    },
+  })
+  tableWebsite.value = await readWebsite()
+  return result
+}
 // async function updateWebsite() {
 
 // }
@@ -580,6 +591,7 @@ onMounted(() => {
         >
           <div>
             <Button
+              v-if="tableWebsite.length <= 1"
               class="!px-2 !py-1"
               @click="visibleDialogWebsite = true"
             >
@@ -599,7 +611,7 @@ onMounted(() => {
           id="website-content"
           class="flex-1"
         >
-          <div class="p-6 grid grid-cols-4">
+          <div class="p-6 grid grid-cols-4 gap-8 items-stretch">
             <div
               v-for="website in tableWebsite"
               :key="website.name"
@@ -611,13 +623,21 @@ onMounted(() => {
                   {{ alphabetAvatar(website.name) }}
                 </p>
               </div>
-              <div class="bg-[#F9F2E7] p-6 rounded-b-2xl flex flex-col gap-2">
-                <p class="text-xl">
-                  {{ website.name }}
-                </p>
-                <p class="text-sm">
-                  {{ website.description }}
-                </p>
+              <div class="bg-[#F9F2E7] p-6 rounded-b-2xl flex gap-2 justify-between">
+                <div class="flex flex-col">
+                  <p class="text-xl">
+                    {{ website.name }}
+                  </p>
+                  <p class="text-sm">
+                    {{ website.description }}
+                  </p>
+                </div>
+                <Button @click="deleteWebsite(website.id)" text severity="danger">
+                  <Icon
+                    name="uil:trash"
+                    class="w-6 h-6"
+                  />
+                </Button>
               </div>
             </div>
           </div>

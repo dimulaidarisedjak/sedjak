@@ -14,7 +14,7 @@ useSeoMeta({
       />
 
       <UPageBody>
-        <div class="prose prose-gray dark:prose-invert mx-auto max-w-none">
+        <div class="prose prose-gray mx-auto max-w-none">
           <p><em>Updated on 2024-10-28</em></p>
 
           <p>Estéban Soubiran ("we", "us" or "our") agrees to furnish services to the Subscriber (the "Subscriber", "you" or "your"), subject to the following Terms of Service. Use of our service constitutes acceptance and agreement to our Terms of Service.</p>

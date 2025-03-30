@@ -5,7 +5,7 @@ const emits = defineEmits(['scrollTo'])
 
 <template>
   <div class="p-12 bg-[#85582E] flex justify-between">
-    <div class="flex flex-col justify-between text-white dark:text-gray-300">
+    <div class="flex flex-col justify-between text-white">
       <div class="md:w-[300px]">
         <div class="flex items-center gap-4 mb-4">
           <img
@@ -22,7 +22,7 @@ const emits = defineEmits(['scrollTo'])
     </div>
     <div
       v-if="$viewport.isGreaterThan('sm')"
-      class="flex gap-20 text-white dark:text-gray-300"
+      class="flex gap-20 text-white"
     >
       <div class="flex flex-col justify-between">
         <div class="flex flex-col gap-2">
