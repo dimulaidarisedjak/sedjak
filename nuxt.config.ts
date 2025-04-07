@@ -133,6 +133,7 @@ export default defineNuxtConfig({
           'blob:',
           'https://avatars.githubusercontent.com',
           'https://static-cdn.jtvnw.net/',
+          'https://i.pravatar.cc/',
         ],
         // "script-src": [
         //   "'self'",

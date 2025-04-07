@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-const { $viewport } = useNuxtApp()
+const { $viewport } = useNuxtApp();
 
-const emits = defineEmits(['scrollTo'])
+const emits = defineEmits(['scrollTo']);
 // const colorMode = useColorMode()
 // const isDark = computed({
 //   get() {
@@ -28,8 +28,8 @@ const items = ref([
     label: 'FAQ',
     id: 'home-faq',
   },
-])
-const userMenu = ref()
+]);
+const userMenu = ref();
 const userMenuItems = ref([
   {
     label: 'Keluar',
@@ -41,28 +41,40 @@ const userMenuItems = ref([
     route: '/dashboard',
     external: false,
   },
-])
+]);
 
 function toggleUserMenu($event: any) {
-  userMenu.value.toggle($event)
+  userMenu.value.toggle($event);
 }
 </script>
 
 <template>
   <div>
-    <Menubar class="flex justify-between" :model="items" pt:end:class="flex !ml-0"
-      pt:root:class="!px-4 !py-2 !bg-[#FFE0A6] !shadow-sm !rounded-xl !border-1 !border-[#682a13]">
+    <Menubar
+      class="flex justify-between"
+      :model="items"
+      pt:end:class="flex !ml-0"
+      pt:root:class="!px-4 !py-2 !bg-[#FFECCD] !shadow-sm !rounded-xl !border-0"
+    >
       <template #start>
-        <div class="flex gap-2 items-center cursor-pointer" @click="$router.push('/')">
-          <img src="/images/sedjak-logo.png" class="w-8 h-8">
-          <p class="font-semibold hover:scale-105 transition-all">
-            Sedjak
-          </p>
+        <div
+          class="flex gap-2 items-center cursor-pointer"
+          @click="$router.push('/')"
+        >
+          <img
+            src="/images/sedjak-logo.png"
+            class="w-8 h-8"
+          />
+          <p class="font-semibold hover:scale-105 transition-all">Sedjak</p>
         </div>
       </template>
       <template #item="{ item, props }">
-        <p v-ripple class="cursor-pointer px-2 py-1 hover:scale-105 transition-all" v-bind="props"
-          @click="emits('scrollTo', item.id)">
+        <p
+          v-ripple
+          class="cursor-pointer px-2 py-1 hover:scale-105 transition-all bg-[#FFECCD]"
+          v-bind="props"
+          @click="emits('scrollTo', item.id)"
+        >
           {{ item.label }}
         </p>
       </template>
@@ -73,34 +85,80 @@ function toggleUserMenu($event: any) {
             class="w-6 h-6 cursor-pointer hover:scale-110"
             @click="isDark = !isDark"
           /> -->
-          <div v-if="!$auth.loggedIn" class="flex gap-2">
-            <Button pt:root:class="!px-2 !py-1 !min-w-0" outlined>
-              <NuxtLink class="font-semibold text-sm" to="/api/login" external>
+          <div
+            v-if="!$auth.loggedIn"
+            class="flex gap-2"
+          >
+            <Button
+              pt:root:class="!px-2 !py-1 !min-w-0"
+              outlined
+            >
+              <NuxtLink
+                class="font-semibold text-sm"
+                to="/api/login"
+                external
+              >
                 Masuk
               </NuxtLink>
             </Button>
             <Button pt:root:class="!px-2 !py-1 !min-w-0">
-              <NuxtLink class="font-semibold text-sm" to="/api/register" external>
+              <NuxtLink
+                class="font-semibold text-sm"
+                to="/api/register"
+                external
+              >
                 Daftar
               </NuxtLink>
             </Button>
           </div>
-          <div v-else class="flex text-sm gap-2 items-center">
-            <p v-if="$viewport.isGreaterThan('sm')" class="font-medium">
+          <div
+            v-else
+            class="flex text-sm gap-2 items-center"
+          >
+            <p
+              v-if="$viewport.isGreaterThan('sm')"
+              class="font-medium"
+            >
               Halo,
             </p>
-            <p v-if="$viewport.isGreaterThan('sm')" class="font-bold">
+            <p
+              v-if="$viewport.isGreaterThan('sm')"
+              class="font-bold"
+            >
               {{ $auth.user.given_name }}
             </p>
-            <Button pt:root:class="!p-1 !min-w-0" text aria-haspopup="true" aria-controls="overlay_user_menu"
-              @click="toggleUserMenu">
-              <Icon class="text-black w-5 h-5" name="uil:ellipsis-v" />
+            <Button
+              pt:root:class="!p-1 !min-w-0"
+              text
+              aria-haspopup="true"
+              aria-controls="overlay_user_menu"
+              @click="toggleUserMenu"
+            >
+              <Icon
+                class="text-black w-5 h-5"
+                name="uil:ellipsis-v"
+              />
             </Button>
-            <Menu id="overlay_user_menu" ref="userMenu" :model="userMenuItems" :popup="true">
+            <Menu
+              id="overlay_user_menu"
+              ref="userMenu"
+              :model="userMenuItems"
+              :popup="true"
+            >
               <template #item="{ item, props }">
-                <NuxtLink v-if="item.route" v-slot="{ href, navigate }" :to="item.route" :external="item.external"
-                  custom>
-                  <a v-ripple :href="href" v-bind="props.action" @click="navigate">
+                <NuxtLink
+                  v-if="item.route"
+                  v-slot="{ href, navigate }"
+                  :to="item.route"
+                  :external="item.external"
+                  custom
+                >
+                  <a
+                    v-ripple
+                    :href="href"
+                    v-bind="props.action"
+                    @click="navigate"
+                  >
                     {{ item.label }}
                   </a>
                 </NuxtLink>
